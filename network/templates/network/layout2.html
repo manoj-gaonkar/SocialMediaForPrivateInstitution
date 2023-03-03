@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" class="">
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        {% comment %} <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> {% endcomment %}
+        {% comment %} <link href="{% static 'network/styles2.css' %}" rel="stylesheet"> {% endcomment %}
+        <script src="https://cdn.tailwindcss.com"></script>
+          <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'soc':"#99c0ff"
+          }
+        }
+      }
+    }
+  </script>
+
+        {% block script %}{% endblock %}
+    </head>
+    <body>
+        <div class="container">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </body>
+</html>
