@@ -35,58 +35,55 @@
     </div>
 
 
-    <script>
-        const emailRegex = /^4[Ss][Uu]\d{2}[a-zA-Z]{2}\d{3}$/;
-        const emailError = document.getElementById('emailError');
-        const submitbutton = document.getElementById('submitButton');
+<script>
+const emailRegex = /^4[Ss][Uu]\d{2}[a-zA-Z]{2}\d{3}$/;
+const emailError = document.getElementById('emailError');
+const submitbutton = document.getElementById('submitButton');
 
 
 
 
-        document.getElementById('usn').addEventListener('keyup',()=>{
-        const emailInput = document.getElementById('usn');
-        
-        console.log(emailRegex.test(emailInput.value))
+document.getElementById('usn').addEventListener('keyup',()=>{
+const emailInput = document.getElementById('usn');
 
-        if(!emailRegex.test(emailInput.value)){
-            emailError.classList.remove('hidden');
-            submitbutton.disabled = true;
+console.log(emailRegex.test(emailInput.value))
 
-            
-        }
-        else{
-            emailError.classList.add('hidden');
-            submitbutton.disabled = false;
+if(!emailRegex.test(emailInput.value)){
+    emailError.classList.remove('hidden');
+    submitbutton.disabled = true;
+}
+else{
+    emailError.classList.add('hidden');
+    submitbutton.disabled = false;
+}
+});
 
-        }
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".inp").forEach(input => {
+        input.addEventListener('input', () => {
+            console.log("dhendu")
+            if ((document.querySelector('.usrnm').value == "") || (document.querySelector('.pswd').value == "")) {
+                console.log("heye")
+                if(document.querySelector('input[type="submit"]').classList.contains('cursor-pointer')){
+                    document.querySelector('input[type="submit"]').classList.remove('cursor-pointer');
+                    document.querySelector('input[type="submit"]').classList.add('cursor-not-allowed');
+                }
+                else{
+                    document.querySelector('input[type="submit"]').classList.add('cursor-not-allowed');
+                }
+                
+            }
+            else {
+                document.querySelector('input[type="submit"]').classList.remove('cursor-not-allowed');
+                document.querySelector('input[type="submit"]').classList.add('cursor-pointer');
+            }
         });
-
-
-
-
-        document.addEventListener("DOMContentLoaded", () => {
-            document.querySelectorAll(".inp").forEach(input => {
-                input.addEventListener('input', () => {
-                    console.log("dhendu")
-                    if ((document.querySelector('.usrnm').value == "") || (document.querySelector('.pswd').value == "")) {
-                        console.log("heye")
-                        if(document.querySelector('input[type="submit"]').classList.contains('cursor-pointer')){
-                            document.querySelector('input[type="submit"]').classList.remove('cursor-pointer');
-                            document.querySelector('input[type="submit"]').classList.add('cursor-not-allowed');
-                        }
-                        else{
-                            document.querySelector('input[type="submit"]').classList.add('cursor-not-allowed');
-                        }
-                        
-                    }
-                    else {
-                        document.querySelector('input[type="submit"]').classList.remove('cursor-not-allowed');
-                        document.querySelector('input[type="submit"]').classList.add('cursor-pointer');
-                    }
-                });
-            });
-        }); 
-    </script>
+    });
+}); 
+</script>
 {% endblock %}
 
 
