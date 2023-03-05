@@ -15,14 +15,15 @@
         <form action="{% url 'login' %}" method="post" id="signin-form" >
             {% csrf_token %}
             <div class="form-group mb-2">
-                <input class="form-control inp usrnm w-full h-10 p-4 outline-none " type="text" name="username" placeholder="Username" autocomplete="off" autofocus>
+                <input class="form-control inp usrnm w-full h-10 p-4 outline-none " type="text" name="username" placeholder="Username" autocomplete="off" autofocus id='usn'>
+                <span class=" text-red-500 hidden " id='emailError'>enter a valid usn</span>
             </div>
             <div class="form-group">
-                <input class="form-control inp pswd w-full h-10 p-4 outline-none " type="password" name="password" placeholder="Password" autocomplete="off">
-                <span class="star"><small>{{message}}</small></span>
+                <input class="form-control inp pswd w-full h-10 p-4 outline-none " type="password" name="password" placeholder="Password" autocomplete="off" id='pswd'>
+                <span class="star text-red-500"><small>{{message}}</small></span>
             </div>
             <center>
-                <input class="w-full text-center bg-soc p-2 mt-4 " type="submit" value="Log in"  disabled>
+                <input class="w-full text-center bg-soc p-2 mt-4 cursor-pointer" type="submit" value="Log in" id="submitButton" disabled>
             </center>
         </form>
         <div>
@@ -35,18 +36,56 @@
 
 
     <script>
+        const emailRegex = /^4[Ss][Uu]\d{2}[a-zA-Z]{2}\d{3}$/;
+        const emailError = document.getElementById('emailError');
+        const submitbutton = document.getElementById('submitButton');
+
+
+
+
+        document.getElementById('usn').addEventListener('keyup',()=>{
+        const emailInput = document.getElementById('usn');
+        
+        console.log(emailRegex.test(emailInput.value))
+
+        if(!emailRegex.test(emailInput.value)){
+            emailError.classList.remove('hidden');
+            submitbutton.disabled = true;
+
+            
+        }
+        else{
+            emailError.classList.add('hidden');
+            submitbutton.disabled = false;
+
+        }
+        });
+
+
+
+
         document.addEventListener("DOMContentLoaded", () => {
             document.querySelectorAll(".inp").forEach(input => {
                 input.addEventListener('input', () => {
-                    if ((document.querySelector('.usrnm').value.length === 0) || (document.querySelector('.pswd').value.length === 0)) {
-                        document.querySelector('input[type="submit"]').disabled = true;
+                    console.log("dhendu")
+                    if ((document.querySelector('.usrnm').value == "") || (document.querySelector('.pswd').value == "")) {
+                        console.log("heye")
+                        if(document.querySelector('input[type="submit"]').classList.contains('cursor-pointer')){
+                            document.querySelector('input[type="submit"]').classList.remove('cursor-pointer');
+                            document.querySelector('input[type="submit"]').classList.add('cursor-not-allowed');
+                        }
+                        else{
+                            document.querySelector('input[type="submit"]').classList.add('cursor-not-allowed');
+                        }
+                        
                     }
                     else {
-                        document.querySelector('input[type="submit"]').disabled = false;
+                        document.querySelector('input[type="submit"]').classList.remove('cursor-not-allowed');
+                        document.querySelector('input[type="submit"]').classList.add('cursor-pointer');
                     }
                 });
             });
-        });
+        }); 
     </script>
 {% endblock %}
 
