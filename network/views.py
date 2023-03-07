@@ -371,3 +371,14 @@ def delete_post(request, post_id):
             return HttpResponse("Method must be 'PUT'")
     else:
         return HttpResponseRedirect(reverse('login'))
+
+def adminlogin(request):
+    if request.method=='post':
+        uname = request.POST['username']
+        password = request.POST['password']
+        print(uname,password)
+        return render(request,'network/adminlogin.html')
+    return render(request,'network/adminlogin.html')
+
+def adminpage(request):
+    return render(request,'network/admin.html')

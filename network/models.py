@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser,User
 from django.db import models
 from django.utils import timezone
 
@@ -62,3 +62,11 @@ class Follower(models.Model):
     def __str__(self):
         return f"User: {self.user}"
         
+
+class Adminmodel(models.Model):
+    admin = models.OneToOneField(User, on_delete=models.CASCADE)
+    is_superuser = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.admin.username
+    
