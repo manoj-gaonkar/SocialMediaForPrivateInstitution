@@ -4,9 +4,9 @@ from django.utils import timezone
 
 
 class User(AbstractUser):
-    profile_pic = models.ImageField(upload_to='profile_pic/')
+    profile_pic = models.ImageField(upload_to='profile_pic/',blank=True,default='profile_pic/default_profile_image.png')
     bio = models.TextField(max_length=160, blank=True, null=True)
-    cover = models.ImageField(upload_to='covers/', blank=True)
+    cover = models.ImageField(upload_to='covers/', blank=True,default='profile_pic/default_cover_image.png')
 
     def __str__(self):
         return self.username
@@ -69,4 +69,9 @@ class Adminmodel(models.Model):
 
     def __str__(self):
         return self.admin.username
+
+class authusers(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    valid = models.BooleanField()
+    
     

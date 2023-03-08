@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
@@ -102,6 +102,7 @@ def register(request):
 
 def profile(request, username):
     user = User.objects.get(username=username)
+    print(user)
     all_posts = Post.objects.filter(creater=user).order_by('-date_created')
     paginator = Paginator(all_posts, 10)
     page_number = request.GET.get('page')
@@ -116,7 +117,10 @@ def profile(request, username):
         suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).order_by("?")[:6]
 
         if request.user in Follower.objects.get(user=user).followers.all():
+
             follower = True
+        else:
+            follower=False
     
     follower_count = Follower.objects.get(user=user).followers.all().count()
     following_count = Follower.objects.filter(followers=user).count()
@@ -373,12 +377,25 @@ def delete_post(request, post_id):
         return HttpResponseRedirect(reverse('login'))
 
 def adminlogin(request):
-    if request.method=='post':
+    if request.method=='POST':
         uname = request.POST['username']
         password = request.POST['password']
-        print(uname,password)
-        return render(request,'network/adminlogin.html')
+        user = authenticate(request,username=uname,password=password)
+        if user is not None and user.id in Adminmodel.objects.values_list('admin',flat=True) and Adminmodel.objects.filter(admin=user).values('is_superuser')[0]['is_superuser']:
+            login(request, user)
+            return HttpResponseRedirect(reverse('adminpage'))
+        else:
+            return render(request,'network/adminlogin.html',{
+                'message':"username and password is invalid"
+            })
     return render(request,'network/adminlogin.html')
 
+
+@login_required(login_url='/n/admin/login')
 def adminpage(request):
     return render(request,'network/admin.html')
+
+
+def adminlogout(request):
+    logout(request)
+    return redirect('adminlogin')
