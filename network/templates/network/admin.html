@@ -22,7 +22,7 @@
             <form action="" method='post' >
             {% csrf_token %}
             <div class="px-5 flex justify-start pt-3 items-center w-screen">
-                <input type="text" name='username' oninput="this.value=this.value.toUpperCase()" autocomplete='off' class=' mr-3 py-1 px-3' placeholder="Enter the USN"  id='usn'>
+                <input type="text" name='email'  autocomplete='off' class=' mr-3 py-1 px-3' placeholder="Enter the USN"  id='usn'>
                 <p class='text-white text-lg inline-block mx-2'>Valid? :</p>
                 <input type="checkbox" name='check[]' class='p-4 h-7 w-7 inline bg-red-400 mr-2'>
                 <button type="submit" class=" px-3 py-1   bg-[#C395FD] hover:bg-[#d399ff] rounded-sm mx-4 flex justify-betweeen items-center" id='add' >
@@ -31,6 +31,11 @@
                 </button>
             </div>
             <p class="text-red-500 mx-4 hidden " id="errorMsg">Enter a valid username</p>
+            {% if messages %}
+                {% for message in messages  %}
+                    <span class="text-red-500 mx-4">{{ message }}</span>
+                {% endfor %}
+            {% endif %}
             </form>
         </div>
         {% for user in users  %}
@@ -40,7 +45,7 @@
 </body>
 <script>
     const usn= document.querySelector('#usn');
-    const regex = /^4[Ss][Uu]\d{2}[a-zA-Z]{2}\d{3}$/;
+    const regex = /^[a-zA-Z0-9._%+-]+@sdmit\.in$/;
     const addButton = document.querySelector('#add');
     const errormsg = document.querySelector('#errorMsg');
     usn.addEventListener('keyup',()=>{

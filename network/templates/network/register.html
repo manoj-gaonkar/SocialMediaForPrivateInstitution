@@ -31,12 +31,12 @@
             </div>
             <div class="form-group mb-2">
                 <input id='usn' oninput="this.value = this.value.toUpperCase()" class="form-control inp usrname w-full h-10 p-4 outline-none" type="text" name="username" placeholder="Username *" autocomplete="off" required>
-                <span class="star small text-red-500">{{message}}</span>
                 <p class='text-red-500 hidden' id='usnError' >Enter a valid usn (ex: 4SU19CS000)</p>
             </div>
             <div class="form-group mb-2">
                 <input id='email' class="form-control inp email  w-full h-10 p-4 outline-none" type="email" name="email" placeholder="Email Address *" autocomplete="off" required>
                 <span id='emailError' class="text-red-500 hidden">Enter a valid email (ex: xyz@sdmit.in)</span>
+                <span class="star small text-red-500">{{message}}</span>
             </div>
             <div class="form-group mb-2">
                 <input class="form-control inp pswd w-full h-10 p-4 outline-none" type="password" name="password" placeholder="Password *" autocomplete="off" required>

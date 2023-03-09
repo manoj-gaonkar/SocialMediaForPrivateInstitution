@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 import json
+from django.contrib import messages
 
 from .models import *
 
@@ -70,13 +71,17 @@ def register(request):
         print(f"--------------------------Cover: {cover}----------------------------")
 
         # for checking if username in the authusers model (admin)
-        if username not in authusers.objects.values_list('user',flat=True):
+        if email not in authusers.objects.values_list('email',flat=True):
             return render(request, 'network/register.html',{
-                'message': 'You are not authorized. Please contact your admin'
+                'message': 'You email are not authorized. Please contact your admin'
             })
         else:
-            newmail = authusers(user=username,email=email)
-            newmail.save()
+            newusn = authusers.objects.filter(email=email).first()
+            if newusn:
+                newusn.user = username
+                newusn.save()
+            else:
+                pass
         # Ensure password matches confirmation
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
@@ -401,18 +406,24 @@ def adminlogin(request):
 @login_required(login_url='/n/admin/login')
 def adminpage(request):
     if request.method=="POST":
-        username = request.POST['username']
+        email = request.POST['email']
         valid = request.POST.getlist('check[]')
         print(valid)
         val = True if valid else False
-        if username is not None:
+        if email in authusers.objects.values_list('email',flat=True):
+            messages.error(request,"email already exists in database")
+            return redirect('adminpage')
+            # return render(request,'network/admin.html',{
+            #     'message':'email already exists in the database',
+            #     'users':authusers.objects.values().order_by('-date_created')
+            # })
+        if email is not None:
             # email = User.objects.filter(username='4SU19CS052').values('email')[0]['email']
-            b = authusers(user=username,valid=val)
+            b = authusers(email=email,valid=val)
             b.save()
-        return render(request,'network/admin.html')
-    print(authusers.objects.values())
+        return redirect('adminpage')
     return render(request,'network/admin.html',{
-        'users':authusers.objects.values()
+        'users':authusers.objects.values().order_by('-date_created')
     })
 
 
