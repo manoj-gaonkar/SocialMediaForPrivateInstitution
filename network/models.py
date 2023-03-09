@@ -71,9 +71,13 @@ class Adminmodel(models.Model):
         return self.admin.username
 
 class authusers(models.Model):
-    user = models.TextField(blank=True,null=True)
+    user = models.TextField(blank=True,primary_key=True,default="")
     email = models.EmailField(blank=True,null=True)
     valid = models.BooleanField(default=True)
     date_created = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.user
+    
     
     

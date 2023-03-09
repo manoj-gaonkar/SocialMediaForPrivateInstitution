@@ -69,6 +69,14 @@ def register(request):
         cover = request.FILES.get('cover')
         print(f"--------------------------Cover: {cover}----------------------------")
 
+        # for checking if username in the authusers model (admin)
+        if username not in authusers.objects.values_list('user',flat=True):
+            return render(request, 'network/register.html',{
+                'message': 'You are not authorized. Please contact your admin'
+            })
+        else:
+            newmail = authusers(user=username,email=email)
+            newmail.save()
         # Ensure password matches confirmation
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
@@ -394,19 +402,18 @@ def adminlogin(request):
 def adminpage(request):
     if request.method=="POST":
         username = request.POST['username']
-        user = User.objects.get(username=username)
         valid = request.POST.getlist('check[]')
         print(valid)
-        if valid:
-            val = True
-        else:
-            val = False
-        if user is not None:
-            email = User.objects.filter(username='4SU19CS052').values('email')[0]['email']
-            b = authusers(user=user,email=email,valid=val)
+        val = True if valid else False
+        if username is not None:
+            # email = User.objects.filter(username='4SU19CS052').values('email')[0]['email']
+            b = authusers(user=username,valid=val)
             b.save()
         return render(request,'network/admin.html')
-    return render(request,'network/admin.html')
+    print(authusers.objects.values())
+    return render(request,'network/admin.html',{
+        'users':authusers.objects.values()
+    })
 
 
 def adminlogout(request):
