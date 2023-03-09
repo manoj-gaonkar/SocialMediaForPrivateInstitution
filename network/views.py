@@ -102,7 +102,6 @@ def register(request):
 
 def profile(request, username):
     user = User.objects.get(username=username)
-    print(user)
     all_posts = Post.objects.filter(creater=user).order_by('-date_created')
     paginator = Paginator(all_posts, 10)
     page_number = request.GET.get('page')
@@ -393,6 +392,20 @@ def adminlogin(request):
 
 @login_required(login_url='/n/admin/login')
 def adminpage(request):
+    if request.method=="POST":
+        username = request.POST['username']
+        user = User.objects.get(username=username)
+        valid = request.POST.getlist('check[]')
+        print(valid)
+        if valid:
+            val = True
+        else:
+            val = False
+        if user is not None:
+            email = User.objects.filter(username='4SU19CS052').values('email')[0]['email']
+            b = authusers(user=user,email=email,valid=val)
+            b.save()
+        return render(request,'network/admin.html')
     return render(request,'network/admin.html')
 
 

@@ -71,7 +71,9 @@ class Adminmodel(models.Model):
         return self.admin.username
 
 class authusers(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    valid = models.BooleanField()
+    user = models.TextField(blank=True,null=True)
+    email = models.EmailField(blank=True,null=True)
+    valid = models.BooleanField(default=True)
+    date_created = models.DateTimeField(default=timezone.now)
     
     

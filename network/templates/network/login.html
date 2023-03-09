@@ -15,7 +15,7 @@
         <form action="{% url 'login' %}" method="post" id="signin-form" >
             {% csrf_token %}
             <div class="form-group mb-2">
-                <input class="form-control inp usrnm w-full h-10 p-4 outline-none " type="text" name="username" placeholder="Username" autocomplete="off" autofocus id='usn'>
+                <input oninput="this.value = this.value.toUpperCase()" class="form-control inp usrnm w-full h-10 p-4 outline-none " type="text" name="username" placeholder="Username" autocomplete="off" autofocus id='usn'>
                 <span class=" text-red-500 hidden " id='emailError'>enter a valid usn</span>
             </div>
             <div class="form-group">

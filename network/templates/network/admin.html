@@ -8,8 +8,43 @@
     <title>Admin</title>
 </head>
 <body>
-    <div>
-        <a href="{% url 'adminlogout' %}">Log out</a>
+    <div class=' w-screen h-screen bg-gray-900 '>
+        <div class="  h-20  flex justify-between items-center w-full">
+            <p class="text-2xl  font-bold  text-gray-300 px-5">
+                Admin page
+            </p>
+            <a href="{% url 'adminlogout' %}" class="px-5 py-1 rounded-lg mx-5 text-red-500 font-bold bg-gray-100">Log out</a>
+
+        </div>
+        <div class='w-full'>
+            <p class=" text-gray-200 mx-5 text-lg ">Add a user</p>
+            <form action="" method='post' >
+            {% csrf_token %}
+            <div class="px-5 flex justify-start pt-3 items-center w-screen">
+                <input type="text" name='username' oninput="this.value=this.value.toUpperCase()" autocomplete='off' class=' mr-3 h-7 ' id='usn'>
+                <input type="checkbox" name='check[]' class='p-4 h-7 w-7 inline bg-red-400 mr-2'>
+                <p class='text-white text-lg inline-block'>Valid?</p>
+                <button type="submit" class=" text-md text-white font-bold px-3 rounded-md py-1 bg-blue-400 mx-4 " id='add' >ADD</button>
+            </div>
+            </form>
+        </div>
     </div>
 </body>
+<script>
+    usn= document.querySelector('#usn')
+    const regex = /^4[Ss][Uu]\d{2}[a-zA-Z]{2}\d{3}$/
+    const addButton = document.querySelector('#add')
+    usn.addEventListener('keyup',()=>{
+        if(regex.test(usn.value)){
+            addButton.disabled = false
+            addButton.classList.remove('cursor-not-allowed')
+        }
+        else{
+            addButton.disabled = true
+            console.log("not match")
+            addButton.classList.add('cursor-not-allowed')
+
+        }
+    })
+</script>
 </html>
