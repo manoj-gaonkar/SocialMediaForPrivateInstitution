@@ -30,12 +30,13 @@
                 </div>
             </div>
             <div class="form-group mb-2">
-                <input oninput="this.value = this.value.toUpperCase()" class="form-control inp usrname w-full h-10 p-4 outline-none" type="text" name="username" placeholder="Username *" autocomplete="off" required>
+                <input id='usn' oninput="this.value = this.value.toUpperCase()" class="form-control inp usrname w-full h-10 p-4 outline-none" type="text" name="username" placeholder="Username *" autocomplete="off" required>
                 <span class="star small text-red-500">{{message}}</span>
+                <p class='text-red-500 hidden' id='usnError' >Enter a valid usn (ex: 4SU19CS000)</p>
             </div>
             <div class="form-group mb-2">
-                <input class="form-control inp email  w-full h-10 p-4 outline-none" type="email" name="email" placeholder="Email Address *" autocomplete="off" required>
-                <span class="star small"></span>
+                <input id='email' class="form-control inp email  w-full h-10 p-4 outline-none" type="email" name="email" placeholder="Email Address *" autocomplete="off" required>
+                <span id='emailError' class="text-red-500 hidden">Enter a valid email (ex: xyz@sdmit.in)</span>
             </div>
             <div class="form-group mb-2">
                 <input class="form-control inp pswd w-full h-10 p-4 outline-none" type="password" name="password" placeholder="Password *" autocomplete="off" required>
@@ -43,26 +44,26 @@
             </div>
             <div class="form-group mb-2">
                 <input class="form-control inp cpswd w-full h-10 p-4 outline-none" type="password" name="confirmation" placeholder="Confirm Password *" autocomplete="off" required>
-                <span class="star small"></span>
+                <span class="star small text-red-500"></span>
             </div>
             <div class="form-group mb-2">
                 <div class="custom-file w-full flex flex-col " for="profile" >
                     <label class="custom-file-label pb-1 text-gray-700 " for="profile">Choose profile picture</label>
-                    <input type="file" name="profile" class="form-control custom-file-input h-10 border file:mr-2 file:text-sm file:shadow-none file:px-2  file:bg-gray-500 rounded bg-gray-50 file:border-none  file:h-10  file:text-gray-100 file:rounded " id="profile" accept="image/jpeg,image/png,image/webp,image/gif" data-focusable="true" aria-describedby="inputGroupFileAddon01" required>
+                    <input type="file" name="profile" class="form-control custom-file-input h-10 border file:mr-2 file:text-sm file:shadow-none file:px-2  file:bg-gray-500 rounded bg-gray-50 file:border-none  file:h-10  file:text-gray-100 file:rounded " id="profile" accept="image/jpeg,image/png,image/webp,image/gif" data-focusable="true" aria-describedby="inputGroupFileAddon01" >
                     <span class="star small"></span>
                 </div>
             </div>
             <div class="form-group mb-2">
                 <div class="custom-file  w-full flex flex-col">
                     <label class="custom-file-label pb-1 text-gray-700" for="cover">Choose cover picture</label>
-                    <input type="file" name="cover" class="form-control custom-file-input h-10 border file:mr-2 file:text-sm file:shadow-none file:px-2  file:bg-gray-500 rounded bg-gray-50 file:border-none  file:h-10  file:text-gray-100 file:rounded " id="cover" accept="image/jpeg,image/png,image/webp,image/gif" data-focusable="true" aria-describedby="inputGroupFileAddon01" required>
+                    <input type="file" name="cover" class="form-control custom-file-input h-10 border file:mr-2 file:text-sm file:shadow-none file:px-2  file:bg-gray-500 rounded bg-gray-50 file:border-none  file:h-10  file:text-gray-100 file:rounded " id="cover" accept="image/jpeg,image/png,image/webp,image/gif" data-focusable="true" aria-describedby="inputGroupFileAddon01" >
                     <span class="star small"></span>
                 </div>
             </div>
 
 
             <div>
-                <input class=" w-full text-center bg-soc p-2 mt-4 " type="submit" value="Sign Up"  >
+                <input class=" w-full text-center bg-soc p-2 mt-4 " type="submit" value="Sign Up" id='submitButton' disabled>
             </div>
             
         </form>
@@ -72,6 +73,63 @@
             
         </div>
         </div>
+        <script>
+            const usnRegex = /^4[Ss][Uu]\d{2}[a-zA-Z]{2}\d{3}$/;
+            const usnError = document.getElementById('usnError');
+            const submitbutton = document.getElementById('submitButton');
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@sdmit\.in$/;
+            const emailError = document.getElementById('emailError');
+
+
+
+            const form = document.querySelector('form');
+            form.addEventListener('input',()=>{
+            const usnInput = document.getElementById('usn');
+            const emailInput = document.getElementById('email');
+
+
+
+            if(usnRegex.test(usnInput.value) && emailRegex.test(emailInput.value)){
+                submitbutton.disabled = false;
+                console.log("working")
+            }
+            else{
+                submitbutton.disabled = true;
+                console.log("avail")
+            }
+            });
+
+            document.getElementById('usn').addEventListener('keyup',()=>{
+            const usnInput = document.getElementById('usn');
+            const emailInput = document.getElementById('email');
+
+
+
+            if(!usnRegex.test(usnInput.value) ){
+                usnError.classList.remove('hidden');
+            }
+            else{
+                usnError.classList.add('hidden');
+            }
+            });
+
+            
+
+
+
+
+            document.getElementById('email').addEventListener('keyup',()=>{
+            const emailInput = document.getElementById('email');
+
+
+            if(!emailRegex.test(emailInput.value)){
+                emailError.classList.remove('hidden');
+            }
+            else{
+                emailError.classList.add('hidden');
+            }
+            });
+        </script>
     
     </div>
 {% endblock %}
