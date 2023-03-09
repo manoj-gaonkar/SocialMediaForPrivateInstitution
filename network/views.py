@@ -430,3 +430,19 @@ def adminpage(request):
 def adminlogout(request):
     logout(request)
     return redirect('adminlogin')
+
+def removeuser(request,email):
+    print("removeuser++++++++++++")
+    user = authusers.objects.get(email=email)
+    user.delete()
+    return redirect('adminpage')
+
+def changevalid(request,id):
+    print('changevalid_________')
+    user = authusers.objects.get(email=id)
+    if user.valid:
+        user.valid=False
+    else:
+        user.valid=True
+    user.save()
+    return redirect('adminpage')

@@ -8,8 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Admin</title>
 </head>
-<body>
-    <div class=' w-screen h-screen bg-gray-900 '>
+<body class='overflow-x-hidden'>
+    <div class=' w-screen min-h-screen bg-gray-900 overflow-x-hidden'>
         <div class="  h-20  flex justify-between items-center w-full">
             <p class="text-2xl  font-bold  text-gray-300 px-5">
                 Admin page
@@ -38,9 +38,71 @@
             {% endif %}
             </form>
         </div>
-        {% for user in users  %}
-        <p class='text-white'>i   {{ user.email }} </p>
-        {% endfor %}
+
+        <div class="w-screen overflow-x-hidden h-fit grid grid-cols-2 gap-4 p-6">
+            <p class="text-white text-left text-lg font-bold ">Valid users</p>
+            <p class="text-white text-left text-lg font-bold ">Valid users</p>
+            <div class="bg-white p-5 rounded">
+                <table class="table-auto w-full h-fit text-left text-base">
+                    <thead>
+                    <tr class="uppercase border-b-2 border-gray-400 ">
+                        <th class="px-6  py-3 border-r">Email</th>
+                        <th class="px-6  py-3 border-r">USN</th>
+                        <th class="px-6  py-3 border-r">status</th>
+                        <th class="px-6 py-3 ">delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users  %}
+                        {% if user.valid %}
+                            <tr class="border-b ">
+                                <td class="px-6 py-2  border-r">{{ user.email }}</td>
+                                <td class="px-6 py-2  border-r">
+                                    {% if user.user %}
+                                        <p class="px-6 py-2  ">{{ user.user }}</p>
+                                    {% else %}
+                                        <p class="px-6 py-2  ">not logged in</p>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-2 border-r "><a href="{% url 'changevalid' user.email %}"><span class="bg-gray-500 material-symbols-outlined text-white p-1 ">close</span></a></td>
+                                <td class="px-6 py-2  "><button><a href="{% url 'removeuser' user.email %}" class="bg-red-500 px-3 py-1 rounded-sm text-white ">Delete</a></button></td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+                <div class="bg-white p-5 rounded min-h-[40rem] overflow-y-scroll">
+                <table class="table-auto w-full h-fit text-left text-base">
+                    <thead>
+                    <tr class="uppercase border-b-2 border-gray-400 ">
+                        <th class="px-6 py-3 border-r ">Email</th>
+                        <th class="px-6 py-3 border-r ">USN</th>
+                        <th class="px-6 py-3 border-r ">status</th>
+                        <th class="px-6 py-3 ">delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users  %}
+                        {% if not user.valid %}
+                            <tr class="border-b ">
+                                <td class="px-6 py-2 border-r ">{{ user.email }}</td>
+                                <td class="px-6 py-2 border-r ">
+                                    {% if user.user %}
+                                        <p>{{ user.user }}</p>
+                                    {% else %}
+                                        <p>not logged in</p>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-2 border-r "><a href="{% url 'changevalid' user.email %}"><span class="bg-gray-500 material-symbols-outlined text-white p-1 ">done</span></a></td>
+                                <td class="px-6 py-2  "><button><a href="{% url 'removeuser' user.email %}" class="bg-red-500 px-3 py-1 rounded-sm text-white ">Delete</a></button></td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 <script>

@@ -28,7 +28,9 @@ urlpatterns = [
     # these are urls for the admin
     path("n/admin/login/", views.adminlogin, name="adminlogin"),
     path("n/admin/", views.adminpage, name="adminpage"),
-    path('n/admin/logout',views.adminlogout,name='adminlogout')
+    path('n/admin/logout',views.adminlogout,name='adminlogout'),
+    path("n/admin/removeuser/<str:email>",views.removeuser,name='removeuser'),
+    path("n/admin/changevalid/<str:id>",views.changevalid,name='changevalid')
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
