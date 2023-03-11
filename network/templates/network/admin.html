@@ -22,7 +22,7 @@
             <form action="" method='post' >
             {% csrf_token %}
             <div class="px-5 flex justify-start pt-3 items-center w-screen">
-                <input type="text" name='email'  autocomplete='off' class=' mr-3 py-1 px-3' placeholder="Enter the USN"  id='usn'>
+                <input type="text" name='email'  autocomplete='off' class=' mr-3 py-1 px-3' placeholder="Enter the email"  id='usn'>
                 <p class='text-white text-lg inline-block mx-2'>Valid? :</p>
                 <input type="checkbox" name='check[]' class='p-4 h-7 w-7 inline bg-red-400 mr-2'>
                 <button type="submit" class=" px-3 py-1   bg-[#C395FD] hover:bg-[#d399ff] rounded-sm mx-4 flex justify-betweeen items-center" id='add' >
@@ -41,7 +41,7 @@
 
         <div class="w-screen overflow-x-hidden h-fit grid grid-cols-2 gap-4 p-6">
             <p class="text-white text-left text-lg font-bold ">Valid users</p>
-            <p class="text-white text-left text-lg font-bold ">Valid users</p>
+            <p class="text-white text-left text-lg font-bold ">Invalid users</p>
             <div class="bg-white p-5 rounded">
                 <table class="table-auto w-full h-fit text-left text-base">
                     <thead>

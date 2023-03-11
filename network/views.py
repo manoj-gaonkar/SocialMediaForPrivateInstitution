@@ -38,9 +38,16 @@ def login_view(request):
     if request.method == "POST":
 
         # Attempt to sign user in
-        username = request.POST["username"]
+        email = request.POST["username"]
         password = request.POST["password"]
+        if email not in User.objects.values_list('email',flat=True):
+            return render(request,'network/login.html',{
+                "message":"Invalid username and/password"
+            })
+        else:
+            username = User.objects.filter(email=email).first().username
         user = authenticate(request, username=username, password=password)
+        print()
 
         # Check if authentication successful
         if user is not None:
@@ -71,17 +78,32 @@ def register(request):
         print(f"--------------------------Cover: {cover}----------------------------")
 
         # for checking if username in the authusers model (admin)
-        if email not in authusers.objects.values_list('email',flat=True):
+        if email not in authusers.objects.values_list('email',flat=True):  
             return render(request, 'network/register.html',{
-                'message': 'You email are not authorized. Please contact your admin'
+                'emailmessage': 'You email is not authorized. Please contact your admin.'
+            })
+        elif email in User.objects.values_list('email',flat=True):
+            return render(request,'network/register.html',{
+                'emailmessage':'email already exists. Try logging in.'
             })
         else:
-            newusn = authusers.objects.filter(email=email).first()
-            if newusn:
-                newusn.user = username
-                newusn.save()
+            if username not in User.objects.values_list('username',flat=True):
+                if authusers.objects.filter(email=email).first().valid:
+                    newusn = authusers.objects.filter(email=email).first()
+                    if newusn:
+                        newusn.user = username
+                        newusn.save()
+                    else:
+                        pass
+                else:
+                    return render(request, 'network/register.html',{
+                    'emailmessage': 'You are not a valid user. Please contact your admin.'
+                })
             else:
-                pass
+                return render(request,'network/register.html',{
+                    'message':'USN already exists.'
+                })
+            
         # Ensure password matches confirmation
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
@@ -104,7 +126,7 @@ def register(request):
             Follower.objects.create(user=user)
         except IntegrityError:
             return render(request, "network/register.html", {
-                "message": "Username already taken."
+                "message": "USN already taken."
             })
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
