@@ -13,6 +13,13 @@ from .models import *
 
 
 def index(request):
+    # this code is to cheeck if the user is valid, if not the user is  made to logout of the site by admin
+    if request.user.is_anonymous==False:
+        if authusers.objects.filter(email=request.user.email).first().valid != True:
+            messages.error(request, 'admin kicked you out')
+            logout(request)
+
+
     all_posts = Post.objects.all().order_by('-date_created')
     paginator = Paginator(all_posts, 10)
     page_number = request.GET.get('page')
@@ -23,9 +30,9 @@ def index(request):
     suggestions = []
     if request.user.is_authenticated:
         followings = Follower.objects.filter(followers=request.user).values_list('user', flat=True)
-        suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).order_by("?")[:6]
-        print(request.user.id)
-        print(request.user.password)
+        suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).exclude(pk=1).order_by("?")[:6]
+        # print(request.user.id)
+        # print(request.user.password)
     return render(request, "network/index.html", {
         "posts": posts,
         "suggestions": suggestions,
@@ -40,9 +47,16 @@ def login_view(request):
         # Attempt to sign user in
         email = request.POST["username"]
         password = request.POST["password"]
+        if email in authusers.objects.values_list('email',flat=True):
+            if authusers.objects.filter(email=email).first().valid == False:
+                return render(request,'network/login.html',{
+                    'message':'Invalid email!'
+                })
+
+
         if email not in User.objects.values_list('email',flat=True):
             return render(request,'network/login.html',{
-                "message":"Invalid username and/password"
+                "message":"Invalid email and/password"
             })
         else:
             username = User.objects.filter(email=email).first().username

@@ -286,6 +286,18 @@
             </div>
         </div>
 
+        {% if not user.is_authenticated %}
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class=" text-black-600 -translate-x-2/4 px-3 py-2 bg-red-400   absolute  bottom-4 left-2/4 ">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        {% endif %}
+
     </body>
         <script src="https://cdn.tailwindcss.com"></script>
 
