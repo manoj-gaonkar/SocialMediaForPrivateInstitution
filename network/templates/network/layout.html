@@ -14,7 +14,8 @@
                 theme: {
                     extend: {
                     colors: {
-                        'soc':"#99c0ff"
+                        'soc':"#99c0ff",
+                        'socbg':'rgba(19,14,30,1)'
                     }
                     }
                 }
@@ -107,8 +108,8 @@
 
 
         <!-- you better ignore up side -->
-        <div class="body h-screen flex w-screen" data-page="{{page}}">
-            <div class="sidenav w-2/12 bg-gray-700 px-6  h-full ">
+        <div class="body h-screen flex w-screen bg-black " data-page="{{page}}">
+            <div class="sidenav w-2/12 bg-gray-50 bg-opacity-5 px-6  h-screen sticky top-0 container">
                 <div class='flex justify-between flex-col h-full  '>
                     <div>
                         <a href="{% url 'index' %}" class="navbar-brand">
@@ -118,7 +119,7 @@
                             <ul>
                                 <li class="nav-item" id="all_posts">
                                 <a href="{% url 'index' %}" class="nav-link">
-                                    <div class='flex text-white justify-start items-center border-b py-3 border-gray-600 hover:bg-gray-700 px-3 rounded-md'>
+                                    <div class='flex text-white justify-start items-center border-b py-3 border-gray-600 hover:bg-gray-700 {% if page == "all_posts" %}bg-gray-700{% endif %} px-3 rounded-md'>
                                         <span class="material-symbols-outlined text-white ">home</span>
                                         <p class="pl-4">All Posts</p>
                                     </div>
@@ -127,7 +128,7 @@
                                 {% if user.is_authenticated %}
                                     <li class="nav-item" id="following">
                                         <a href="{% url 'following' %}" class="nav-link">
-                                            <div class='flex text-white justify-start items-center border-b py-3 border-gray-600  hover:bg-gray-700 px-3 rounded-md'>
+                                            <div class='flex text-white justify-start items-center border-b py-3 border-gray-600  hover:bg-gray-700 {% if page == "following" %}bg-gray-700{% endif %} px-3 rounded-md'>
                                                 <span class="material-symbols-outlined">group</span>
                                                 <p class="px-4">Following</p>
                                             </div>
@@ -135,7 +136,7 @@
                                     </li>
                                     <li class="nav-item" id="saved">
                                         <a href="{% url 'saved' %}" class="nav-link">
-                                            <div class="flex text-white justify-start items-center border-b py-3 border-gray-600  hover:bg-gray-700 px-3 rounded-md">
+                                            <div class="flex text-white justify-start items-center border-b py-3 border-gray-600  hover:bg-gray-700 {% if page == "saved" %}bg-gray-700{% endif %} px-3 rounded-md">
                                                 <span class="material-symbols-outlined">bookmark</span>
                                                 <p class='px-4'>Saved</p>
                                             </div>
@@ -143,7 +144,7 @@
                                     </li>
                                     <li class="nav-item" id="profile">
                                         <a href="{% url 'profile' user.username %}" class="nav-link">
-                                            <div class="flex text-white justify-start items-center border-b py-3 border-gray-600  hover:bg-gray-700 px-3 rounded-md">
+                                            <div class="flex text-white justify-start items-center border-b py-3 border-gray-600  hover:bg-gray-700 {% if page == "profile" %}bg-gray-700{% endif %} px-3 rounded-md">
                                                 <span class="material-symbols-outlined">person</span>
                                                 <p class='px-4'>Profile</p>
                                             </div>
@@ -185,11 +186,11 @@
                         {% if user.is_authenticated %}    
                             <li class=" flex w-full">
                                 <a href="{% url 'profile' user.username %}" class="nav-link w-full my-5">
-                                    <div class="user_account flex justify-start items-center bg-[rgba(255,255,255,0.3)] rounded-md px-3 py-2 w-full ">
+                                    <div class="user_account flex justify-start items-center bg-[rgba(255,255,255,0.1)]   rounded-md px-3 py-2 w-full ">
                                         <div class="h-14 w-14 bg-cover bg-center rounded-full bg-no-repeat " style="background-image: url({{user.profile_pic.url}})"></div>
                                         <div class="flex flex-col px-4">
-                                            <div><strong>{{user.first_name}} {{user.last_name}}</strong></div>
-                                            <div class="">@{{ user.username }}</div>
+                                            <div><strong class='text-gray-200 text-base'>{{user.first_name}} {{user.last_name}}</strong></div>
+                                            <div class="text-gray-500 text-sm">@{{ user.username }}</div>
                                         </div>
                                     </div>
                                 </a>
@@ -205,9 +206,11 @@
             </div>
             
             <!--this is the middel div-->
-            <div class="w-7/12 bg-blue-500">
-            {% block body %}
-            {% endblock %}
+            <div class="w-7/12 flex justify-center bg-black overflow-y-auto">
+                <div class='w-3/4 text-white'>
+                    {% block body %}
+                    {% endblock %}
+                </div>
             </div>
 
             <div class="right-div w-3/12 bg-green-500">
