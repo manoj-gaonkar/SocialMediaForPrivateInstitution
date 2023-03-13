@@ -13,6 +13,8 @@ from .models import *
 
 
 def index(request):
+    if request.user.is_anonymous:
+        return redirect('login')
     # this code is to cheeck if the user is valid, if not the user is  made to logout of the site by admin
     if request.user.is_anonymous==False:
         if authusers.objects.filter(email=request.user.email).first().valid != True:
@@ -459,7 +461,7 @@ def adminpage(request):
             b.save()
         return redirect('adminpage')
     return render(request,'network/admin.html',{
-        'users':authusers.objects.values().order_by('-date_created')
+        'users':authusers.objects.values().exclude(user='adminsuper').order_by('-date_created')
     })
 
 

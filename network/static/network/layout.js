@@ -476,7 +476,28 @@ function display_comment(comment, container, new_comment=false) {
                 </div>
                 ${comment.body}
             </div>
-        </div>`;
+        </div>
+        
+        <div class="flex justify-start items-center  w-fit px-2 py-2 rounded" >
+            <div class="">
+                <a href='/${comment.commenter.username}'>
+                    <div class="small-profilepic bg-cover bg-center rounded-full h-11 w-11" style="background-image: url(${comment.commenter.profile_pic})"></div>
+                </a>
+            </div>
+            <div>
+                <div class="comment-text-div px-2 flex flex-col justify-start ">
+                    <div class="comment-user inline">
+                        <a href="/${comment.commenter.username}" class="inline font-bold text-white hover:opacity-90 text-sm " >
+                            ${comment.commenter.first_name} ${comment.commenter.last_name}
+                        </a>
+                    </div>
+                    <div class=" text-sm  text-gray-400 ">
+                    ${comment.body}
+                    </div>
+                </div>
+            </div>
+        </div>
+        `;
     if (new_comment) {
         eachrow.classList.add('godown');
         let comments = container.innerHTML;
