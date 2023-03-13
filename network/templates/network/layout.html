@@ -237,7 +237,7 @@
                                 You might know
                             </div>
                             {% for suggestion in suggestions %}
-                                <div class="suggestion-user flex justify-start items-start my-2 bg-white bg-opacity-75 rounded-md p-2">
+                                <div class="suggestion-user flex justify-start items-start my-2 bg-white text-black bg-opacity-75 rounded-md p-2">
                                     <div>
                                         <a href="{% url 'profile' suggestion.username %}">
                                             <div class="small-profilepic w-11 h-11 bg-cover bg-center  rounded-full " style="background-image: url({{suggestion.profile_pic.url}})"></div>
