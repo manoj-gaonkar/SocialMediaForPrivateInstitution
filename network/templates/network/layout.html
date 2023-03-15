@@ -186,8 +186,10 @@
                         {% if user.is_authenticated %}    
                             <li class=" flex w-full">
                                 <a href="{% url 'profile' user.username %}" class="nav-link w-full my-5">
-                                    <div class="user_account flex justify-start items-center bg-[rgba(255,255,255,0.1)]   rounded-md px-3 py-2 w-full ">
-                                        <div class="h-14 w-14 bg-cover bg-center rounded-full bg-no-repeat " style="background-image: url({{user.profile_pic.url}})"></div>
+                                    <div class="user_account flex justify-start items-center bg-[rgba(255,255,255,0.1)]   rounded-md px-3 py-2 w-full h-auto ">
+                                        <div class="h-14 w-14 overflow-hidden rounded-full  ">
+                                            <div class="h-full w-full bg-cover bg-center rounded-full  " style="background-image: url({{user.profile_pic.url}})"></div>
+                                        </div>
                                         <div class="flex flex-col px-4">
                                             <div><strong class='text-gray-200 text-base'>{{user.first_name}} {{user.last_name}}</strong></div>
                                             <div class="text-gray-500 text-sm">@{{ user.username }}</div>

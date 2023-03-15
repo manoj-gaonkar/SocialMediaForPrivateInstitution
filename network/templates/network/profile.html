@@ -3,9 +3,11 @@
 {% load static %}
 
 {% block profile %}
-    <div class="profile-view" data-user="{{username.username}}">
-        <div class="cover-image" style="background-image: url(/media/{{username.cover}})"></div>
-        <div class="profile-image" style="background-image: url(/media/{{username.profile_pic}})"></div>
+    <div class="profile-view bg-gray-900 " data-user="{{username.username}}">
+        <div class="relative">
+            <div class="cover-image  w-full h-48 bg-center bg-cover " style="background-image: url({{username.cover.url}})"></div>
+            <div class="profile-image w-36 rounded-full h-36 bg-center bg-cover absolute top-1/2 left-6 -translate-y-1/2 " style="background-image: url({{username.profile_pic.url}})"></div>
+        </div>
         <div class="profile-details">
             <div>
                 {% if user.username == username.username %}

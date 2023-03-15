@@ -6,7 +6,7 @@ from django.utils import timezone
 class User(AbstractUser):
     profile_pic = models.ImageField(upload_to='profile_pic/',blank=True,default='profile_pic/default_profile_image.png')
     bio = models.TextField(max_length=160, blank=True, null=True)
-    cover = models.ImageField(upload_to='covers/', blank=True,default='profile_pic/default_cover_image.png')
+    cover = models.ImageField(upload_to='covers/',default='cover/default_cover_image.png')
 
     def __str__(self):
         return self.username
