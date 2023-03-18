@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block profile %}
-    <div class="profile-view bg-gray-900 " data-user="{{username.username}}">
+    <div class="profile-view dark:bg-gray-900 " data-user="{{username.username}}">
         <div class="relative">
             <div class="cover-image  w-full h-48 bg-center bg-cover " style="background-image: url({{username.cover.url}})"></div>
             <div class="profile-image w-36 rounded-full h-36 bg-center bg-cover absolute top-1/2 left-6 -translate-y-1/2 " style="background-image: url({{username.profile_pic.url}})"></div>
