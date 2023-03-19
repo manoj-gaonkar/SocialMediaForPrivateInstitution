@@ -8,7 +8,7 @@
             <div class="cover-image  w-full h-48 bg-center bg-cover " style="background-image: url({{username.cover.url}})"></div>
             <div class="profile-image w-36 rounded-full h-36 bg-center bg-cover absolute top-1/2 left-6 -translate-y-1/2 " style="background-image: url({{username.profile_pic.url}})"></div>
         </div>
-        <div class="profile-details">
+        <div class="profile-details px-3 py-2">
             <div>
                 {% if user.username == username.username %}
                     <button class="btn btn-outline-success float-right" id="edit-profile-btn">Edit Profile</button>
@@ -56,7 +56,7 @@
 {% block emptyprofile %}
     <center>
         <br>
-        <strong style="font-size: 1.2em;">@{{username}} hasn't posted</strong>
+        <strong style="font-size: 1.2em;">{{username.first_name}} hasn't posted</strong>
         <div class="grey" style="font-size: .9em;">When they do, their posts will show up here.</div>
     </center>
 {% endblock %}

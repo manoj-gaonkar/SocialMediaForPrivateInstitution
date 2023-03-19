@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en" class="">
+<html lang="en" >
     <head>
         <title>{% block title %}Social Network{% endblock %}</title>
         {% comment %} <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> {% endcomment %}
@@ -97,7 +97,7 @@
 
 
         <!-- you better ignore up side -->
-        <div class="body h-screen flex w-screen dark:bg-black bg-white " data-page="{{page}}">
+        <div class="body h-screen flex w-screen dark:bg-black bg-white " data-page="{{page}}">            
             <div class="sidenav w-2/12 bg-white border-r  border-neutral-400 dark:border-r-0 dark:bg-white  dark:bg-opacity-5 px-6  h-screen sticky top-0 container">
                 <div class='flex justify-between flex-col h-full  '>
                     <div>
@@ -168,7 +168,7 @@
                             </ul>
                         </div>
                         {% if user.is_authenticated %}
-                            <button id="popup-btn" class="new-post-btn px-4 py-2 bg-soc w-full my-6 rounded-lg " onclick="createpost()">Create Post</button>
+                            <button id="popup-btn" class="new-post-btn px-4 py-2 bg-soc w-full my-6 rounded-lg text-white flex justify-center items-center " onclick="createpost()"><span class="material-symbols-outlined scale-90 pr-2 ">add</span>Create Post</button>
                         {% endif %}
                     </div>
                     <div class=' w-full'>
@@ -235,9 +235,9 @@
                                         </a>
                                     </div>
                                     <div class="user-details px-3">
-                                        <a href="{% url 'profile' suggestion.username %}">
+                                        <a href="{% url 'profile' suggestion.username̥}">
                                             <div id="user-name" class="text-sm font-semibold">
-                                                    {{suggestion.first_name}} {{suggestion.last_name}}
+                                                    {{suggestion.first_name}} {{suggestion.last_name}} 
                                             </div>
                                             <div class="grey text-xs font-thin ">@{{suggestion.username}}</div>
                                         </a>
@@ -301,6 +301,12 @@
                 }
             }
             }
+
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark')
+              } else {
+                document.documentElement.classList.remove('dark')
+              }
         </script>
 
 

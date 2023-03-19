@@ -5,19 +5,17 @@
 {% block body %}
     <div class="main-div dark:bg-black bg-white">
         <div class="left-div">
-            <nav class="head heading font-bold text-lg text-center py-5 text-neutral-900 dark:text-white sticky top-0 bg-neutral-50 dark:bg-black bg-opacity-70 backdrop-blur-md ">
                 {% if page == 'all_posts' %}
-                    All Posts
+                <nav class="head heading font-bold text-lg text-center py-5 text-neutral-900 dark:text-white sticky top-0 bg-neutral-50 dark:bg-black bg-opacity-70 backdrop-blur-md ">All Posts</nav>
                 {% elif page == 'following' %}
-                    Following
+                <nav class="head heading font-bold text-lg text-center py-5 text-neutral-900 dark:text-white sticky top-0 bg-neutral-50 dark:bg-black bg-opacity-70 backdrop-blur-md ">Following</nav>
                 {% elif page == 'saved' %}
-                    Saved
+                <nav class="head heading font-bold text-lg text-center py-5 text-neutral-900 dark:text-white sticky top-0 bg-neutral-50 dark:bg-black bg-opacity-70 backdrop-blur-md ">Saved</nav>
                 {% elif page == 'profile' %}
-                    Profile
+                <nav class="head heading font-bold text-lg text-center py-5 text-neutral-900 dark:text-white sticky top-0 bg-neutral-50 dark:bg-black bg-opacity-70 backdrop-blur-md hidden">Profile</nav>
                 {% else %}
-                    Explore
+                <nav class="head heading font-bold text-lg text-center py-5 text-neutral-900 dark:text-white sticky top-0 bg-neutral-50 dark:bg-black bg-opacity-70 backdrop-blur-md ">Explore</nav>
                 {% endif %}
-            </nav>
             <div class="left-div-content  ">
                 <div class="posts-view">
                     {% block profile %}

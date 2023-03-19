@@ -19,6 +19,10 @@ class User(AbstractUser):
             "first_name": self.first_name,
             "last_name": self.last_name
         }
+    
+class usersettings(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    dark_mode = models.BooleanField(default=False)
 
 class Post(models.Model):
     creater = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
