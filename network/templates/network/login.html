@@ -33,7 +33,11 @@
     
         
     </div>
-
+    {% if messages %}
+        {% for message in messages %}
+            <div class=" bg-red-500 text-white px-4 py-2 absolute bottom-10 left-2/4 -translate-x-2/4 text-sm ">You were kicked out by admin</div>
+        {% endfor %}
+    {% endif %}
 
 <script>
 const emailRegex = /^[a-zA-Z0-9._%+-]+@sdmit\.in$/;

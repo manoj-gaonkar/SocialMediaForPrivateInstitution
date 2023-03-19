@@ -177,6 +177,7 @@ def profile(request, username):
     
     follower_count = Follower.objects.get(user=user).followers.all().count()
     following_count = Follower.objects.filter(followers=user).count()
+    user_mode = request.user.usersettings.dark_mode
     return render(request, 'network/profile.html', {
         "username": user,
         "posts": posts,
@@ -185,7 +186,9 @@ def profile(request, username):
         "page": "profile",
         "is_follower": follower,
         "follower_count": follower_count,
-        "following_count": following_count
+        "following_count": following_count,
+        'user_mode': user_mode
+
     })
 
 def following(request):
@@ -199,15 +202,24 @@ def following(request):
         posts = paginator.get_page(page_number)
         followings = Follower.objects.filter(followers=request.user).values_list('user', flat=True)
         suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).order_by("?")[:6]
+        user_mode = request.user.usersettings.dark_mode
         return render(request, "network/index.html", {
             "posts": posts,
             "suggestions": suggestions,
-            "page": "following"
+            "page": "following",
+            'user_mode': user_mode
         })
     else:
         return HttpResponseRedirect(reverse('login'))
 
 def saved(request):
+    if request.user.is_anonymous:
+        return redirect('login')
+    # this code is to cheeck if the user is valid, if not the user is  made to logout of the site by admin
+    if request.user.is_anonymous==False:
+        if authusers.objects.filter(email=request.user.email).first().valid != True:
+            messages.error(request, 'admin kicked you out')
+            logout(request)
     if request.user.is_authenticated:
         all_posts = Post.objects.filter(savers=request.user).order_by('-date_created')
 
@@ -219,10 +231,14 @@ def saved(request):
 
         followings = Follower.objects.filter(followers=request.user).values_list('user', flat=True)
         suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).order_by("?")[:6]
+        user_mode = request.user.usersettings.dark_mode
+
         return render(request, "network/index.html", {
             "posts": posts,
             "suggestions": suggestions,
-            "page": "saved"
+            "page": "saved",
+            'profile': False,
+            'user_mode': user_mode
         })
     else:
         return HttpResponseRedirect(reverse('login'))

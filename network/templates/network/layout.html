@@ -175,9 +175,9 @@
                     </div>
                     <div class=' w-full'>
                         {% if user.is_authenticated %}    
-                            <li class=" flex w-full max-h-20 h-16  my-5  bg-white hover:bg-neutral-50 dark:bg-[rgba(255,255,255,0.1)]   rounded-md">
+                            <li class=" flex container justify-between items-center w-full  max-h-20 h-16  my-5  bg-white hover:bg-neutral-50 dark:bg-neutral-100 dark:bg-opacity-25 rounded-md">
                                 <a href="{% url 'profile' user.username %}" class="nav-link w-full flex ">
-                                    <div class="user_account flex justify-start items-center px-3 py-1 w-full h-auto ">
+                                    <div class="user_account flex justify-start items-center px-3 w-full h-auto ">
                                         <div class="h-10 w-10 min-w-0 min-h-0 overflow-hidden rounded-full  flex ">
                                             <div class="h-full w-full bg-cover bg-center rounded-full flex " style="background-image: url({{user.profile_pic.url}})"></div>
                                         </div>
@@ -189,8 +189,13 @@
                                     </div>
                                     
                                 </a>
-                                <button>
-                                    <span class="material-symbols-outlined text-black dark:text-white">more_vert</span>
+                                <button onclick="showsettings()">
+                                    <div class="absolute hidden bg-gray-100">
+                                        <ul>
+                                            <li><a href="">dark mode</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="flex justify-center items-center"><span class="material-symbols-outlined text-black dark:text-white">more_vert</span></div>
                                 </button>
                             </li>
                         {% endif %}
@@ -228,7 +233,7 @@
                         </div>
                     </form>
                 </nav>
-                <div class='right-div-content  w-full bg-neutral-100 dark:bg-purple-900 text-white rounded-md my-4 px-3'>
+                <div class='right-div-content  w-full bg-neutral-100 dark:bg-green-200 text-white rounded-md my-4 px-3'>
                     <div class="space" style="  "></div>
                     {% if user.is_authenticated %}
                         <div class="suggestion-box pb-3">
@@ -352,7 +357,6 @@
                     data: {
                         'dark_mode': "sent",
                         csrfmiddlewaretoken:csrftoken,
-                    
                     },
                     dataType: 'json',
                     success: function(response) {
