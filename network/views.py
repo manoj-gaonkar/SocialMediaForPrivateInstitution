@@ -35,11 +35,14 @@ def index(request):
         suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).exclude(pk=1).order_by("?")[:6]
         # print(request.user.id)
         # print(request.user.password)
+    user_mode = request.user.usersettings.dark_mode
+    print(user_mode)
     return render(request, "network/index.html", {
         "posts": posts,
         "suggestions": suggestions,
         "page": "all_posts",
-        'profile': False
+        'profile': False,
+        'user_mode': user_mode
     })
 
 
@@ -484,3 +487,15 @@ def changevalid(request,id):
         user.valid=True
     user.save()
     return redirect('adminpage')
+
+
+
+@login_required
+def update_dark_mode(request):
+    user = request.user
+    new_dark_mode = request.POST.get('dark_mode', False)
+    usersetting, created = usersettings.objects.get_or_create(user=user)
+    new_dark_mode = False if usersetting.dark_mode else True
+    usersetting.dark_mode = new_dark_mode
+    usersetting.save()
+    return JsonResponse({'success': True})

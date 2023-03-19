@@ -30,7 +30,9 @@ urlpatterns = [
     path("n/admin/", views.adminpage, name="adminpage"),
     path('n/admin/logout',views.adminlogout,name='adminlogout'),
     path("n/admin/removeuser/<str:email>",views.removeuser,name='removeuser'),
-    path("n/admin/changevalid/<str:id>",views.changevalid,name='changevalid')
+    path("n/admin/changevalid/<str:id>",views.changevalid,name='changevalid'),
+    # url for dark mode
+    path('update_dark_mode/', views.update_dark_mode, name='update_dark_mode'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -21,8 +21,12 @@ class User(AbstractUser):
         }
     
 class usersettings(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     dark_mode = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user} mode is {self.dark_mode}" 
+    
 
 class Post(models.Model):
     creater = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')

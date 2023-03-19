@@ -1,19 +1,18 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en" class="" >
     <head>
         <title>{% block title %}Social Network{% endblock %}</title>
         {% comment %} <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> {% endcomment %}
         {% comment %} <link href="{% static 'network/styles.css' %}" rel="stylesheet"> {% endcomment %}
-        <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
         <link rel="shortcut icon" href="{% static 'network/Images/favicon.ico' %}">
          
         {% block head %}
         {% endblock %}
     </head>
-    <body class=" bg-white dark:bg-black">
+    <body class=" bg-white dark:bg-black ease-in-out duration-1000 transition-all ">
 {% comment %} 
         <div class="popup">
             <div class="small-popup">
@@ -101,64 +100,67 @@
             <div class="sidenav w-2/12 bg-white border-r  border-neutral-400 dark:border-r-0 dark:bg-white  dark:bg-opacity-5 px-6  h-screen sticky top-0 container">
                 <div class='flex justify-between flex-col h-full  '>
                     <div>
+                        
                         <a href="{% url 'index' %}" class="navbar-brand">
                             <p class=" py-6 font-bold  text-neutral-900 dark:text-gray-50 text-2xl" >EduConnect</p>
                         </a>
                         <div>
+                            
                             <ul class="text-neutral-900 dark:text-white font-semibold">
-                                <li class="nav-item" id="all_posts">
+                                <li class="nav-item border-b border-gray-300 dark:border-b dark:border-neutral-800" id="all_posts">
                                 <a href="{% url 'index' %}" class="nav-link">
-                                    <div class='flex  justify-start items-center border-b py-3 border-gray-600 hover:bg-purple-500 hover:bg-opacity-20 {% if page == "all_posts" %}bg-purple-500 bg-opacity-20{% endif %} px-3 rounded-md'>
+                                    <div class='flex  justify-start items-center  py-3  hover:bg-purple-500 hover:bg-opacity-20 {% if page == "all_posts" %}bg-purple-500 bg-opacity-20{% endif %} px-3 rounded-md'>
                                         <span class="material-symbols-outlined text-neutral-900 dark:text-white ">home</span>
                                         <p class="pl-4">All Posts</p>
                                     </div>
                                 </a>
+                                
                                 </li>
                                 {% if user.is_authenticated %}
-                                    <li class="nav-item" id="following">
+                                    <li class="nav-item border-b border-gray-300 dark:border-b dark:border-neutral-800" id="following">
                                         <a href="{% url 'following' %}" class="nav-link">
-                                            <div class='flex  justify-start items-center border-b py-3 border-gray-600  hover:bg-purple-500 hover:bg-opacity-20 {% if page == "following" %}bg-purple-500 bg-opacity-20{% endif %} px-3 rounded-md'>
+                                            <div class='flex  justify-start items-center   py-3   hover:bg-purple-500 hover:bg-opacity-20 {% if page == "following" %}bg-purple-500 bg-opacity-20{% endif %} px-3 rounded-md'>
                                                 <span class="material-symbols-outlined ">group</span>
                                                 <p class="px-4">Following</p>
                                             </div>
                                         </a>
                                     </li>
-                                    <li class="nav-item" id="saved">
+                                    <li class="nav-item border-b border-gray-300 dark:border-b dark:border-neutral-800" id="saved">
                                         <a href="{% url 'saved' %}" class="nav-link">
-                                            <div class="flex  justify-start items-center border-b py-3 border-gray-600  hover:bg-purple-500 hover:bg-opacity-20 {% if page == "saved" %}bg-purple-500 bg-opacity-20{% endif %} px-3 rounded-md">
+                                            <div class="flex  justify-start items-center  py-3   hover:bg-purple-500 hover:bg-opacity-20 {% if page == "saved" %}bg-purple-500 bg-opacity-20{% endif %} px-3 rounded-md">
                                                 <span class="material-symbols-outlined">bookmark</span>
                                                 <p class='px-4'>Saved</p>
                                             </div>
                                         </a>
                                     </li>
-                                    <li class="nav-item" id="profile">
+                                    <li class="nav-item border-b border-gray-300 dark:border-b dark:border-neutral-800" id="profile">
                                         <a href="{% url 'profile' user.username %}" class="nav-link">
-                                            <div class="flex  justify-start items-center border-b py-3 border-gray-600  hover:bg-purple-500 hover:bg-opacity-20 {% if page == "profile" %}bg-purple-500 bg-opacity-20{% endif %} px-3 rounded-md">
+                                            <div class="flex  justify-start items-center  py-3   hover:bg-purple-500 hover:bg-opacity-20 {% if page == "profile" %}bg-purple-500 bg-opacity-20{% endif %} px-3 rounded-md">
                                                 <span class="material-symbols-outlined">person</span>
                                                 <p class='px-4'>Profile</p>
                                             </div>
                                         </a>
                                     </li>
-                                    <li class="nav-item" id="logout">
+                                    <li class="nav-item border-b border-gray-300 dark:border-b dark:border-neutral-800" id="logout">
                                         <a href="{% url 'logout' %}" class="nav-link">
-                                            <div class="flex  justify-start items-center border-b py-3 border-gray-600  hover:bg-purple-500 hover:bg-opacity-20 px-3 rounded-md">
+                                            <div class="flex  justify-start items-center  py-3   hover:bg-purple-500 hover:bg-opacity-20 px-3 rounded-md">
                                                 <span class="material-symbols-outlined">logout</span>
                                                 <p class='px-4'>Log Out</p> 
                                             </div>
                                         </a>
                                     </li>
                                 {% else %}
-                                    <li class="nav-item" id="login">
+                                    <li class="nav-item border-b border-gray-300 dark:border-b dark:border-neutral-800" id="login">
                                         <a href="{% url 'login' %}" class="nav-link">
-                                            <div class="flex  justify-start items-center border-b py-3 border-gray-600  hover:bg-purple-500 hover:bg-opacity-20 px-3 rounded-md">
+                                            <div class="flex  justify-start items-center   py-3   hover:bg-purple-500 hover:bg-opacity-20 px-3 rounded-md">
                                                 <span class="material-symbols-outlined">login</span>
                                                 <p class='px-4'>Log In</p> 
                                             </div>
                                         </a>
                                     </li>
-                                    <li class="nav-item" id="Signup">
+                                    <li class="nav-item border-b border-gray-300 dark:border-b dark:border-neutral-800" id="Signup">
                                         <a href="{% url 'register' %}" class="nav-link">
-                                            <div class="flex  justify-start items-center border-b py-3 border-gray-600  hover:bg-purple-500 hover:bg-opacity-20 px-3 rounded-md">
+                                            <div class="flex  justify-start items-center   py-3   hover:bg-purple-500 hover:bg-opacity-20 px-3 rounded-md">
                                                 <span class="material-symbols-outlined">person_add</span>
                                                 <p class='px-4'>Sign Up</p> 
                                             </div>
@@ -173,18 +175,23 @@
                     </div>
                     <div class=' w-full'>
                         {% if user.is_authenticated %}    
-                            <li class=" flex w-full">
-                                <a href="{% url 'profile' user.username %}" class="nav-link w-full flex my-5 ">
-                                    <div class="user_account flex justify-start items-center bg-white hover:bg-neutral-50 dark:bg-[rgba(255,255,255,0.1)]   rounded-md px-3 py-2 w-full h-auto ">
-                                        <div class="h-14 w-14 min-w-0 min-h-0 overflow-hidden rounded-full  flex ">
+                            <li class=" flex w-full max-h-20 h-16  my-5  bg-white hover:bg-neutral-50 dark:bg-[rgba(255,255,255,0.1)]   rounded-md">
+                                <a href="{% url 'profile' user.username %}" class="nav-link w-full flex ">
+                                    <div class="user_account flex justify-start items-center px-3 py-1 w-full h-auto ">
+                                        <div class="h-10 w-10 min-w-0 min-h-0 overflow-hidden rounded-full  flex ">
                                             <div class="h-full w-full bg-cover bg-center rounded-full flex " style="background-image: url({{user.profile_pic.url}})"></div>
                                         </div>
                                         <div class="flex flex-col pl-4">
-                                            <p class=' text-neutral-900 dark:text-gray-200 sm:text-xs md:text-xs lg:text-sm  flex font-semibold'>madan gaonkar</p>
+                                            <p class=' text-neutral-900 dark:text-gray-200 sm:text-xs md:text-xs lg:text-sm  flex font-semibold'>{{user.first_name}} {{user.last_name}}</p>
                                             <div class=" text-gray-700 dark:text-gray-500 text-xs">@{{ user.username }}</div>
                                         </div>
+                                        
                                     </div>
+                                    
                                 </a>
+                                <button>
+                                    <span class="material-symbols-outlined text-black dark:text-white">more_vert</span>
+                                </button>
                             </li>
                         {% endif %}
                         {% if user.is_authenticated %}
@@ -204,6 +211,7 @@
                     }
                 </style>
                 <div class='w-3/4'>
+                    
                     {% block body %}
                     {% endblock %}
                 </div>
@@ -235,7 +243,7 @@
                                         </a>
                                     </div>
                                     <div class="user-details px-3">
-                                        <a href="{% url 'profile' suggestion.username̥}">
+                                        <a href="{% url 'profile' suggestion.username %}">
                                             <div id="user-name" class="text-sm font-semibold">
                                                     {{suggestion.first_name}} {{suggestion.last_name}} 
                                             </div>
@@ -271,6 +279,9 @@
                         </div>
                     {% endif %}
                 </div>
+                <button class="px-3 bg-blue-400 cursor-pointer" id="dark-mode-toggle">
+                    click here dark mode
+                </button>
             </div>
         </div>
 
@@ -289,7 +300,7 @@
     </body>
         <script src="https://cdn.tailwindcss.com"></script>
         <script type="text/javascript" src="{% static 'network/layout.js' %}"></script>
-        <script>
+        <script tupe="text/javascript">
             tailwind.config = {
             darkMode: "class",
             theme: {
@@ -301,13 +312,66 @@
                 }
             }
             }
-
-            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark')
-              } else {
-                document.documentElement.classList.remove('dark')
-              }
+              window.addEventListener('DOMContentLoaded', function() {
+                var mode = "{{ user_mode }}";
+                console.log(mode,"jj");
+                if (mode == "True") {
+                    console.log("min");
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            }); 
         </script>
 
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <script>
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            const csrftoken = getCookie('csrftoken');
+            $('#dark-mode-toggle').click(function() {
+                console.log("jdkjd");
+                var current_mode = document.documentElement.classList.contains('dark');
+                var new_mode = !current_mode;
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "update_dark_mode" %}',
+                    data: {
+                        'dark_mode': "sent",
+                        csrfmiddlewaretoken:csrftoken,
+                    
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            if (new_mode) {
+                                $('html').addClass('dark');
+                            } else {
+                                $('html').removeClass('dark');
+                            }
+                        } else {
+                            console.error('Failed to update dark mode setting');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Failed to update dark mode setting: ' + error);
+                    }
+                });
+            });
+            
+        </script>
 
 </html>
