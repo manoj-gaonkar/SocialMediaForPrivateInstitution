@@ -338,15 +338,16 @@ function follow_user(element, username, origin) {
         login_popup('follow');
         return false;
     }
+   
     fetch('/'+username+'/follow', {
         method: 'PUT'
     })
     .then(() => {
         if(origin === 'suggestion') {
-            element.parentElement.innerHTML = `<button class="btn btn-success" type="button" onclick="unfollow_user(this,'${username}','suggestion')">Following</button>`;
+            element.parentElement.innerHTML = `<button class="btn btn-success  bg-purple-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" type="button" onclick="unfollow_user(this,'${username}','suggestion')">Following</button>`;
         }
         else if(origin === 'edit_page') {
-            element.parentElement.innerHTML = `<button class="btn btn-success float-right" onclick="unfollow_user(this,'${username}','edit_page')" id="following-btn">Following</button>`;
+            element.parentElement.innerHTML = `<button class="btn btn-success float-right  bg-purple-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" onclick="unfollow_user(this,'${username}','edit_page')" id="following-btn">Following</button>`;
         }
         else if(origin === 'dropdown') {
             ////////////////////////////////////////////////////////////////////////////////////////////
@@ -375,10 +376,10 @@ function unfollow_user(element, username, origin) {
     })
     .then(() => {
         if(origin === 'suggestion') {
-            element.parentElement.innerHTML = `<button class="btn btn-outline-success" type="button" onclick="follow_user(this,'${username}','suggestion')">Follow</button>`;
+            element.parentElement.innerHTML = `<button class="btn btn-outline-success  bg-purple-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" type="button" onclick="follow_user(this,'${username}','suggestion')">Follow</button>`;
         }
         else if(origin === 'edit_page') {
-            element.parentElement.innerHTML = `<button class="btn btn-outline-success float-right" onclick="follow_user(this,'${username}','edit_page')" id="follow-btn">Follow</button>`;
+            element.parentElement.innerHTML = `<button class="btn btn-outline-success float-right  bg-purple-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" onclick="follow_user(this,'${username}','edit_page')" id="follow-btn">Follow</button>`;
         }
         else if(origin === 'dropdown') {
             ///////////////////////////////////////////////////////////////////////////////////////////
@@ -446,7 +447,7 @@ function write_comment(element) {
         })
     })
     .then(response => response.json())
-    .then(comment => {
+    .then(comment => {f
         console.log(comment);
         element.querySelector('input').value = '';
         comment_count.innerHTML++;
