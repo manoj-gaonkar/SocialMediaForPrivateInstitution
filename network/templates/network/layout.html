@@ -107,9 +107,9 @@
                         <div>
                             
                             <ul class="text-neutral-900 dark:text-white font-semibold">
-                                <li class="nav-item border-b border-gray-300 dark:border-b dark:border-neutral-800" id="all_posts">
+                                <li class="nav-item" id="all_posts">
                                 <a href="{% url 'index' %}" class="nav-link">
-                                    <div class='flex  justify-start items-center  py-3  hover:bg-purple-500 hover:bg-opacity-20 {% if page == "all_posts" %}bg-purple-500 bg-opacity-20{% endif %} px-3 rounded-md'>
+                                    <div class='flex  justify-start items-center  py-3  hover:bg-purple-500 hover:bg-opacity-10 transition-all ease-in-out duration-300 {% if page == "all_posts" %}bg-purple-500 bg-opacity-20 font-bold{% endif %} px-3 rounded-md'>
                                         <span class="material-symbols-outlined text-neutral-900 dark:text-white ">home</span>
                                         <p class="pl-4">All Posts</p>
                                     </div>
@@ -117,50 +117,50 @@
                                 
                                 </li>
                                 {% if user.is_authenticated %}
-                                    <li class="nav-item border-b border-gray-300 dark:border-b dark:border-neutral-800" id="following">
+                                    <li class="nav-item " id="following">
                                         <a href="{% url 'following' %}" class="nav-link">
-                                            <div class='flex  justify-start items-center   py-3   hover:bg-purple-500 hover:bg-opacity-20 {% if page == "following" %}bg-purple-500 bg-opacity-20{% endif %} px-3 rounded-md'>
+                                            <div class='flex  justify-start items-center   py-3   hover:bg-purple-500 hover:bg-opacity-10 transition-all ease-in-out duration-300 {% if page == "following" %}bg-purple-500 bg-opacity-20 font-bold{% endif %} px-3 rounded-md'>
                                                 <span class="material-symbols-outlined ">group</span>
                                                 <p class="px-4">Following</p>
                                             </div>
                                         </a>
                                     </li>
-                                    <li class="nav-item border-b border-gray-300 dark:border-b dark:border-neutral-800" id="saved">
+                                    <li class="nav-item 0" id="saved">
                                         <a href="{% url 'saved' %}" class="nav-link">
-                                            <div class="flex  justify-start items-center  py-3   hover:bg-purple-500 hover:bg-opacity-20 {% if page == "saved" %}bg-purple-500 bg-opacity-20{% endif %} px-3 rounded-md">
+                                            <div class="flex  justify-start items-center  py-3   hover:bg-purple-500 hover:bg-opacity-10 transition-all ease-in-out duration-300 {% if page == "saved" %}bg-purple-500 bg-opacity-2 font-bold{% endif %} px-3 rounded-md">
                                                 <span class="material-symbols-outlined">bookmark</span>
                                                 <p class='px-4'>Saved</p>
                                             </div>
                                         </a>
                                     </li>
-                                    <li class="nav-item border-b border-gray-300 dark:border-b dark:border-neutral-800" id="profile">
+                                    <li class="nav-item " id="profile">
                                         <a href="{% url 'profile' user.username %}" class="nav-link">
-                                            <div class="flex  justify-start items-center  py-3   hover:bg-purple-500 hover:bg-opacity-20 {% if page == "profile" %}bg-purple-500 bg-opacity-20{% endif %} px-3 rounded-md">
+                                            <div class="flex  justify-start items-center  py-3   hover:bg-purple-500 hover:bg-opacity-10 transition-all ease-in-out duration-300 {% if page == "profile" %}bg-purple-500 bg-opacity-20 font-bold{% endif %} px-3 rounded-md">
                                                 <span class="material-symbols-outlined">person</span>
                                                 <p class='px-4'>Profile</p>
                                             </div>
                                         </a>
                                     </li>
-                                    <li class="nav-item border-b border-gray-300 dark:border-b dark:border-neutral-800" id="logout">
+                                    <li class="nav-item 0" id="logout">
                                         <a href="{% url 'logout' %}" class="nav-link">
-                                            <div class="flex  justify-start items-center  py-3   hover:bg-purple-500 hover:bg-opacity-20 px-3 rounded-md">
+                                            <div class="flex  justify-start items-center  py-3   hover:bg-purple-500 hover:bg-opacity-10 transition-all ease-in-out duration-300 px-3 rounded-md">
                                                 <span class="material-symbols-outlined">logout</span>
                                                 <p class='px-4'>Log Out</p> 
                                             </div>
                                         </a>
                                     </li>
                                 {% else %}
-                                    <li class="nav-item border-b border-gray-300 dark:border-b dark:border-neutral-800" id="login">
+                                    <li class="nav-item " id="login">
                                         <a href="{% url 'login' %}" class="nav-link">
-                                            <div class="flex  justify-start items-center   py-3   hover:bg-purple-500 hover:bg-opacity-20 px-3 rounded-md">
+                                            <div class="flex  justify-start items-center   py-3   hover:bg-purple-500 hover:bg-opacity-10 transition-all ease-in-out duration-300 px-3 rounded-md">
                                                 <span class="material-symbols-outlined">login</span>
                                                 <p class='px-4'>Log In</p> 
                                             </div>
                                         </a>
                                     </li>
-                                    <li class="nav-item border-b border-gray-300 dark:border-b dark:border-neutral-800" id="Signup">
+                                    <li class="nav-item " id="Signup">
                                         <a href="{% url 'register' %}" class="nav-link">
-                                            <div class="flex  justify-start items-center   py-3   hover:bg-purple-500 hover:bg-opacity-20 px-3 rounded-md">
+                                            <div class="flex  justify-start items-center   py-3   hover:bg-purple-500 hover:bg-opacity-10 transition-all ease-in-out duration-300 px-3 rounded-md">
                                                 <span class="material-symbols-outlined">person_add</span>
                                                 <p class='px-4'>Sign Up</p> 
                                             </div>
@@ -189,13 +189,13 @@
                                     </div>
                                     
                                 </a>
-                                <button onclick="showsettings()" class="relative  ">
-                                    <div class="absolute bottom-6  left-2 hidden w-32 bg-gray-50 bg-opacity-70 dark:bg-gray-400 dark:bg-opacity-50 rounded-md shadow-md shadow-gray-200 dark:shadow-none  " id="settingslist">
-                                        <ul  class=" w-full block  ">
+                                <button  class="relative  ">
+                                    <div class="absolute bottom-6  left-2 hidden -translate-x-4   duration-500 ease-in-out transition-all w-32 bg-gray-50 bg-opacity-70 dark:bg-gray-400 dark:bg-opacity-50 rounded-md shadow-md shadow-gray-200 dark:shadow-none  " id="settingslist">
+                                        <ul  class=" w-full block  " >
                                             <li class=" block"><a href="#" class="block px-2 py-1 text-sm text-neutral-800 dark:text-white" id="dark-mode-toggle">Dark Mode</a></li>
                                         </ul>
                                     </div>
-                                    <div class="flex justify-center items-center"><span class="material-symbols-outlined text-black dark:text-white">more_vert</span></div>
+                                    <div class="flex justify-center items-center"><span onclick="showsettings()" id="threedots" class="material-symbols-outlined elementvisible text-black dark:text-white ">more_vert</span></div>
                                 </button>
                             </li>
                         {% endif %}
@@ -221,6 +221,7 @@
                     {% endblock %}
                 </div>
             </div>
+            
 
             <div class="right-div px-7 py-5 w-3/12 bg-white border-l dark:border-l-0 border-gray-400 dark:bg-white dark:bg-opacity-10">
                 <nav class="head w-full">
@@ -316,9 +317,7 @@
             }
               window.addEventListener('DOMContentLoaded', function() {
                 var mode = "{{ user_mode }}";
-                console.log(mode,"jj");
                 if (mode == "True") {
-                    console.log("min");
                     document.documentElement.classList.add('dark');
                 } else {
                     document.documentElement.classList.remove('dark');
@@ -332,15 +331,28 @@
                 settingslist = document.querySelector('#settingslist');
                 if(settingslist.classList.contains('hidden')){
                     settingslist.classList.remove('hidden');
-                } else {
-                    settingslist.classList.add('hidden');
-                }
+                } 
+                
             }
+            {% comment %} function closesettings(){
+                settingslist = document.querySelector('#settingslist');
+                if(!settingslist.classList.contains('hidden')){
+                    settingslist.classList.add('hidden');
+                } 
+                
+            } {% endcomment %}
 
             window.addEventListener('click', (e) => {
                 dropdown = document.querySelector('#settingslist');
-                if(!dropdown.contains(e.target) && !e.target.matches('.material-symbols-outlined')){
+                if(!dropdown.contains(e.target) && !e.target.matches('.elementvisible') && !dropdown.classList.contains('hidden')){
                     dropdown.classList.add('hidden');
+                    $('#threedots').removeClass('elementvisible');
+                    $('#threedots').addClass('elementinvisible');
+                }
+                if(e.target.matches('.elementinvisible') && dropdown.classList.contains('hidden')){
+                    dropdown.classList.add('hidden');
+                    $('#threedots').removeClass('elementinvisible');
+                    $('#threedots').addClass('elementvisible');
                 }
             })
 
@@ -390,6 +402,44 @@
                     }
                 });
             });
+
+
+            //this is js for profile page followers and following pop up
+            followersPage = document.querySelector('#followers');
+            followingPage = document.querySelector('#following');
+
+            function showFollowers(){
+
+                followersPage.classList.remove('hidden');
+                followersPage.classList.add('flex');
+            }
+
+            function showFollowing(){
+                followingPage.classList.remove('hidden');
+                followingPage.classList.add('flex');
+            }
+
+            window.addEventListener('click',(e)=>{
+                console.log(e.target);
+                if(!followersPage.contains(e.target) && !followersPage.classList.contains('hidden') && !e.target.matches('.grey')){
+                    console.log("entrer")
+                    followersPage.classList.remove('flex');
+                    followersPage.classList.add('hidden');
+                }
+                if(e.target.matches('.closeFollowers') || e.target.matches('.closeFollowersButton')){
+                    followersPage.classList.remove('flex');
+                    followersPage.classList.add('hidden');
+                }
+                if(!followingPage.contains(e.target) && !followingPage.classList.contains('hidden') && !e.target.matches('.grey')){
+                    console.log("entrer")
+                    followingPage.classList.remove('flex');
+                    followingPage.classList.add('hidden');
+                }
+                if(e.target.matches('.closeFollowing') || e.target.matches('.closeFollowingButton')){
+                    followingPage.classList.remove('flex');
+                    followingPage.classList.add('hidden');
+                }
+            })
             
         </script>
 

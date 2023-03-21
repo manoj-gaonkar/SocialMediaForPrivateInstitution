@@ -178,6 +178,14 @@ def profile(request, username):
     follower_count = Follower.objects.get(user=user).followers.all().count()
     following_count = Follower.objects.filter(followers=user).count()
     user_mode = request.user.usersettings.dark_mode
+
+    followers = Follower.objects.get(user=user).followers.all()
+    following = Follower.objects.filter(followers=user)
+    following = User.objects.filter(user=following)
+    for f in following:
+        print(type(f))
+        print(f)
+        
     return render(request, 'network/profile.html', {
         "username": user,
         "posts": posts,
@@ -187,8 +195,9 @@ def profile(request, username):
         "is_follower": follower,
         "follower_count": follower_count,
         "following_count": following_count,
-        'user_mode': user_mode
-
+        'user_mode': user_mode,
+        "followers":followers,
+        'followings':following,
     })
 
 def following(request):
