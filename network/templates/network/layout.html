@@ -1,5 +1,5 @@
+{% comment %} {% include "loading.html" %} {% endcomment %}
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en" class="" >
     <head>
@@ -13,6 +13,9 @@
         {% endblock %}
     </head>
     <body class=" bg-white dark:bg-black  ">
+
+        
+          
 {% comment %} 
         <div class="popup">
             <div class="small-popup">
@@ -408,11 +411,17 @@
             followersPage = document.querySelector('#followers');
             followingPage = document.querySelector('#following');
             function showFollowers(){
+                document.querySelector('#search-input').value = "";
+                const profiles = document.querySelectorAll(".h-fit a");
+                profiles.forEach((profile)=>{
+                    profile.style.display = 'flex';
+                })
                 followersPage.classList.remove('hidden');
                 followersPage.classList.add('flex');
             }
 
             function showFollowing(){
+                document.querySelector('#search-input').value = "";
                 followingPage.classList.remove('hidden');
                 followingPage.classList.add('flex');
             }
@@ -437,7 +446,16 @@
                     followingPage.classList.remove('flex');
                     followingPage.classList.add('hidden');
                 }
-            })
+            });
+
+            //code for loading animation
+ 
+              window.addEventListener('load',()=>{
+                $('#loading').show();
+                setTimeout(function(){
+                    $('#loading').fadeOut("slow");
+                },1000)
+              });
             
         </script>
 
