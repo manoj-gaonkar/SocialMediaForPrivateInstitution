@@ -117,7 +117,7 @@
                                 
                                 </li>
                                 {% if user.is_authenticated %}
-                                    <li class="nav-item " id="following">
+                                    <li class="nav-item hidden" id="">
                                         <a href="{% url 'following' %}" class="nav-link">
                                             <div class='flex  justify-start items-center   py-3   hover:bg-purple-500 hover:bg-opacity-10 transition-all ease-in-out duration-300 {% if page == "following" %}bg-purple-500 bg-opacity-20 font-bold{% endif %} px-3 rounded-md'>
                                                 <span class="material-symbols-outlined ">group</span>
@@ -407,9 +407,7 @@
             //this is js for profile page followers and following pop up
             followersPage = document.querySelector('#followers');
             followingPage = document.querySelector('#following');
-
             function showFollowers(){
-
                 followersPage.classList.remove('hidden');
                 followersPage.classList.add('flex');
             }
@@ -430,7 +428,7 @@
                     followersPage.classList.remove('flex');
                     followersPage.classList.add('hidden');
                 }
-                if(!followingPage.contains(e.target) && !followingPage.classList.contains('hidden') && !e.target.matches('.grey')){
+                if(!followingPage.contains(e.target) && !followingPage.classList.contains('hidden') && !e.target.matches('.grey1')){
                     console.log("entrer")
                     followingPage.classList.remove('flex');
                     followingPage.classList.add('hidden');

@@ -180,11 +180,18 @@ def profile(request, username):
     user_mode = request.user.usersettings.dark_mode
 
     followers = Follower.objects.get(user=user).followers.all()
+    # followingObject = Follower.objects.filter(followers=user).all().values_list('user',flat=True)
+    # following = Follower.objects.filter(user__in=followingObject).values('user')
     following = Follower.objects.filter(followers=user)
-    following = User.objects.filter(user=following)
-    for f in following:
-        print(type(f))
-        print(f)
+    try:
+        print(following)
+        for i in following:
+            print(i.user.username)
+    except Exception as e:
+        print("----------------errrrorr----------------\n")
+        print(e)
+        print("\n----------------errrrorr----------------")
+
         
     return render(request, 'network/profile.html', {
         "username": user,

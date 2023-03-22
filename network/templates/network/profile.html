@@ -9,7 +9,7 @@
     <div class="w-1/5 bg-gray-50 dark:bg-neutral-900 h-fit rounded-md px-2 pt-1 pb-2 drop-shadow-2xl dark:shadow-black dark:shadow-2xl z-10 " >
         <div class="flex justify-between items-center w-full pl-2 ">
             <div class=" font-bold select-none text-neutral-900 dark:text-gray-300 ">Followers</div>
-            <div class=" p-1 dark:hover:bg-gray-800 hover:bg-gray-400 flex justify-center items-center rounded-full transition-all ease-in-out duration-300 ">
+            <div class=" p-1 dark:hover:bg-gray-800 hover:bg-gray-200 flex justify-center items-center rounded-full transition-all ease-in-out duration-300 ">
                 <span class="material-symbols-outlined dark:text-white text-gray-800 inline-block closeFollowersButton cursor-pointer ">close</span>
             </div>
         </div>
@@ -28,22 +28,22 @@
 
 </div>
 <!--this is for following-->
-<div class=" w-screen h-screen  justify-center items-center absolute left-0 top-0 z-20 " id="following">
+<div class="hidden w-screen h-screen  justify-center items-center absolute left-0 top-0 z-20 " id="following">
     <div class="absolute w-screen h-screen bg-black bg-opacity-30 closeFollowing " ></div>
     <div class="w-1/5 bg-gray-50 dark:bg-neutral-900 h-fit rounded-md px-2 pt-1 pb-2 drop-shadow-2xl dark:shadow-black dark:shadow-2xl z-10 " >
         <div class="flex justify-between items-center w-full pl-2 ">
             <div class=" font-bold select-none text-neutral-900 dark:text-gray-300 ">Following</div>
-            <div class=" p-1 dark:hover:bg-gray-800 hover:bg-gray-400 flex justify-center items-center rounded-full transition-all ease-in-out duration-300 ">
+            <div class=" p-1 dark:hover:bg-gray-800 hover:bg-gray-200 flex justify-center items-center rounded-full transition-all ease-in-out duration-300 ">
                 <span class="material-symbols-outlined dark:text-white text-gray-800 inline-block closeFollowingButton cursor-pointer ">close</span>
             </div>
         </div>
         <div class="h-fit w-full">
-            {% for follow in following %}
-            <a class="flex h-auto w-full cursor-pointer items-center justify-start  py-2 hover:bg-gray-400 hover:bg-opacity-10 dark:hover:bg-gray-50 px-2 rounded-sm dark:hover:bg-opacity-5 transition-all ease-in-out duration-300 " href="{% url 'profile' follow.username %}">
-            <div class="h-11 w-11 rounded-full bg-cover bg-center [background-image:url('{{ follow.profile_pic.url }}')]"></div>
+            {% for follow in followings %}
+            <a class="flex h-auto w-full cursor-pointer items-center justify-start  py-2 hover:bg-gray-400 hover:bg-opacity-10 dark:hover:bg-gray-50 px-2 rounded-sm dark:hover:bg-opacity-5 transition-all ease-in-out duration-300 " href="{% url 'profile' follow.user.username %}">
+            <div class="h-11 w-11 rounded-full bg-cover bg-center [background-image:url('{{ follow.user.profile_pic.url }}')]"></div>
             <div class="px-4">
-                <p class="text-sm font-bold dark:text-white text-black">{{ follow.first_name }} {{ follow.last_name}}r</p>
-                <p class="text-xs dark:text-neutral-500 text-neutral-500">{{ follow.username }}</p>
+                <p class="text-sm font-bold dark:text-white text-black">{{ follow.user.first_name }} {{ follow.user.last_name}}r</p>
+                <p class="text-xs dark:text-neutral-500 text-neutral-500">{{ follow.user.username }}</p>
             </div>
             </a>
             {% endfor %}
@@ -85,7 +85,7 @@
                     &nbsp;<span class="grey">Posts</span>
                     &ensp;
                     <button onclick="showFollowing()">
-                        <strong id="following__count">{{following_count | default:0}}</strong>&nbsp;<span class="grey">Following</span>
+                        <strong id="following__count">{{following_count | default:0}}</strong>&nbsp;<span class="grey1">Following</span>
                     </button>
                     &ensp;
                     <button onclick="showFollowers()">
