@@ -183,14 +183,6 @@ def profile(request, username):
     # followingObject = Follower.objects.filter(followers=user).all().values_list('user',flat=True)
     # following = Follower.objects.filter(user__in=followingObject).values('user')
     following = Follower.objects.filter(followers=user)
-    try:
-        print(following)
-        for i in following:
-            print(i.user.username)
-    except Exception as e:
-        print("----------------errrrorr----------------\n")
-        print(e)
-        print("\n----------------errrrorr----------------")
 
         
     return render(request, 'network/profile.html', {
