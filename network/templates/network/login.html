@@ -8,9 +8,9 @@
 
 {% block body %}
 
-    <div class="w-screen h-screen grid grid-cols-2 justify-center items-center flex-col  ">
-        <div class="flex justify-center items-center w-full h-full shadow-2xl  ">
-            <div class=" w-3/5 px-10 py-6 rounded-md h-auto bg-transparent">
+    <div class="w-screen h-screen grid grid-cols-5  justify-center items-center flex-col font-inter ">
+        <div class="flex justify-center items-center w-full h-full relative col-span-2 ">
+            <div class=" w-3/5 px-10 py-6 rounded-md h-auto bg-transparent ">
                 <h3 class=" text-center  text-gray-700 font-black text-2xl pb-4 font-mono  " >Sign In</h2>
                 <form action="{% url 'login' %}" method="post" id="signin-form" >
                     {% csrf_token %}
@@ -23,21 +23,21 @@
                         <span class="star text-red-500"><small>{{message}}</small></span>
                     </div>
                     <center>
-                        <input class="w-full text-center bg-purple-500 text-white font-bold p-2 mt-4 cursor-pointer rounded-md" type="submit" value="Log in" id="submitButton" disabled>
+                        <input class="w-full text-center bg-purple-500 hover:bg-purple-600 transition-all ease-in-out duration-200 text-white font-semibold p-2 mt-4 cursor-pointer rounded-md text-sm" type="submit" value="Log in" id="submitButton" disabled>
                     </center>
                 </form>
-                <div class="text-sm">
-                        Don't have an account?&nbsp;&nbsp;<a class="text-blue-600" href="{% url 'register' %}">Sign Up</a>
+                <div class="text-sm absolute bottom-5 left-2/4 -translate-x-2/4">
+                        Don't have an account?&nbsp;&nbsp;<a class="text-black font-bold" href="{% url 'register' %}">Sign Up</a>
                 </div>
             </div>
         </div>
         <!--grid column2 for animaiton-->
-        <div class='flex justify-center items-center relative bg-purple-100 w-full h-full'>
+        <div class='flex justify-center items-center relative bg-purple-50 w-full h-full col-span-3  '>
             <div class="">
-                <div class="absolute left-2/4 top-2/4 z-30 -translate-x-2/4  -translate-y-2/4  ">
-                    <img src="{% static "university.svg" %}" class="  "/>
+                <div class="absolute left-2/4 top-2/4 z-30 -translate-x-2/4  -translate-y-2/4  select-text ">
+                    <img src="{% static "university.svg" %}" class="select-none"/>
                 </div>
-                <div class="relative ">
+                <div class="relative select-none ">
                 <iframe src="{% static 'login_animation.svg' %}"  width="700" height="700" />
                 </div> 
             </div>
