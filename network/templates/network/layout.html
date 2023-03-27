@@ -1,14 +1,15 @@
 {% comment %} {% include "loading.html" %} {% endcomment %}
-{% load static %}
+{% load static  %}
 <!DOCTYPE html>
 <html lang="en" class="" >
     <head>
+      <script src="https://cdn.tailwindcss.com"></script>
+
         <title>{% block title %}Social Network{% endblock %}</title>
         {% comment %} <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> {% endcomment %}
         {% comment %} <link href="{% static 'network/styles.css' %}" rel="stylesheet"> {% endcomment %}
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
         <link rel="shortcut icon" href="{% static 'network/Images/favicon.ico' %}">
-         
         {% block head %}
         {% endblock %}
     </head>
@@ -229,8 +230,8 @@
             <div class="right-div px-7 py-5 w-3/12 bg-white border-l dark:border-l-0 border-gray-400 dark:bg-white dark:bg-opacity-10">
                 <nav class="head w-full">
                     <form action="#">
-                        <div class="search-div w-full flex justify-start bg-neutral-100 dark:bg-white  px-3 py-3 rounded-lg items-center">
-                            <div class="inline-flex justify-center items-center">
+                        <div class="search-div w-full flex justify-start bg-neutral-100 dark:bg-white  px-2 py-2 rounded-lg items-center">
+                            <div class="inline-flex justify-center items-center opacity-50">
                                 <span class="material-symbols-outlined text-black">search</span>
                             </div>
                             <input type="text" name="query" class="px-2 bg-transparent outline-none w-full " autocomplete="off" id="search-box" placeholder="Search Network">
@@ -304,7 +305,6 @@
         {% endif %}
 
     </body>
-        <script src="https://cdn.tailwindcss.com"></script>
         <script type="text/javascript" src="{% static 'network/layout.js' %}"></script>
         <script tupe="text/javascript">
             tailwind.config = {
@@ -317,7 +317,7 @@
                 }
                 }
             }
-            }
+            } 
               window.addEventListener('DOMContentLoaded', function() {
                 var mode = "{{ user_mode }}";
                 if (mode == "True") {

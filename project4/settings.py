@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'tailwind',
+    'theme',
     'network',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -123,4 +125,11 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'network/media')
 MEDIA_URL = '/media/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+TAILWIND_APP_NAME = 'theme'
+
+
+NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"

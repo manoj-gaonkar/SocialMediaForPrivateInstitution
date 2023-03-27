@@ -1,6 +1,6 @@
 {% extends "network/layout2.html" %}
 
-{% load static %}
+{% load static  %}
 
 {% block title %}
     Sign In | Network
@@ -8,29 +8,40 @@
 
 {% block body %}
 
-    <div class="w-screen h-screen flex justify-center items-center flex-col bg-gray-800">
-        
-        <div class="bg-gray-200  w-1/4 px-10 py-6 rounded-md h-auto ">
-        <h3 class=" text-center text-gray-700 font-bold text-2xl pb-4 font-mono " >Sign In</h2>
-        <form action="{% url 'login' %}" method="post" id="signin-form" >
-            {% csrf_token %}
-            <div class="form-group mb-2">
-                <input class="form-control inp usrnm w-full h-10 p-4 outline-none " type="text" name="username" placeholder="Username" autocomplete="off" autofocus id='usn'>
-                <span class=" text-red-500 hidden " id='emailError'>enter a valid email(ex: xyz@sdmit.in)</span>
+    <div class="w-screen h-screen grid grid-cols-2 justify-center items-center flex-col  ">
+        <div class="flex justify-center items-center w-full h-full shadow-2xl  ">
+            <div class=" w-3/5 px-10 py-6 rounded-md h-auto bg-transparent">
+                <h3 class=" text-center  text-gray-700 font-black text-2xl pb-4 font-mono  " >Sign In</h2>
+                <form action="{% url 'login' %}" method="post" id="signin-form" >
+                    {% csrf_token %}
+                    <div class="form-group mb-2">
+                        <input class="form-control inp usrnm w-full h-10 p-4 outline-none border border-gray-300 placeholder:text-gray-300 placeholder:font-semibold placeholder:text-sm rounded-md" type="text" name="username" placeholder="Username" autocomplete="off" autofocus id='usn'>
+                        <span class=" text-red-500 hidden " id='emailError'>enter a valid email(ex: xyz@sdmit.in)</span>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control inp pswd w-full h-10 p-4 outline-none border border-gray-300 placeholder:text-gray-300 placeholder:font-semibold placeholder:text-sm rounded-md" type="password" name="password" placeholder="Password" autocomplete="off" id='pswd'>
+                        <span class="star text-red-500"><small>{{message}}</small></span>
+                    </div>
+                    <center>
+                        <input class="w-full text-center bg-purple-500 text-white font-bold p-2 mt-4 cursor-pointer rounded-md" type="submit" value="Log in" id="submitButton" disabled>
+                    </center>
+                </form>
+                <div class="text-sm">
+                        Don't have an account?&nbsp;&nbsp;<a class="text-blue-600" href="{% url 'register' %}">Sign Up</a>
+                </div>
             </div>
-            <div class="form-group">
-                <input class="form-control inp pswd w-full h-10 p-4 outline-none " type="password" name="password" placeholder="Password" autocomplete="off" id='pswd'>
-                <span class="star text-red-500"><small>{{message}}</small></span>
+        </div>
+        <!--grid column2 for animaiton-->
+        <div class='flex justify-center items-center relative bg-purple-100 w-full h-full'>
+            <div class="">
+                <div class="absolute left-2/4 top-2/4 z-30 -translate-x-2/4  -translate-y-2/4  ">
+                    <img src="{% static "university.svg" %}" class="  "/>
+                </div>
+                <div class="relative ">
+                <iframe src="{% static 'login_animation.svg' %}"  width="700" height="700" />
+                </div> 
             </div>
-            <center>
-                <input class="w-full text-center bg-purple-500 text-white p-2 mt-4 cursor-pointer" type="submit" value="Log in" id="submitButton" disabled>
-            </center>
-        </form>
-        <div>
-                Don't have an account?&nbsp;&nbsp;<a class="text-blue-600" href="{% url 'register' %}">Sign Up</a>
         </div>
-        </div>
-    
         
     </div>
     {% if messages %}
