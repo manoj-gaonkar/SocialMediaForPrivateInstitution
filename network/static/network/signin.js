@@ -1,5 +1,6 @@
-document.addEventListener("DOMContentLoaded", () => {
 
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("kdjkdjkdjdkfjdkfjkdfj");
     document.querySelectorAll(".inp").forEach(input => {
         input.addEventListener('input', () => {
             if ((document.querySelector('.usrnm').value.length === 0) || (document.querySelector('.pswd').value.length === 0)) {
@@ -10,4 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+})
+
+
+document.getElementById('usnlogin').addEventListener('keyup',() => {
+    console.log("kddk");
 })

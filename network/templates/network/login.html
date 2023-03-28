@@ -6,69 +6,67 @@
     Sign In | Network
 {% endblock %}
 
+{% block script %}
+    <script type"text/javascript" src="{% static 'network/signin.js' %}"></script>
+{% endblock %}
+
 {% block body %}
 
-    <div class="w-screen h-screen grid grid-cols-5  justify-center items-center flex-col font-inter ">
-        <div class="flex justify-center items-center w-full h-full relative col-span-2 ">
-            <div class=" w-3/5 px-10 py-6 rounded-md h-auto bg-transparent ">
-                <h3 class=" text-center  text-gray-700 font-black text-2xl pb-4 font-mono  " >Sign In</h2>
-                <form action="{% url 'login' %}" method="post" id="signin-form" >
-                    {% csrf_token %}
-                    <div class="form-group mb-2">
-                        <input class="form-control inp usrnm w-full h-10 p-4 outline-none border border-gray-300 placeholder:text-gray-300 placeholder:font-semibold placeholder:text-sm rounded-md" type="text" name="username" placeholder="Username" autocomplete="off" autofocus id='usn'>
-                        <span class=" text-red-500 hidden " id='emailError'>enter a valid email(ex: xyz@sdmit.in)</span>
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control inp pswd w-full h-10 p-4 outline-none border border-gray-300 placeholder:text-gray-300 placeholder:font-semibold placeholder:text-sm rounded-md" type="password" name="password" placeholder="Password" autocomplete="off" id='pswd'>
-                        <span class="star text-red-500"><small>{{message}}</small></span>
-                    </div>
-                    <center>
-                        <input class="w-full text-center bg-purple-500 hover:bg-purple-600 transition-all ease-in-out duration-200 text-white font-semibold p-2 mt-4 cursor-pointer rounded-md text-sm" type="submit" value="Log in" id="submitButton" disabled>
-                    </center>
-                </form>
-                <div class="text-sm absolute bottom-5 left-2/4 -translate-x-2/4">
-                        Don't have an account?&nbsp;&nbsp;<a class="text-black font-bold" href="{% url 'register' %}">Sign Up</a>
+<div class="w-screen h-screen grid grid-cols-5  justify-center items-center flex-col font-inter ">
+    <div class="flex justify-center items-center w-full h-full relative col-span-2 ">
+        <div class=" w-3/5 px-10 py-6 rounded-md h-auto bg-transparent ">
+            <h3 class=" text-center  text-gray-700 font-black text-2xl pb-4 font-mono  " >Sign In</h3>
+            <form action="{% url 'login' %}" method="post" id="signin-form" >
+                {% csrf_token %}
+                <div class="form-group mb-2">
+                    <input class="form-control inp usrnm w-full h-10 p-4 outline-none border border-gray-300 placeholder:text-gray-300 placeholder:font-semibold placeholder:text-sm rounded-md bg-red-600" type="text" name="username" placeholder="Username" autocomplete="off" autofocus id='usnlogin'>
+                    <span class=" text-red-500  " id='loginEmailError'>enter a valid email(ex: xyz@sdmit.in)</span>
                 </div>
+                <div class="form-group">
+                    <input class="form-control inp pswd w-full h-10 p-4 outline-none border border-gray-300 placeholder:text-gray-300 placeholder:font-semibold placeholder:text-sm rounded-md" type="password" name="password" placeholder="Password" autocomplete="off" id='pswd'>
+                    <span class="star text-red-500"><small>{{message}}</small></span>
+                </div>
+                <center>
+                    <input class="w-full text-center bg-purple-500 hover:bg-purple-600 transition-all ease-in-out duration-200 text-white font-semibold p-2 mt-4 rounded-md text-sm" type="submit" value="Log in" id="submitButton" disabled>
+                </center>
+            </form>
+            <div class="text-sm absolute bottom-5 left-2/4 -translate-x-2/4">
+                    Don't have an account?&nbsp;&nbsp;<a class="text-black font-bold" href="{% url 'register' %}">Sign Up</a>
             </div>
         </div>
-        <!--grid column2 for animaiton-->
-        <div class='flex justify-center items-center relative bg-purple-50 w-full h-full col-span-3  '>
-            <div class="">
-                <div class="absolute left-2/4 top-2/4 z-30 -translate-x-2/4  -translate-y-2/4  select-text ">
-                    <img src="{% static "university.svg" %}" class="select-none"/>
-                </div>
-                <div class="relative select-none ">
-                <iframe src="{% static 'login_animation.svg' %}"  width="700" height="700" />
-                </div> 
-            </div>
-        </div>
-        
     </div>
-    {% if messages %}
-        {% for message in messages %}
-            <div class=" bg-red-500 text-white px-4 py-2 absolute bottom-10 left-2/4 -translate-x-2/4 text-sm ">You were kicked out by admin</div>
-        {% endfor %}
-    {% endif %}
-
+    <!--grid column2 for animaiton-->
+    <div class='flex justify-center items-center relative bg-purple-50 w-full h-full col-span-3  '>
+        <div class="">
+            <div class="absolute left-2/4 top-2/4 z-30 -translate-x-2/4  -translate-y-2/4  select-text ">
+                <img src="{% static "university.svg" %}" class="select-none"/>
+            </div>
+            <div class="relative select-none ">
+            <iframe src="{% static 'login_animation.svg' %}"  width="700" height="700" />
+            </div> 
+        </div>
+    </div>    
+</div>
 <script>
 const emailRegex = /^[a-zA-Z0-9._%+-]+@sdmit\.in$/;
-const emailError = document.getElementById('emailError');
+const loginEmailError = document.getElementById('loginEmailError');
 const submitbutton = document.getElementById('submitButton');
 
 
 
-
-document.getElementById('usn').addEventListener('keyup',()=>{
-const emailInput = document.getElementById('usn');
+console.log("heeyy");
+document.getElementById('usnlogin').addEventListener('keyup',() => {
+console.log("kddk")
+const emailInput = document.getElementById('usnlogin');
 
 console.log(emailRegex.test(emailInput.value))
 
 if(!emailRegex.test(emailInput.value)){
-    emailError.classList.remove('hidden');
+    loginEmailError.classList.remove('hidden');
     submitbutton.disabled = true;
 }
 else{
-    emailError.classList.add('hidden');
+    loginEmailError.classList.add('hidden');
     submitbutton.disabled = false;
 }
 });
@@ -99,7 +97,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 }); 
 </script>
+{% if messages %}
+    {% for message in messages %}
+        <div class=" bg-red-500 text-white px-4 py-2 absolute bottom-10 left-2/4 -translate-x-2/4 text-sm ">You were kicked out by admin</div>
+    {% endfor %}
+{% endif %}
+
 {% endblock %}
+
+
 
 
 
