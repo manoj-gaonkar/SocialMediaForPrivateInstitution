@@ -4,10 +4,10 @@
 
 {% block profile %}
 <!-- <div class=" w-screen h-screen  justify-center items-start fixed mt-36 left-0 top-0 z-20 " > -->
-<div class="flex h-screen w-screen items-center justify-center fixed inset-0 z-50 bg-transparent  ">
-  <div class="h-fit w-2/6 rounded-md px-6 py-4 shadow-[0_50px_100px_-10px_rgb(50,50,93,0.4),0_0_30px_-20px_rgb(0,0,0,0.5)] bg-white ">
+<div class="hidden  h-screen w-screen items-center justify-center fixed inset-0 z-50 bg-transparent  " id="editprofile">
+  <div class="editprofilecontainer h-fit w-2/6 rounded-md px-6 py-4 shadow-[0_50px_100px_-10px_rgb(50,50,93,0.4),0_0_30px_-20px_rgb(0,0,0,0.5)] bg-white ">
     <p class="pb-2 text-lg font-semibold relative z-50">Edit Profile</p>
-    <form method="post" action="">
+    <form method="post" action="{% url 'editprofile' request.user.id %}" enctype="multipart/form-data">
         {% csrf_token %}
       <div  class=" coverimage relative h-36 w-full  overflow-hidden rounded-md bg-cover bg-center [background-image:url({{ username.cover.url }})]">
         <label for="dropzone-file" class="flex items-center justify-center w-full h-full bg-black opacity-0 transition-all duration-200 ease-in-out hover:opacity-60">
@@ -22,10 +22,10 @@
         </label>
       </div>
       <div class="my-3 grid w-full grid-cols-2 gap-2">
-        <input type="text" value="username" class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-300 cursor-not-allowed" disabled />
-        <input type="text" value="email" class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-300 cursor-not-allowed" disabled/>
+        <input type="text" value="{{ username.username }}" class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-400 cursor-not-allowed" disabled />
+        <input type="text" value="{{ username.email }}" class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-400 cursor-not-allowed" disabled/>
       </div>
-      <textarea name="bio" id="" cols="30" rows="8" class="h-16 max-h-40 w-full rounded-md bg-gray-100 px-2 py-1 outline-none placeholder:text-sm placeholder:text-gray-300" placeholder="update your bio"></textarea>
+      <textarea name="bio" id="" cols="30" rows="8" class="h-16 max-h-40 w-full rounded-md bg-gray-100 px-2 py-1 outline-none placeholder:text-sm placeholder:text-gray-400" placeholder="update your bio"></textarea>
       <input type="submit" value="Update" class="mt-4 cursor-pointer rounded-md bg-purple-500 px-4 py-1 text-sm text-white" />
     </form>
   </div>
@@ -100,7 +100,7 @@
             <div class="profile-details px-3 py-2">
                 <div>
                     {% if user.username == username.username %}
-                        <button class="btn btn-outline-success float-right bg-green-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" id="edit-profile-btn">Edit Profile</button>
+                        <button class="btn btn-outline-success float-right bg-green-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" id="edit-profile-btn" onclick="showEditProfile();">Edit Profile</button>
                     {% elif is_follower %}
                         <button class="btn btn-success float-right bg-purple-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" onclick="unfollow_user(this,'{{username.username}}','edit_page')" id="following-btn">Following</button>
                     {% else %}
@@ -138,6 +138,14 @@
     </div>
     <div class="space"></div>
     <script>
+
+
+        function showEditProfile(){
+            const editprofilepopup = document.querySelector('#editprofile');
+            editprofilepopup.classList.remove('hidden');
+            editprofilepopup.classList.add('flex');
+        }
+
         const searchInput = document.querySelector("#search-input");
         const searchInputFollowing = document.querySelector("#search-input-following");
         const profiles = document.querySelectorAll(".h-fit a");
@@ -194,6 +202,22 @@
             reader.readAsDataURL(newfile);
         }
 
+        window.addEventListener('click',(e)=>{
+                const editprofilepopup = document.querySelector('#editprofile');
+                const editprofilecont = document.querySelector('.editprofilecontainer');
+                console.log(e.target);
+                console.log(e.target.matches('.editprofilecontainer'));
+                console.log(editprofilepopup.classList.contains('hidden'));
+                console.log(editprofilecont.contains(e.target))
+                if(editprofilepopup.classList.contains('hidden')){
+                    console.log("kjfkj");
+                    if(!editprofilecont.contains(e.target) && !e.target.matches('.ediprofilecontainer')){
+                        console.log("insider");
+                        editprofilepopup.classList.add('hidden');
+                        editprofilepopup.classList.remove('flex');
+                    }
+                }
+            })
 
     </script>
 {% endblock %}

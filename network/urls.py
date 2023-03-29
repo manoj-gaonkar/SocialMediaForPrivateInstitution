@@ -33,6 +33,7 @@ urlpatterns = [
     path("n/admin/changevalid/<str:id>",views.changevalid,name='changevalid'),
     # url for dark mode
     path('update_dark_mode/', views.update_dark_mode, name='update_dark_mode'),
+    path('editprofile/<int:pk>/',views.editProfile,name='editprofile')
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

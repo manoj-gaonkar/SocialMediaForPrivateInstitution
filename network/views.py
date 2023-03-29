@@ -525,3 +525,19 @@ def update_dark_mode(request):
     return JsonResponse({'success': True})
 
 
+def editProfile(request,pk):
+    if request.method == 'POST':
+        user = User.objects.get(pk=pk)
+        cover_image = request.FILES.get('coverimage')
+        profile_image = request.FILES.get('profileimage')
+        bio = request.POST.get('bio')
+        if cover_image:
+            user.cover = cover_image
+        if profile_image:
+            user.profile_pic = profile_image
+        if bio:
+            user.bio = bio
+        user.save()
+        return redirect('profile',username=user.username)
+
+    return redirect('profile',username=user.username)
