@@ -3,34 +3,38 @@
 <!DOCTYPE html>
 <html lang="en" class="">
   <head>
-    <script src="https://cdn.tailwindcss.com"></script>
     <title>{% block title %}{% endblock %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800&family=Poppins&display=swap"
-      rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800&family=Poppins&display=swap"
+    rel="stylesheet"
     />
-    <script>
-      tailwind.config = {
-        theme: {
-          fontFamily: {
-            inter: ["Inter", "sans-serif"],
-            poppins: ["Poppins", "sans-serif"],
-          },
-          extend: {
-            colors: {
-              soc: "#99c0ff",
-            },
-          },
-        },
-      };
-    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
-    <div class="container">{% block body %} {% endblock %}</div>
+    <div class="container">
+      {% block body %}
+      {% endblock %}
+    </div>
   </body>
-  <script>
+  {% comment %} <script>
     {% block script %}{% endblock %}
+  </script> {% endcomment %}
+  <script>
+    tailwind.config = {
+      theme: {
+        fontFamily: {
+          inter: ["Inter", "sans-serif"],
+          poppins: ["Poppins", "sans-serif"],
+        },
+        extend: {
+          colors: {
+            soc: "#99c0ff",
+          },
+        },
+      },
+    };
   </script>
-</html>
+<div>kdjkdjdkj</div>
+  </html>

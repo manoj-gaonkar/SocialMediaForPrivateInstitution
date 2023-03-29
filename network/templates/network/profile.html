@@ -3,6 +3,34 @@
 {% load static tailwind_tags %}
 
 {% block profile %}
+<!-- <div class=" w-screen h-screen  justify-center items-start fixed mt-36 left-0 top-0 z-20 " > -->
+<div class="flex h-screen w-screen items-center justify-center fixed inset-0 z-50 bg-transparent  ">
+  <div class="h-fit w-2/6 rounded-md px-6 py-4 shadow-[0_50px_100px_-10px_rgb(50,50,93,0.4),0_0_30px_-20px_rgb(0,0,0,0.5)] bg-white ">
+    <p class="pb-2 text-lg font-semibold relative z-50">Edit Profile</p>
+    <form method="post" action="">
+        {% csrf_token %}
+      <div  class=" coverimage relative h-36 w-full  overflow-hidden rounded-md bg-cover bg-center [background-image:url({{ username.cover.url }})]">
+        <label for="dropzone-file" class="flex items-center justify-center w-full h-full bg-black opacity-0 transition-all duration-200 ease-in-out hover:opacity-60">
+          <input name="coverimage"  type="file" id="dropzone-file" class="hidden" accept=".jpeg,.jpg" onchange="coverupdate(this)" />
+          <span class="material-symbols-outlined scale-110 text-white">upload</span>
+        </label>
+        <label for="dropzone-file-profile" class="profileimage absolute left-4 top-2/4 h-28 w-28 -translate-y-2/4 overflow-hidden rounded-full bg-cover bg-center ring-1 ring-white [background-image:url({{ username.profile_pic.url }})]">
+          <input name="profileimage" onchange="profileupdate(this)" type="file" id="dropzone-file-profile" class="hidden" accept=".jpeg,.jpg" />
+          <div class="flex h-full w-full items-center justify-center bg-black opacity-0 transition-all duration-200 ease-in-out hover:opacity-60">
+            <span class="material-symbols-outlined scale-110 text-white">upload</span>
+          </div>
+        </label>
+      </div>
+      <div class="my-3 grid w-full grid-cols-2 gap-2">
+        <input type="text" value="username" class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-300 cursor-not-allowed" disabled />
+        <input type="text" value="email" class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-300 cursor-not-allowed" disabled/>
+      </div>
+      <textarea name="bio" id="" cols="30" rows="8" class="h-16 max-h-40 w-full rounded-md bg-gray-100 px-2 py-1 outline-none placeholder:text-sm placeholder:text-gray-300" placeholder="update your bio"></textarea>
+      <input type="submit" value="Update" class="mt-4 cursor-pointer rounded-md bg-purple-500 px-4 py-1 text-sm text-white" />
+    </form>
+  </div>
+</div>
+
 <!--this is for followers-->
 <div class="hidden w-screen h-screen  justify-center items-start fixed mt-36 left-0 top-0 z-20 " id="followers">
     <div class="fixed inset-0 w-screen h-screen bg-black bg-opacity-0 closeFollowers " ></div>
@@ -13,7 +41,7 @@
                 <span class="material-symbols-outlined dark:text-white text-gray-800 inline-block closeFollowersButton cursor-pointer ">close</span>
             </div>
         </div>
-        <div class="w-full  bg-neutral-800 flex px-1 items-center rounded-md mb-2 ">
+        <div class="w-full bg-neutral-800 flex px-1 items-center rounded-md mb-2 ">
             <div class="p-1 flex justify-center items-center">
                 <span class="material-symbols-outlined text-neutral-500 inline-block scale-75">search</span>
             </div>
@@ -63,46 +91,47 @@
     </div>
 
 </div>
-    <div class="profile-view bg-gray-200 dark:bg-gray-900 mt-3 rounded-md overflow-hidden " data-user="{{username.username}}">
-        
-        <div class="relative">
-            <div class="cover-image  w-full h-48 bg-center bg-cover " style="background-image: url({{username.cover.url}})"></div>
-            <div class="profile-image w-36 rounded-full h-36 bg-center bg-cover absolute top-1/2 left-6 -translate-y-1/2 " style="background-image: url({{username.profile_pic.url}})"></div>
-        </div>
-        <div class="profile-details px-3 py-2">
-            <div>
-                {% if user.username == username.username %}
-                    <button class="btn btn-outline-success float-right bg-green-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" id="edit-profile-btn">Edit Profile</button>
-                {% elif is_follower %}
-                    <button class="btn btn-success float-right bg-purple-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" onclick="unfollow_user(this,'{{username.username}}','edit_page')" id="following-btn">Following</button>
-                {% else %}
-                    <button class="btn btn-outline-success float-right bg-purple-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full " onclick="follow_user(this,'{{username.username}}','edit_page')" id="follow-btn">Follow</button>
-                {% endif %}
+    <div class="profile-view bg-gray-200 dark:bg-gray-900 mt-3 rounded-md overflow-hidden relative " data-user="{{username.username}}">
+        <div class="">
+            <div class="relative">
+                <div class="cover-image  w-full h-48 bg-center bg-cover " style="background-image: url({{username.cover.url}})"></div>
+                <div class="profile-image w-36 rounded-full h-36 bg-center bg-cover absolute  top-1/2 left-6 ring-2 ring-white -translate-y-1/2 " style="background-image: url({{username.profile_pic.url}})"></div>
             </div>
-            <div class="details-data">
-                <h5 class="text-xl font-bold">{{username.first_name}} {{username.last_name}}</h5>
-                <div class="grey">{{username.username}}</div>
-                <div class="bio">
-                    {% if username.bio is not None %}
-                        {{username.bio}}
+            <div class="profile-details px-3 py-2">
+                <div>
+                    {% if user.username == username.username %}
+                        <button class="btn btn-outline-success float-right bg-green-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" id="edit-profile-btn">Edit Profile</button>
+                    {% elif is_follower %}
+                        <button class="btn btn-success float-right bg-purple-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" onclick="unfollow_user(this,'{{username.username}}','edit_page')" id="following-btn">Following</button>
+                    {% else %}
+                        <button class="btn btn-outline-success float-right bg-purple-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full " onclick="follow_user(this,'{{username.username}}','edit_page')" id="follow-btn">Follow</button>
                     {% endif %}
                 </div>
-                <div class="grey" style="padding: 8px 0px;">
-                    Joined {{username.date_joined | date:"F Y"}}
-                </div>
-                <div>
-                    <strong>
-                        {{posts_count}}
-                    </strong>
-                    &nbsp;<span class="grey">Posts</span>
-                    &ensp;
-                    <button onclick="showFollowing()">
-                        <strong id="following__count">{{following_count | default:0}}</strong>&nbsp;<span class="grey1">Following</span>
-                    </button>
-                    &ensp;
-                    <button onclick="showFollowers()">
-                        <strong id="follower__count">{{follower_count | default:0}}</strong>&nbsp;<span class="grey">Followers</span>
-                    </button>
+                <div class="details-data">
+                    <h5 class="text-xl font-bold">{{username.first_name}} {{username.last_name}}</h5>
+                    <div class="grey">{{username.username}}</div>
+                    <div class="bio">
+                        {% if username.bio is not None %}
+                            {{username.bio}}
+                        {% endif %}
+                    </div>
+                    <div class="grey" style="padding: 8px 0px;">
+                        Joined {{username.date_joined | date:"F Y"}}
+                    </div>
+                    <div>
+                        <strong>
+                            {{posts_count}}
+                        </strong>
+                        &nbsp;<span class="grey">Posts</span>
+                        &ensp;
+                        <button onclick="showFollowing()">
+                            <strong id="following__count">{{following_count | default:0}}</strong>&nbsp;<span class="grey1">Following</span>
+                        </button>
+                        &ensp;
+                        <button onclick="showFollowers()">
+                            <strong id="follower__count">{{follower_count | default:0}}</strong>&nbsp;<span class="grey">Followers</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -138,6 +167,33 @@
             }
         });
         });
+
+        function coverupdate(file){
+            const uploadCoverImage = document.querySelector('#dropzone-file');
+            const previewFile = document.querySelector('.coverimage');
+            const reader = new FileReader();
+            const newfile = uploadCoverImage.files[0];
+            console.log(newfile);
+
+            reader.addEventListener('load',() => {
+                previewFile.style.backgroundImage = `url(${reader.result})`;
+            })
+        reader.readAsDataURL(newfile);
+
+        }
+
+        function profileupdate(file){
+            const uploadProfileImage = document.querySelector('#dropzone-file-profile');
+            const previewFile = document.querySelector('.profileimage');
+            const reader = new FileReader();
+            const newfile = uploadProfileImage.files[0];
+
+            reader.addEventListener('load',() => {
+                previewFile.style.backgroundImage = `url(${reader.result})`;
+            })
+            reader.readAsDataURL(newfile);
+        }
+
 
     </script>
 {% endblock %}

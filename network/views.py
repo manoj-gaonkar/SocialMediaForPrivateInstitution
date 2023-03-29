@@ -167,7 +167,7 @@ def profile(request, username):
     follower = False
     if request.user.is_authenticated:
         followings = Follower.objects.filter(followers=request.user).values_list('user', flat=True)
-        suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).order_by("?")[:6]
+        suggestions = User.objects.exclude(pk__in=followings).exclude(pk=1).exclude(username=request.user.username).order_by("?")[:6]
 
         if request.user in Follower.objects.get(user=user).followers.all():
 
@@ -209,7 +209,7 @@ def following(request):
             page_number = 1
         posts = paginator.get_page(page_number)
         followings = Follower.objects.filter(followers=request.user).values_list('user', flat=True)
-        suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).order_by("?")[:6]
+        suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user).order_by("?")[:6]
         user_mode = request.user.usersettings.dark_mode
         return render(request, "network/index.html", {
             "posts": posts,
@@ -238,7 +238,7 @@ def saved(request):
         posts = paginator.get_page(page_number)
 
         followings = Follower.objects.filter(followers=request.user).values_list('user', flat=True)
-        suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).order_by("?")[:6]
+        suggestions = User.objects.exclude(pk__in=followings).exclude(pk=1).exclude(username=request.user.username).order_by("?")[:6]
         user_mode = request.user.usersettings.dark_mode
 
         return render(request, "network/index.html", {
@@ -523,3 +523,5 @@ def update_dark_mode(request):
     usersetting.dark_mode = new_dark_mode
     usersetting.save()
     return JsonResponse({'success': True})
+
+
