@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+      extend: {
+      colors: {
+          'soc':"#9a71e1",
+          'socbg':'rgba(19,14,30,1)'
+      }
+      }
+  }
+  }
