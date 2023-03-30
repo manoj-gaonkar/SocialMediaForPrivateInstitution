@@ -19,9 +19,8 @@
     <body class=" bg-white dark:bg-black  ">
 
         
-          
-{% comment %} 
-        <div class="popup">
+
+        {% comment %} <div class="popup">
             <div class="small-popup">
                 <div style="margin-bottom: 10px; font-size: 1.1em;"><strong>Delete Post?</strong></div>
                 <div class="grey" style="font-size: .85em; margin-bottom: 15px;">
@@ -31,8 +30,8 @@
                     <button class="btn btn-light float-left" onclick="remove_popup()">Cancel</button>
                     <button class="btn btn-danger float-right" id="delete_post_btn">Delete</button>
                 </div>
-            </div>
-            <div class="large-popup">
+            </div> {% endcomment %}
+            <div class="large-popup fixed inset-0 ">
                 <div>
                     <div>
                         <div class="small-profilepic" style="background-image: url(/media/{{user.profile_pic}});"></div>
@@ -71,7 +70,7 @@
                     </div>
                 </div>
             </div>
-            <div class="login-popup">
+            {% comment %} <div class="login-popup">
                 <div onclick="remove_popup()" class="icon-btn">
                     <svg width="1.6em" height="1.6em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
@@ -96,7 +95,7 @@
                     </div>
                 </center>
             </div>
-        </div> {% endcomment %}
+        </div>  {% endcomment %}
 
 
 
