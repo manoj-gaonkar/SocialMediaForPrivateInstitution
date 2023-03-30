@@ -31,7 +31,7 @@
                     <button class="btn btn-danger float-right" id="delete_post_btn">Delete</button>
                 </div>
             </div> {% endcomment %}
-            <div class="large-popup fixed inset-0 ">
+            <div class="large-popup fixed inset-0 z-50 hidden ">
                 <div>
                     <div>
                         <div class="small-profilepic" style="background-image: url(/media/{{user.profile_pic}});"></div>
@@ -123,17 +123,17 @@
                                 
                                 </li>
                                 {% if user.is_authenticated %}
-                                    <li class="nav-item hidden" id="">
-                                        <a href="{% url 'following' %}" class="nav-link">
-                                            <div class='flex  justify-start items-center   py-3   hover:bg-purple-500 hover:bg-opacity-10 transition-all ease-in-out duration-300 {% if page == "following" %}bg-purple-500 bg-opacity-20 font-bold{% endif %} px-3 rounded-md'>
-                                                <span class="material-symbols-outlined ">group</span>
-                                                <p class="px-4">Following</p>
+                                    <li class="nav-item " id="">
+                                        <a href="{% url 'explore' %}" class="nav-link">
+                                            <div class='flex  justify-start items-center   py-3   hover:bg-purple-500 hover:bg-opacity-10 transition-all ease-in-out duration-300 {% if page == "explore" %} bg-purple-500 bg-opacity-20 font-bold {% endif %} px-3 rounded-md'>
+                                                <span class="material-symbols-outlined ">explore</span>
+                                                <p class="px-4">Explore</p>
                                             </div>
                                         </a>
                                     </li>
                                     <li class="nav-item 0" id="saved">
                                         <a href="{% url 'saved' %}" class="nav-link">
-                                            <div class="flex  justify-start items-center  py-3   hover:bg-purple-500 hover:bg-opacity-10 transition-all ease-in-out duration-300 {% if page == "saved" %}bg-purple-500 bg-opacity-2 font-bold{% endif %} px-3 rounded-md">
+                                            <div class="flex  justify-start items-center  py-3   hover:bg-purple-500 hover:bg-opacity-10 transition-all ease-in-out duration-300 {% if page == "saved" %}bg-purple-500 bg-opacity-20 font-bold{% endif %} px-3 rounded-md">
                                                 <span class="material-symbols-outlined">bookmark</span>
                                                 <p class='px-4'>Saved</p>
                                             </div>

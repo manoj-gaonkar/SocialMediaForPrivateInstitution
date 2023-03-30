@@ -31,7 +31,7 @@
                                         <div class="inline-flex flex-col pl-3" >
                                             <a href="{% url 'profile' post.creater.username %}">
                                                 <span class=" text-sm font-bold text-neutral-900 dark:text-white  ">{{post.creater.first_name}} {{post.creater.last_name}}</span>
-                                                 <span class=" self-start text-xs text-gray-600  dark:text-gray-400 ">&middot;{{post.date_created}}</span>
+                                                 <span class=" self-start text-xs text-gray-600  dark:text-gray-400 ">&middot;{{post.date_created|timesince}} ago</span>
                                             </a>
                                             <a href="{% url 'profile' post.creater.username %}" class="inline-block">
                                                 <span class=" text-xs text-gray-600 dark:text-gray-400 transform -translate-y-1 inline-block  ">@{{post.creater.username}}</span>
