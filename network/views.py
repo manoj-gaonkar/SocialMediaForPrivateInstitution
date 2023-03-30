@@ -163,6 +163,13 @@ def register(request):
 
 
 def profile(request, username):
+    if request.user.is_anonymous:
+        return redirect('login')
+    # this code is to cheeck if the user is valid, if not the user is  made to logout of the site by admin
+    if request.user.is_anonymous==False:
+        if authusers.objects.filter(email=request.user.email).first().valid != True:
+            messages.error(request, 'admin kicked you out')
+            logout(request)
     user = User.objects.get(username=username)
     all_posts = Post.objects.filter(creater=user).order_by('-date_created')
     paginator = Paginator(all_posts, 10)
@@ -185,7 +192,12 @@ def profile(request, username):
     
     follower_count = Follower.objects.get(user=user).followers.all().count()
     following_count = Follower.objects.filter(followers=user).count()
-    user_mode = request.user.usersettings.dark_mode
+    try:
+        model = usersettings.objects.get_or_create(user=request.user,dark_mode = False)
+        model.save()
+        user_mode = model.dark_mode
+    except:
+        user_mode = True
 
     followers = Follower.objects.get(user=user).followers.all()
     # followingObject = Follower.objects.filter(followers=user).all().values_list('user',flat=True)
