@@ -5,11 +5,11 @@
 {% block profile %}
 <!-- <div class=" w-screen h-screen  justify-center items-start fixed mt-36 left-0 top-0 z-20 " > -->
 <div class="hidden  h-screen w-screen items-center justify-center fixed inset-0 z-50 bg-transparent  " id="editprofile">
-  <div class="editprofilecontainer h-fit w-2/6 rounded-md px-6 py-4 shadow-[0_50px_100px_-10px_rgb(50,50,93,0.4),0_0_30px_-20px_rgb(0,0,0,0.5)] bg-white ">
-    <p class="pb-2 text-lg font-semibold relative z-50">Edit Profile</p>
+  <div class="editprofilecontainer h-fit w-2/6 rounded-md px-6 py-4 shadow-[0_50px_100px_-10px_rgb(50,50,93,0.4),0_0_30px_-20px_rgb(0,0,0,0.5)] dark:shadow-[0_-50px_100px_-10px_rgb(164,58,185,0.2),0_50px_150px_-20px_rgb(164,58,241,0.4)] bg-white dark:bg-stone-900 ">
+    <p class="pb-2 text-lg font-semibold relative z-50 text-black dark:text-white ">Edit Profile</p>
     <form method="post" action="{% url 'editprofile' request.user.id %}" enctype="multipart/form-data">
         {% csrf_token %}
-      <div  class=" coverimage relative h-36 w-full  overflow-hidden rounded-md bg-cover bg-center [background-image:url({{ username.cover.url }})]">
+      <div  class=" coverimage ring-1 ring-white relative h-36 w-full  overflow-hidden rounded-md bg-cover bg-center [background-image:url({{ username.cover.url }})]">
         <label for="dropzone-file" class="flex items-center justify-center w-full h-full bg-black opacity-0 transition-all duration-200 ease-in-out hover:opacity-60">
           <input name="coverimage"  type="file" id="dropzone-file" class="hidden" accept=".jpeg,.jpg" onchange="coverupdate(this)" />
           <span class="material-symbols-outlined scale-110 text-white">upload</span>
@@ -109,8 +109,8 @@
                 </div>
                 <div class="details-data">
                     <h5 class="text-xl font-bold">{{username.first_name}} {{username.last_name}}</h5>
-                    <div class="grey">{{username.username}}</div>
-                    <div class="bio">
+                    <div class="grey text-xs ">{{username.username}}</div>
+                    <div class="bio pt-3">
                         {% if username.bio is not None %}
                             {{username.bio}}
                         {% endif %}
@@ -202,22 +202,14 @@
             reader.readAsDataURL(newfile);
         }
 
-        window.addEventListener('click',(e)=>{
-                const editprofilepopup = document.querySelector('#editprofile');
-                const editprofilecont = document.querySelector('.editprofilecontainer');
-                console.log(e.target);
-                console.log(e.target.matches('.editprofilecontainer'));
-                console.log(editprofilepopup.classList.contains('hidden'));
-                console.log(editprofilecont.contains(e.target))
-                if(editprofilepopup.classList.contains('hidden')){
-                    console.log("kjfkj");
-                    if(!editprofilecont.contains(e.target) && !e.target.matches('.ediprofilecontainer')){
-                        console.log("insider");
-                        editprofilepopup.classList.add('hidden');
-                        editprofilepopup.classList.remove('flex');
-                    }
-                }
-            })
+        document.querySelector('#editprofile').addEventListener('click',(e)=>{
+            const editContainer = document.querySelector('.editprofilecontainer');
+            const isInside = editContainer.contains(e.target);
+            if(!isInside){
+                document.querySelector('#editprofile').classList.remove('flex');
+                document.querySelector('#editprofile').classList.add('hidden');
+            }
+        })
 
     </script>
 {% endblock %}

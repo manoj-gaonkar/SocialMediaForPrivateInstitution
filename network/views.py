@@ -35,7 +35,12 @@ def index(request):
         suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).exclude(pk=1).order_by("?")[:6]
         # print(request.user.id)
         # print(request.user.password)
-    user_mode = request.user.usersettings.dark_mode
+    try:
+        model = usersettings.objects.get_or_create(user=request.user,dark_mode = False)
+        model.save()
+        user_mode = model.dark_mode
+    except:
+        user_mode = True
     print(user_mode)
     return render(request, "network/index.html", {
         "posts": posts,
@@ -139,8 +144,11 @@ def register(request):
             if profile is not None:
                 user.profile_pic = profile
             else:
-                user.profile_pic = "profile_pic/no_pic.png"
-            user.cover = cover           
+                user.profile_pic = "profile_pic/default_profile_pic.png"
+            if cover is not None:
+                user.cover = cover
+            else:
+                user.cover = 'cover/default_cover_pic.png'
             user.save()
             Follower.objects.create(user=user)
         except IntegrityError:
@@ -498,7 +506,7 @@ def adminlogout(request):
 
 def removeuser(request,email):
     print("removeuser++++++++++++")
-    user = authusers.objects.get(email=email)
+    user = User.objects.get(email=email)
     user.delete()
     return redirect('adminpage')
 
