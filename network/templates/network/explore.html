@@ -2,7 +2,16 @@
 
 
 {% block explore %}
-<div class="bg-slate-400">
-
-</div>
+{% if page == "explore" %}
+            <div class="grid grid-cols-3 gap-3">
+                {% for post in posts %}
+                    <div id="post" class="bg-gray-400 w-full h-52 [background-image:url('{{ post.content_image.url }}')] bg-cover bg-center " data-postid="{{ post.creater }}" onclick="postpopup(this)"></div>
+                {% endfor %}
+            </div>
+            <script>
+                function postpopup(post){
+                    console.log(post.dataset.postid)
+                }
+            </script>
+{% endif %}
 {% endblock %}

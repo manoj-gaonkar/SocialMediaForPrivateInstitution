@@ -413,6 +413,7 @@
             });
 
 
+            {% if page == "profile" %}
             //this is js for profile page followers and following pop up
             followersPage = document.querySelector('#followers');
             followingPage = document.querySelector('#following');
@@ -453,7 +454,7 @@
                     followingPage.classList.add('hidden');
                 }
             });
-
+            {% endif %}
             //code for loading animation
  
               window.addEventListener('load',()=>{
