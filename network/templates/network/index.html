@@ -218,6 +218,25 @@
         {% block explore %}
         {% endblock %}
         </div>
+
+        <!-- this is code for the post pop up -->
+        {% if user.is_authenticated %}
+        <div class="w-screen h-screen fixed inset-0  justify-center items-center hidden " id="createpost">
+            <div class='flex flex-col px-6 py-3 bg-white dark:bg-zinc-900 w-2/5 shadow-2xl createpostcontainer '>
+                <p class=" text-lg font-semibold  text-zinc-900 dark:text-white ">Create post</p>
+                <form method="post" class="flex flex-col" id="createPostForm" onsubmit="submit_create_post(event,`{{ request.user.id }}`)">
+                    {% csrf_token %}
+                    <label for="id_content_image" class=" py-5 flex flex-col justify-center items-center relative bg-zinc-400 rounded-md my-2 ">
+                    <span class="material-symbols-outlined">upload</span>
+                    <p class="text-sm text-white " >Upload an image</p>
+                    {{ form.content_image }}
+                    </label>
+                    {{form.content_text}}
+                    <input type="submit" class=" px-3 py-1 bg-purple-500 w-2/5 self-end my-3 rounded-md " >
+                </form> 
+            </div>
+        </div>
+        {% endif %}
         <script>
 
             {% comment %} const like = document.querySelector('.like');
@@ -225,8 +244,53 @@
                 like.classList.add('pointer-events-none');
                 setTimeout()
             }) {% endcomment %}
+
+            function create_post(){
+                const create_post_popup = document.querySelector('#createpost');
+                create_post_popup.classList.remove('hidden');
+                create_post_popup.classList.add('flex');
+            }
+
+            const create_post_popup = document.querySelector('#createpost');
+            create_post_popup.addEventListener('click',(e)=>{
+                const createpostcontainer = document.querySelector('.createpostcontainer');
+                if(!createpostcontainer.contains(e.target)){
+                    create_post_popup.classList.remove('flex');
+                    create_post_popup.classList.add('hidden');
+                }
+            });
+
+            // this is for .fetch to post formdata to 
+            const postForm = document.querySelector('#createPostForm');
+
+            function submit_create_post(event,userid) {
+                event.preventDefault();
+                console.log(userid);
+                console.log("formposted")
+                const formData = new FormData(postForm);
+                const content_image = document.querySelector('#id_content_image');
+                // getting csrftoken
+                const csrftoken = postForm.querySelector('[name=csrfmiddlewaretoken]').value;
+                // const csrftoken = postForm.dataset.csrfToken;
+
+
+                fetch('/n/createpost',{
+                    method:'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken
+                    },
+                    body:formData,
+                })
+                .then((response)=>{
+                    console.log('responded');
+                    console.log(csrftoken)
+                })
+            }
+            
+
+            
         </script>
-        
     </div>
     
 

@@ -12,6 +12,7 @@ from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 import os
 from .models import *
+from .forms import Postform
 
 
 def index(request):
@@ -43,13 +44,15 @@ def index(request):
         user_mode = model.dark_mode
     except:
         user_mode = True
-    print(user_mode)
+
+    # user post creation form 
     return render(request, "network/index.html", {
         "posts": posts,
         "suggestions": suggestions,
         "page": "all_posts",
         'profile': False,
-        'user_mode': user_mode
+        'user_mode': user_mode,
+        'form': Postform,
     })
 
 
@@ -287,16 +290,20 @@ def saved(request):
 
 @login_required
 def create_post(request):
-    if request.method == 'POST':
-        text = request.POST.get('text')
-        pic = request.FILES.get('picture')
-        try:
-            post = Post.objects.create(creater=request.user, content_text=text, content_image=pic)
-            return HttpResponseRedirect(reverse('index'))
-        except Exception as e:
-            return HttpResponse(e)
-    else:
-        return HttpResponse("Method must be 'POST'")
+    # if request.method == 'POST':
+    #     text = request.POST.get('text')
+    #     pic = request.FILES.get('picture')
+    #     try:
+    #         post = Post.objects.create(creater=request.user, content_text=text, content_image=pic)
+    #         return HttpResponseRedirect(reverse('index'))
+    #     except Exception as e:
+    #         return HttpResponse(e)
+    # else:
+    #     return HttpResponse("Method must be 'POST'")
+    if request.method == "POST":
+        userid = request.POST.get('content_text')
+        print(userid,'userid')
+    return redirect('/')
 
 @login_required
 @csrf_exempt
