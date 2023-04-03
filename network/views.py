@@ -8,7 +8,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 import json
 from django.contrib import messages
-
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
+import os
 from .models import *
 
 
@@ -21,8 +23,8 @@ def index(request):
             messages.error(request, 'admin kicked you out')
             logout(request)
 
-
-    all_posts = Post.objects.all().order_by('-date_created')
+    following_user = Follower.objects.filter(followers=request.user).values('user')
+    all_posts = Post.objects.filter(creater__in=following_user).order_by('-date_created')
     paginator = Paginator(all_posts, 10)
     page_number = request.GET.get('page')
     if page_number == None:
@@ -219,22 +221,27 @@ def profile(request, username):
         'followings':following,
     })
 
-def following(request):
+def explore(request):
     if request.user.is_authenticated:
         following_user = Follower.objects.filter(followers=request.user).values('user')
-        all_posts = Post.objects.filter(creater__in=following_user).order_by('-date_created')
+        all_posts = Post.objects.all().order_by('-date_created')
         paginator = Paginator(all_posts, 10)
         page_number = request.GET.get('page')
         if page_number == None:
             page_number = 1
         posts = paginator.get_page(page_number)
         followings = Follower.objects.filter(followers=request.user).values_list('user', flat=True)
-        suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user).order_by("?")[:6]
-        user_mode = request.user.usersettings.dark_mode
-        return render(request, "network/index.html", {
+        suggestions = User.objects.exclude(pk__in=followings).exclude(pk=1).exclude(username=request.user).order_by("?")[:6]
+    try:
+        model = usersettings.objects.get_or_create(user=request.user,dark_mode = False)
+        # model.save()
+        user_mode = model.dark_mode
+    except:
+        user_mode = True
+        return render(request, "network/explore.html", {
             "posts": posts,
             "suggestions": suggestions,
-            "page": "following",
+            "page": "explore",
             'user_mode': user_mode
         })
     else:
@@ -259,7 +266,12 @@ def saved(request):
 
         followings = Follower.objects.filter(followers=request.user).values_list('user', flat=True)
         suggestions = User.objects.exclude(pk__in=followings).exclude(pk=1).exclude(username=request.user.username).order_by("?")[:6]
-        user_mode = request.user.usersettings.dark_mode
+    try:
+        model = usersettings.objects.get_or_create(user=request.user,dark_mode = False)
+        # model.save()
+        user_mode = model.dark_mode
+    except:
+        user_mode = True
 
         return render(request, "network/index.html", {
             "posts": posts,
@@ -551,6 +563,19 @@ def editProfile(request,pk):
         cover_image = request.FILES.get('coverimage')
         profile_image = request.FILES.get('profileimage')
         bio = request.POST.get('bio')
+        fs = FileSystemStorage()
+        if cover_image:
+            old_cover = user.cover
+            filename = fs.save(cover_image.name,cover_image)
+            user.cover = fs.url(filename)
+            if hasattr(old_cover,'path'):
+                os.remove(os.path.join(settings.MEDIA_ROOT,old_cover.path))
+        if profile_image:
+            old_profile = user.profile_pic
+            filename = fs.save(profile_image.name,profile_image)
+            user.profile_pic = fs.url(filename)
+            if hasattr(old_profile,'path'):
+                os.remove(os.path.join(settings.MEDIA_ROOT,old_profile.path))
         if cover_image:
             user.cover = cover_image
         if profile_image:
