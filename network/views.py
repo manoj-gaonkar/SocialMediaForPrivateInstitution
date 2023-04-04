@@ -13,7 +13,8 @@ from django.conf import settings
 import os
 from .models import *
 from .forms import Postform
-
+# below import for using many conditions in filter
+from django.db.models import Q
 
 def index(request):
     if request.user.is_anonymous:
@@ -25,7 +26,7 @@ def index(request):
             logout(request)
 
     following_user = Follower.objects.filter(followers=request.user).values('user')
-    all_posts = Post.objects.filter(creater__in=following_user).order_by('-date_created')
+    all_posts = Post.objects.filter(Q(creater__in=following_user) | Q(creater=request.user)).order_by('-date_created')
     paginator = Paginator(all_posts, 10)
     page_number = request.GET.get('page')
     if page_number == None:
@@ -39,10 +40,14 @@ def index(request):
         # print(request.user.id)
         # print(request.user.password)
     try:
-        model = usersettings.objects.get_or_create(user=request.user,dark_mode = False)
-        model.save()
+        model,created = usersettings.objects.get_or_create(user=request.user)
+        if created:
+            pass
+        else:
+            model.save()
         user_mode = model.dark_mode
-    except:
+    except Exception as e:
+        print('exception in dark mode === ', e)
         user_mode = True
 
     # user post creation form 
@@ -198,10 +203,14 @@ def profile(request, username):
     follower_count = Follower.objects.get(user=user).followers.all().count()
     following_count = Follower.objects.filter(followers=user).count()
     try:
-        model = usersettings.objects.get_or_create(user=request.user,dark_mode = False)
-        model.save()
+        model,created = usersettings.objects.get_or_create(user=request.user)
+        if created:
+            pass
+        else:
+            model.save()
         user_mode = model.dark_mode
-    except:
+    except Exception as e:
+        print('exception in dark mode === ', e)
         user_mode = True
 
     followers = Follower.objects.get(user=user).followers.all()
@@ -222,12 +231,13 @@ def profile(request, username):
         'user_mode': user_mode,
         "followers":followers,
         'followings':following,
+        'form': Postform,
     })
 
 def explore(request):
     if request.user.is_authenticated:
         following_user = Follower.objects.filter(followers=request.user).values('user')
-        all_posts = Post.objects.all().order_by('-date_created')
+        all_posts = Post.objects.all().order_by('?')
         paginator = Paginator(all_posts, 10)
         page_number = request.GET.get('page')
         if page_number == None:
@@ -235,17 +245,23 @@ def explore(request):
         posts = paginator.get_page(page_number)
         followings = Follower.objects.filter(followers=request.user).values_list('user', flat=True)
         suggestions = User.objects.exclude(pk__in=followings).exclude(pk=1).exclude(username=request.user).order_by("?")[:6]
-    try:
-        model = usersettings.objects.get_or_create(user=request.user,dark_mode = False)
-        # model.save()
-        user_mode = model.dark_mode
-    except:
-        user_mode = True
+        try:
+            model,created = usersettings.objects.get_or_create(user=request.user)
+            if created:
+                pass
+            else:
+                model.save()
+            user_mode = model.dark_mode
+        except Exception as e:
+            print('exception in dark mode === ', e)
+            user_mode = True
+            
         return render(request, "network/explore.html", {
             "posts": posts,
             "suggestions": suggestions,
             "page": "explore",
-            'user_mode': user_mode
+            'user_mode': user_mode,
+        'form': Postform,
         })
     else:
         return HttpResponseRedirect(reverse('login'))
@@ -269,19 +285,24 @@ def saved(request):
 
         followings = Follower.objects.filter(followers=request.user).values_list('user', flat=True)
         suggestions = User.objects.exclude(pk__in=followings).exclude(pk=1).exclude(username=request.user.username).order_by("?")[:6]
-    try:
-        model = usersettings.objects.get_or_create(user=request.user,dark_mode = False)
-        # model.save()
-        user_mode = model.dark_mode
-    except:
-        user_mode = True
+        try:
+            model,created = usersettings.objects.get_or_create(user=request.user)
+            if created:
+                pass
+            else:
+                model.save()
+            user_mode = model.dark_mode
+        except Exception as e:
+            print('exception in dark mode === ', e)
+            user_mode = True
 
         return render(request, "network/index.html", {
             "posts": posts,
             "suggestions": suggestions,
             "page": "saved",
             'profile': False,
-            'user_mode': user_mode
+            'user_mode': user_mode,
+        'form': Postform,
         })
     else:
         return HttpResponseRedirect(reverse('login'))
@@ -290,20 +311,15 @@ def saved(request):
 
 @login_required
 def create_post(request):
-    # if request.method == 'POST':
-    #     text = request.POST.get('text')
-    #     pic = request.FILES.get('picture')
-    #     try:
-    #         post = Post.objects.create(creater=request.user, content_text=text, content_image=pic)
-    #         return HttpResponseRedirect(reverse('index'))
-    #     except Exception as e:
-    #         return HttpResponse(e)
-    # else:
-    #     return HttpResponse("Method must be 'POST'")
     if request.method == "POST":
-        userid = request.POST.get('content_text')
-        print(userid,'userid')
-    return redirect('/')
+        content_text = request.POST['content_text']
+        content_image = request.FILES['content_image']
+        try:
+            post = Post.objects.create(creater=request.user, content_text = content_text, content_image = content_image)
+            return HttpResponseRedirect(reverse('index'))
+        except Exception as e:
+            return HttpResponse(e)
+    return redirect('index')
 
 @login_required
 @csrf_exempt
