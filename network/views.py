@@ -609,3 +609,25 @@ def editProfile(request,pk):
         return redirect('profile',username=user.username)
 
     return redirect('profile',username=user.username)
+
+@csrf_exempt
+def searchuser(request):
+    print("manoj kesari")
+    if request.method == 'POST':
+        username = json.loads(request.body)
+        try:
+            userslist = User.objects.filter(Q(first_name__icontains=username['username']) | Q(last_name__icontains=username['username'])  )
+            # users = [{}]
+            print(userslist)
+            data = {"manoj":"manoj"}
+            return JsonResponse({
+                'success': True,
+                'userslist' : list(userslist.values())
+            })
+        except:
+            pass
+            
+        
+    return JsonResponse({
+        'data' : "success"
+    })

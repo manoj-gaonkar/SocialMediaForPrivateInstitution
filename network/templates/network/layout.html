@@ -229,26 +229,37 @@
             </div>
             
 
-            <div class="right-div px-7 py-5 w-3/12 bg-white border-l dark:border-l-0 border-gray-400 dark:bg-white dark:bg-opacity-10">
+            <div class="right-div px-7 py-5 w-3/12 bg-white border-l dark:border-l-0 border-gray-400 dark:bg-white dark:bg-opacity-10 h-screen overflow-y-scroll relative">
                 <nav class="head w-full">
                     <form action="#">
-                        <div class="search-div w-full flex justify-start bg-neutral-100 dark:bg-white  px-2 py-2 rounded-lg items-center">
+                        <div class="search-div w-full flex justify-start bg-neutral-100 dark:bg-white  px-2 py-2 rounded-lg items-center   ">
                             <div class="inline-flex justify-center items-center opacity-50">
                                 <span class="material-symbols-outlined text-black">search</span>
                             </div>
-                            <input type="text" name="query" class="px-2 bg-transparent outline-none w-full " autocomplete="off" id="search-box" placeholder="Search Network">
+                            <input type="text" name="searchuser" id='searchuser'  class="px-2 bg-transparent outline-none w-full " autocomplete="off" id="search-box" placeholder="Search Network">
+                            {% csrf_token %}
                         </div>
                     </form>
+                    <div class="h-full w-full flex justify-center items-center pt-14 hidden " id='usersearchloader'>
+                        <div class=" rounded-full border-t-4  border-r-4 animate-spin border-purple-500 h-12 w-12 " ></div>
+                    </div>
+                    <div class="h-fit w-full flex-col " id="usersearchresult">
+                        
+                    </div>
                 </nav>
-                <div class='right-div-content  w-full bg-purple-100 dark:bg-purple-400 dark:bg-opacity-10 text-white rounded-md my-4 px-3'>
+                <div id='suggestionbox' class='right-div-content   w-full bg-purple-100 dark:bg-purple-400 dark:bg-opacity-10 text-white rounded-md my-4 px-3'>
                     <div class="space" style="  "></div>
+                    
                     {% if user.is_authenticated %}
                         <div class="suggestion-box pb-3">
                             <div class="suggestion-header text-center py-4 font-bold text-neutral-800 dark:text-white font-mono ">
                                 You might know
                             </div>
+                            
+                            <div class=''> 
                             {% for suggestion in suggestions %}
-                                <div class="suggestion-user flex justify-start items-start my-2 bg-white text-black bg-opacity-75 rounded-md p-2">
+                                <div class="suggestion-user flex justify-between items-start my-2 bg-white text-black bg-opacity-75 rounded-md p-2">
+                                    <div class='flex justify-start'>
                                     <div>
                                         <a href="{% url 'profile' suggestion.username %}">
                                             <div class="small-profilepic w-11 h-11 bg-cover bg-center  rounded-full " style="background-image: url({{suggestion.profile_pic.url}})"></div>
@@ -262,8 +273,9 @@
                                             <div class="grey text-xs font-thin ">@{{suggestion.username}}</div>
                                         </a>
                                     </div>
-                                    <div>
-                                        <button class="btn btn-outline-success text-blue-700" type="button" onclick="follow_user(this,'{{suggestion.username}}','suggestion')">Follow</button>
+                                    </div>
+                                    <div class="">
+                                        <button class="btn btn-outline-success bg-purple-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" type="button" onclick="follow_user(this,'{{suggestion.username}}','suggestion')">Follow</button>
                                     </div>
                                 </div>
                             {% empty %}
@@ -271,6 +283,7 @@
                                         <span class="grey" style="font-size: .9em;">No suggestions available.</span>
                                     </div>
                             {% endfor %}
+                        </div>  
                             <div class="suggestion-footer hidden ">
                                 <a href="#">Show more</a>
                             </div>
@@ -464,6 +477,79 @@
                 },1000)
               });
             
+
+
+            // code for usersearch
+            const usersearch = document.querySelector('#searchuser');
+            const usersearchloader = document.querySelector('#usersearchloader');
+            const usersearchresult = document.querySelector('#usersearchresult');
+            {% comment %} var csrftoken = document.querySelector('input[name=csrfmiddlewaretoken]').value; {% endcomment %}
+
+            usersearch.addEventListener('input',() => {
+                data = {
+                    "username":  usersearch.value
+                }
+                usersearchresult.innerHTML = '';
+                if(usersearch.value!=""){
+                    usersearchloader.classList.remove('hidden');
+                    fetch('/n/searchuser/',{
+                        method:'POST',
+                        headers : {
+                            'X-CSRFToken' : csrftoken,
+                            //'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                        
+                    })
+                    .then(response => response.json())
+                    .then(response=>{
+                        usersearchloader.classList.add('hidden');
+                        if(response.userslist.length==0){
+                            usersearchresult.innerHTML = `
+                                <div class="text-gray-900 text-center text-sm py-6 "> No users named '${usersearch.value}'</div>
+                            `;
+                        }
+                        response.userslist.forEach((user)=>{
+                            console.log(user.username);
+                            const m = `user.username`;
+                            console.log(m);
+                            usersearchresult.innerHTML += `
+                            <div class="suggestion-user flex justify-between items-start my-2 bg-white text-black bg-opacity-75 rounded-md p-2">
+                                <div class='flex justify-start'>
+                                <div>
+                                    <a href="{% url 'profile' user.username  %}">
+                                        <div class="small-profilepic w-11 h-11 bg-cover bg-center  rounded-full " style="background-image: url('/media/${user.profile_pic}')"></div>
+                                    </a>
+                                </div>
+                                <div class="user-details px-3">
+                                    <a href="{% url 'profile' user.username %}" class="flex-col">
+                                        <div id="user-name" class="text-sm font-semibold">
+                                                ${user.first_name} ${user.last_name}
+                                        </div>
+                                        <div class="grey text-xs font-thin ">${user.username}</div>
+                                    </a>
+                                </div>
+                                </div>
+                                <div class="self-start">
+                                    <button class="btn btn-outline-success bg-purple-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" type="button" onclick="follow_user(this,'${user.username}','suggestion')">Follow</button>
+                                </div>
+                            </div>
+                            `;  
+                        })
+
+                    })
+                }
+            })
+
+            usersearch.addEventListener('focusin',() => {
+                document.querySelector('#suggestionbox').classList.add('hidden');
+            })
+        
+            usersearch.addEventListener('focusout',() => {
+                if(usersearch.value == ""){
+                    document.querySelector('#suggestionbox').classList.remove('hidden');
+                }
+            })
         </script>
 
 </html>
