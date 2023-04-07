@@ -489,6 +489,7 @@
                 data = {
                     "username":  usersearch.value
                 }
+                const usernames = new Set();
                 usersearchresult.innerHTML = '';
                 if(usersearch.value!=""){
                     usersearchloader.classList.remove('hidden');
@@ -506,23 +507,23 @@
                         usersearchloader.classList.add('hidden');
                         if(response.userslist.length==0){
                             usersearchresult.innerHTML = `
-                                <div class="text-gray-900 text-center text-sm py-6 "> No users named '${usersearch.value}'</div>
+                                <div class="dark:text-gray-200 text-gray-900 text-center text-sm py-6 "> No users named '${usersearch.value}'</div>
                             `;
                         }
-                        response.userslist.forEach((user)=>{
+                        response.userslist.forEach((user)=>{                  
                             console.log(user.username);
                             const m = `user.username`;
                             console.log(m);
                             usersearchresult.innerHTML += `
                             <div class="suggestion-user flex justify-between items-start my-2 bg-white text-black bg-opacity-75 rounded-md p-2">
-                                <div class='flex justify-start'>
+                                <div class='flex justify-start' href="/profile/${user.username}">
                                 <div>
-                                    <a href="{% url 'profile' user.username  %}">
+                                    <a href="/profile/${user.username}">
                                         <div class="small-profilepic w-11 h-11 bg-cover bg-center  rounded-full " style="background-image: url('/media/${user.profile_pic}')"></div>
                                     </a>
                                 </div>
                                 <div class="user-details px-3">
-                                    <a href="{% url 'profile' user.username %}" class="flex-col">
+                                    <a href="/profile/${user.username}" class="flex-col">
                                         <div id="user-name" class="text-sm font-semibold">
                                                 ${user.first_name} ${user.last_name}
                                         </div>

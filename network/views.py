@@ -610,16 +610,19 @@ def editProfile(request,pk):
 
     return redirect('profile',username=user.username)
 
+import time
+
 @csrf_exempt
 def searchuser(request):
     print("manoj kesari")
     if request.method == 'POST':
         username = json.loads(request.body)
         try:
-            userslist = User.objects.filter(Q(first_name__icontains=username['username']) | Q(last_name__icontains=username['username'])  )
+            userslist = User.objects.filter(Q(first_name__icontains=username['username']) | Q(last_name__icontains=username['username'])  ).distinct()
             # users = [{}]
             print(userslist)
             data = {"manoj":"manoj"}
+            # time.sleep(1)
             return JsonResponse({
                 'success': True,
                 'userslist' : list(userslist.values())
