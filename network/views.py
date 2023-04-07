@@ -611,18 +611,23 @@ def editProfile(request,pk):
     return redirect('profile',username=user.username)
 
 import time
+from django.db.models import Q, Value
+from django.db.models.functions import Concat
 
 @csrf_exempt
 def searchuser(request):
-    print("manoj kesari")
     if request.method == 'POST':
         username = json.loads(request.body)
         try:
-            userslist = User.objects.filter(Q(first_name__icontains=username['username']) | Q(last_name__icontains=username['username'])  ).distinct()
-            # users = [{}]
+            userslist = User.objects.filter(Q(first_name__icontains=username['username']) | Q(last_name__icontains=username['username']) | Q(username__icontains=username['username']) ).exclude(pk=1).distinct()
+            # userslist = User.objects.filter(first_name__icontains=username['username'],last_name__icontains=username['username'])
+            # lastname = User.objects.filter(last_name__icontains=username['username'])
+            # userslist = firstname | lastname
+            # userslist = User.objects.annotate(full_name = Concat('first_name',Value(' '),'last_name')).filter(full_name__icontains=username)
             print(userslist)
+
+            
             data = {"manoj":"manoj"}
-            # time.sleep(1)
             return JsonResponse({
                 'success': True,
                 'userslist' : list(userslist.values())
