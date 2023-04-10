@@ -8,10 +8,46 @@
                     <div id="post" class="bg-gray-400 w-full h-52 [background-image:url('{{ post.content_image.url }}')] bg-cover bg-center " data-postid="{{ post.creater }}" onclick="postpopup(this)"></div>
                 {% endfor %}
             </div>
+            <div class="w-screen h-screen bg-[rgba(0,0,0,0.4)] backdrop-blur-sm hidden justify-center items-center fixed inset-0 z-30 " id="explorepreview">
+              <div class=" absolute right-6 top-6 z-50 cursor-pointer ">
+                <span class="material-symbols-outlined text-white scale-125">close</span>
+              </div>
+
+                <div class=" bg-white w-4/6 min-w-4/5 h-3/4 flex justify-start  " id="explorepostcontainer">
+                  <div class=" w-2/4 h-full overflow-hidden ">
+                     <img src="https://previews.123rf.com/images/eshkinkep/eshkinkep1607/eshkinkep160700003/62176843-minimalism-square-abstract-background-vector-illustration.jpg" alt="" class=" w-full h-full object-cover " >
+                  </div>
+                  <div class=" p-3  w-2/4 ">
+                    <div class="flex justify-start items-center ">
+                      <div src="" alt="" class=" w-9 h-9 rounded-full bg-gray-900 "></div>
+                      <div class="ps-2">
+                        <p class=" font-semibold text-sm ">Manoj Gaonkar</p>
+                      </div>
+                    </div>
+                    <div class="text-sm py-4 text-zinc-600 ">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa blanditiis non velit ea dolores unde esse cum.
+                    </div>
+                  </div>
+                 
+                </div>
+                
+              
+              </div>
             <script>
+                explorepost = document.querySelector("#explorepreview");
+                explorepostcontainer = document.querySelector("#explorepostcontainer")
                 function postpopup(post){
-                    console.log(post.dataset.postid)
+                    console.log(post.dataset.postid);
+                    explorepost.classList.remove('hidden');
+                    explorepost.classList.add('flex');
                 }
+
+                explorepost.addEventListener('click',(e)=>{
+                  if(!explorepostcontainer.contains(e.target)){
+                    explorepost.classList.remove('flex');
+                    explorepost.classList.add('hidden');
+                  }
+                })
             </script>
 {% endif %}
 {% endblock %}
