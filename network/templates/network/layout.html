@@ -176,7 +176,7 @@
                             </ul>
                         </div>
                         {% if user.is_authenticated %}
-                            <button id="popup-btn" class="new-post-btn px-4 py-2 bg-soc w-full my-6 rounded-lg text-white flex justify-center items-center " onclick="createpost()"><span class="material-symbols-outlined scale-90 pr-2 ">add</span>Create Post</button>
+                            <button id="popup-btn" class="new-post-btn px-4 py-2 bg-soc w-full my-6 rounded-lg text-white flex justify-center items-center " onclick="create_post()"><span class="material-symbols-outlined scale-90 pr-2 ">add</span>Create Post</button>
                         {% endif %}
                     </div>
                     <div class=' w-full'>
@@ -188,7 +188,7 @@
                                             <div class="h-full w-full bg-cover bg-center rounded-full flex " style="background-image: url({{user.profile_pic.url}})"></div>
                                         </div>
                                         <div class="flex flex-col pl-4">
-                                            <p class=' text-neutral-900 dark:text-gray-200 sm:text-xs md:text-xs lg:text-sm  flex font-semibold'>{{user.first_name}} {{user.last_name}}</p>
+                                            <p class=' text-neutral-900 dark:text-gray-200 sm:text-xs md:text-xs lg:text-[0.4]  flex font-semibold'>{{user.first_name}} {{user.last_name}}</p>
                                             <div class=" text-gray-700 dark:text-gray-500 text-xs">@{{ user.username }}</div>
                                         </div>
                                         

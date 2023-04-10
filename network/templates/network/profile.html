@@ -26,7 +26,7 @@
         <input type="text" value="{{ username.username }}" class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-400 cursor-not-allowed" disabled />
         <input type="text" value="{{ username.email }}" class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-400 cursor-not-allowed" disabled/>
       </div>
-      <textarea name="bio" id="" cols="30" rows="8" class="h-16 max-h-40 w-full rounded-md bg-gray-100 px-2 py-1 outline-none placeholder:text-sm placeholder:text-gray-400" placeholder="update your bio"></textarea>
+      <textarea name="bio" id="" cols="30" rows="8" class="h-16 max-h-40 w-full rounded-md bg-gray-100 px-2 py-1 outline-none placeholder:text-sm  text-black text-sm placeholder:text-gray-400" placeholder="update your bio">{% if username.bio %} {{ username.bio }} {% endif %}</textarea>
       <input type="submit" value="Update" class="mt-4 cursor-pointer rounded-md bg-purple-500 px-4 py-1 text-sm text-white" />
     </form>
   </div>
@@ -54,7 +54,7 @@
             <a class="flex h-auto w-full cursor-pointer items-center justify-start  py-2 hover:bg-gray-400 hover:bg-opacity-10 dark:hover:bg-gray-50 px-2 rounded-sm dark:hover:bg-opacity-5 transition-all ease-in-out duration-300 " href="{% url 'profile' follower.username %}">
             <div class="h-11 w-11 rounded-full bg-cover bg-center [background-image:url('{{ follower.profile_pic.url }}')]"></div>
             <div class="px-4">
-                <p class="text-sm font-bold dark:text-white text-black">{{ follower.first_name }} {{ follower.last_name}}r</p>
+                <p class="text-sm font-bold dark:text-white text-black">{{ follower.first_name }} {{ follower.last_name}}</p>
                 <p class="text-xs dark:text-neutral-500 text-neutral-500">{{ follower.username }}</p>
             </div>
             </a>
@@ -84,7 +84,7 @@
             <a class="search1 flex h-auto w-full cursor-pointer items-center justify-start  py-2 hover:bg-gray-400 hover:bg-opacity-10 dark:hover:bg-gray-50 px-2 rounded-sm dark:hover:bg-opacity-5 transition-all ease-in-out duration-300 " href="{% url 'profile' follow.user.username %}">
             <div class="h-11 w-11 rounded-full bg-cover bg-center [background-image:url('{{ follow.user.profile_pic.url }}')]"></div>
             <div class="px-4">
-                <p class="text-sm font-bold dark:text-white text-black">{{ follow.user.first_name }} {{ follow.user.last_name}}r</p>
+                <p class="text-sm font-bold dark:text-white text-black">{{ follow.user.first_name }} {{ follow.user.last_name}}</p>
                 <p class="text-xs dark:text-neutral-500 text-neutral-500">{{ follow.user.username }}</p>
             </div>
             </a>
@@ -112,9 +112,9 @@
                 <div class="details-data">
                     <h5 class="text-xl font-bold">{{username.first_name}} {{username.last_name}}</h5>
                     <div class="grey text-xs ">{{username.username}}</div>
-                    <div class="bio pt-3">
+                    <div class="bio pt-3 text-sm">
                         {% if username.bio is not None %}
-                            {{username.bio}}
+                            {{username.bio|linebreaks}}
                         {% endif %}
                     </div>
                     <div class="grey" style="padding: 8px 0px;">
