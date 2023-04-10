@@ -153,12 +153,12 @@ def register(request):
             user.last_name = lname
             if profile is not None:
                 user.profile_pic = profile
-            else:
-                user.profile_pic = "profile_pic/default_profile_pic.png"
+            # else:
+            #     user.profile_pic = "profile_pic/default_profile_pic.png"
             if cover is not None:
                 user.cover = cover
-            else:
-                user.cover = 'cover/default_cover_pic.png'
+            # else:
+            #     user.cover = 'cover/default_cover_pic.png'
             user.save()
             Follower.objects.create(user=user)
         except IntegrityError:
@@ -542,8 +542,9 @@ def adminpage(request):
             b = authusers(email=email,valid=val)
             b.save()
         return redirect('adminpage')
+    realusers = User.objects.values_list('username',flat=True) 
     return render(request,'network/admin.html',{
-        'users':authusers.objects.values().exclude(user='adminsuper').order_by('-date_created')
+        'users':authusers.objects.filter(user__isnull=False).values().exclude(user='adminsuper').order_by('-date_created')
     })
 
 
@@ -554,7 +555,12 @@ def adminlogout(request):
 def removeuser(request,email):
     print("removeuser++++++++++++")
     user = User.objects.get(email=email)
-    user.delete()
+    authuser = authusers.objects.get(email=email)
+    try:
+        authuser.delete()
+        user.delete()
+    except:
+        pass
     return redirect('adminpage')
 
 def changevalid(request,id):

@@ -188,8 +188,9 @@
                                             <div class="h-full w-full bg-cover bg-center rounded-full flex " style="background-image: url({{user.profile_pic.url}})"></div>
                                         </div>
                                         <div class="flex flex-col pl-4">
-                                            <p class=' text-neutral-900 dark:text-gray-200 sm:text-xs md:text-xs lg:text-[0.4]  flex font-semibold'>{{user.first_name}} {{user.last_name}}</p>
-                                            <div class=" text-gray-700 dark:text-gray-500 text-xs">@{{ user.username }}</div>
+                                            {% comment %} <p class=' text-neutral-900 dark:text-gray-200 sm:text-xs md:text-xs lg:text-[0.4]  flex font-semibold'>{{user.first_name}} {{user.last_name}}</p>
+                                            <div class=" text-gray-700 dark:text-gray-500 text-xs">@{{ user.username }}</div> {% endcomment %}
+                                            <p class=" font-semibold text-sm text-zinc-700 dark:text-gray-300 ">Profile</p>
                                         </div>
                                         
                                     </div>

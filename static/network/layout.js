@@ -1,8 +1,8 @@
 
-document.addEventListener('DOMContentLoaded', () => {
-    let active = document.querySelector('.body').dataset.page;
-    document.querySelector("#"+active).classList.add('active');
-});
+// document.addEventListener('DOMContentLoaded', () => {
+//     let active = document.querySelector('.body').dataset.page;
+//     document.querySelector("#"+active).classList.add('active');
+// });
 
 function drop_down(event) {
     let drop_down = event.target.parentElement.querySelector(".dropdown-menu");

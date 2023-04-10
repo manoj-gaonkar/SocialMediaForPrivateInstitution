@@ -49,7 +49,7 @@
                         <th class="px-6  py-3 border-r">Email</th>
                         <th class="px-6  py-3 border-r">USN</th>
                         <th class="px-6  py-3 border-r">status</th>
-                        <th class="px-6 py-3 ">delete</th>
+                        <th class="px-6 py-3 "  >delete</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -64,8 +64,8 @@
                                         <p class="px-6 py-2  ">not logged in</p>
                                     {% endif %}
                                 </td>
-                                <td class="px-6 py-2 border-r "><a href="{% url 'changevalid' user.email %}"><span class="bg-gray-500 material-symbols-outlined text-white p-1 ">close</span></a></td>
-                                <td class="px-6 py-2  "><button><a href="{% url 'removeuser' user.email %}" class="bg-red-500 px-3 py-1 rounded-sm text-white ">Delete</a></button></td>
+                                <td class="px-6 py-2 border-r "><a href="{% url 'changevalid' user.email %}"><span class="bg-gray-500 material-symbols-outlined text-white p-1 " >close</span></a></td>
+                                <td class="px-6 py-2  "  ><button ><a href="{% url 'removeuser' user.email %}" class="bg-red-500 px-3 py-1 rounded-sm text-white {% if not user.user %}cursor-not-allowed hidden {% endif %} "  >Delete</a></button></td>
                             </tr>
                         {% endif %}
                     {% endfor %}
