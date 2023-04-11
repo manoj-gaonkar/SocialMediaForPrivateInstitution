@@ -344,10 +344,10 @@ function follow_user(element, username, origin) {
     })
     .then(() => {
         if(origin === 'suggestion') {
-            element.parentElement.innerHTML = `<button class="btn btn-success  bg-purple-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" type="button" onclick="unfollow_user(this,'${username}','suggestion')">Following</button>`;
+            element.parentElement.innerHTML = `<button class="btn btn-success  bg-purple-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" type="button" onclick="unfollow_user(this,'${username}','suggestion')">Unfollow</button>`;
         }
         else if(origin === 'edit_page') {
-            element.parentElement.innerHTML = `<button class="btn btn-success float-right  bg-purple-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" onclick="unfollow_user(this,'${username}','edit_page')" id="following-btn">Following</button>`;
+            element.parentElement.innerHTML = `<button class="btn btn-success float-right  bg-purple-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" onclick="unfollow_user(this,'${username}','edit_page')" id="following-btn">Unfollow</button>`;
         }
         else if(origin === 'dropdown') {
             ////////////////////////////////////////////////////////////////////////////////////////////

@@ -625,20 +625,30 @@ def searchuser(request):
     if request.method == 'POST':
         username = json.loads(request.body)
         try:
-            userslist = User.objects.filter(Q(first_name__icontains=username['username']) | Q(last_name__icontains=username['username']) | Q(username__icontains=username['username']) ).exclude(pk=1).distinct()
             # userslist = User.objects.filter(first_name__icontains=username['username'],last_name__icontains=username['username'])
             # lastname = User.objects.filter(last_name__icontains=username['username'])
             # userslist = firstname | lastname
             # userslist = User.objects.annotate(full_name = Concat('first_name',Value(' '),'last_name')).filter(full_name__icontains=username)
-            print(userslist)
+            # print(userslist)
+            # print(following)
+            userslist = User.objects.filter(Q(first_name__icontains=username['username']) | Q(last_name__icontains=username['username']) | Q(username__icontains=username['username']) ).exclude(Q(pk=1) | Q(pk=request.user.pk)).distinct()
+            following = Follower.objects.filter(user__in=userslist)
+            uselist = list(userslist.values())
+            d = dict()
+            print(uselist)
+            for i in range(len(following)):
+                uselist[i]["is_following"] = request.user in following[i].followers.all()
+                pass
+            print(uselist)
 
             
             data = {"manoj":"manoj"}
             return JsonResponse({
                 'success': True,
-                'userslist' : list(userslist.values())
+                'userslist' : list(uselist)
             })
-        except:
+        except Exception as e:
+            print(e)
             pass
             
         

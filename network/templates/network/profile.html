@@ -104,7 +104,7 @@
                     {% if user.username == username.username %}
                         <button class="btn btn-outline-success float-right bg-green-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" id="edit-profile-btn" onclick="showEditProfile();">Edit Profile</button>
                     {% elif is_follower %}
-                        <button class="btn btn-success float-right bg-purple-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" onclick="unfollow_user(this,'{{username.username}}','edit_page')" id="following-btn">Following</button>
+                        <button class="btn btn-success float-right bg-purple-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full" onclick="unfollow_user(this,'{{username.username}}','edit_page')" id="following-btn">Unfollow</button>
                     {% else %}
                         <button class="btn btn-outline-success float-right bg-purple-400 px-4 py-[2px] text-sm mt-2 mr-3 font-semibold text-black rounded-full " onclick="follow_user(this,'{{username.username}}','edit_page')" id="follow-btn">Follow</button>
                     {% endif %}
