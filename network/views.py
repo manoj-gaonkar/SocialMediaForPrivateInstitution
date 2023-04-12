@@ -24,6 +24,7 @@ def index(request):
         if authusers.objects.filter(email=request.user.email).first().valid != True:
             messages.error(request, 'admin kicked you out')
             logout(request)
+            return redirect('login')
 
     following_user = Follower.objects.filter(followers=request.user).values('user')
     all_posts = Post.objects.filter(Q(creater__in=following_user) | Q(creater=request.user)).order_by('-date_created')
@@ -180,6 +181,8 @@ def profile(request, username):
         if authusers.objects.filter(email=request.user.email).first().valid != True:
             messages.error(request, 'admin kicked you out')
             logout(request)
+            return redirect('login')
+
     user = User.objects.get(username=username)
     all_posts = Post.objects.filter(creater=user).order_by('-date_created')
     paginator = Paginator(all_posts, 10)
@@ -235,6 +238,14 @@ def profile(request, username):
     })
 
 def explore(request):
+    if request.user.is_anonymous:
+        return redirect('login')
+    # this code is to cheeck if the user is valid, if not the user is  made to logout of the site by admin
+    if request.user.is_anonymous==False:
+        if authusers.objects.filter(email=request.user.email).first().valid != True:
+            messages.error(request, 'admin kicked you out')
+            logout(request)
+            return redirect('login')
     if request.user.is_authenticated:
         following_user = Follower.objects.filter(followers=request.user).values('user')
         all_posts = Post.objects.all().order_by('?')
@@ -274,6 +285,7 @@ def saved(request):
         if authusers.objects.filter(email=request.user.email).first().valid != True:
             messages.error(request, 'admin kicked you out')
             logout(request)
+            return redirect('login')
     if request.user.is_authenticated:
         all_posts = Post.objects.filter(savers=request.user).order_by('-date_created')
 

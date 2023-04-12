@@ -245,7 +245,7 @@
                         <div class=" rounded-full border-t-4  border-r-4 animate-spin border-purple-500 h-12 w-12 " ></div>
                     </div>
                     <div class="h-fit w-full flex-col " id="usersearchresult">
-                        sta
+                        
                     </div>
                 </nav>
                 <div id='suggestionbox' class='right-div-content   w-full bg-purple-100 dark:bg-purple-400 dark:bg-opacity-10 text-white rounded-md my-4 px-3'>
@@ -308,17 +308,7 @@
             </div>
         </div>
 
-        {% if not user.is_authenticated %}
         
-        {% if messages %}
-            {% for message in messages %}
-                <div class=" text-black-600 -translate-x-2/4 px-3 py-2 bg-red-400   absolute  bottom-4 left-2/4 ">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-        
-        {% endif %}
 
     </body>
         <script type="text/javascript" src="{% static 'network/layout.js' %}"></script>
@@ -433,10 +423,10 @@
             followingPage = document.querySelector('#following');
             function showFollowers(){
                 document.querySelector('#search-input').value = "";
-                const profiles = document.querySelectorAll(".h-fit a");
+                {% comment %} const profiles = document.querySelectorAll(".h-fit a");
                 profiles.forEach((profile)=>{
                     profile.style.display = 'flex';
-                })
+                }) {% endcomment %}
                 followersPage.classList.remove('hidden');
                 followersPage.classList.add('flex');
             }
