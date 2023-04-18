@@ -16,6 +16,15 @@
                 {% else %}
                 <nav class="head heading font-bold text-lg text-center py-5 text-neutral-900 dark:text-white sticky top-0 bg-neutral-50 dark:bg-black bg-opacity-70 backdrop-blur-md ">Explore</nav>
                 {% endif %}
+        {% if page == "all_posts" %}
+            <div class=" w-full bg-zinc-100 shadow-md dark:bg-zinc-800 rounded-md p-4 ">
+                <form method="post" action="n/createpost">
+                    {% csrf_token %}
+                    <input type="text" class=" w-full p-2 px-3 rounded-md outline-none text-black" name="content_text" placeholder="What's happening?">
+                    <input type="submit" value="POST" class=" px-3 py-1 rounded-md font-semibold text-sm mt-3 bg-purple-500 text-white dark:text-black ">
+                </form>
+            </div>
+        {% endif %}
         {% if page != "explore" %}
             <div class="left-div-content  ">
                 <div class="posts-view">
@@ -25,49 +34,43 @@
                         {% for post in posts %}
                             <div class="post  w-full h-fit bg-white dark:bg-black my-2 rounded-md bg-opacity-5 pb-10  dark:border-gray-800 py-2 " data-post_id="{{post.id}}">
                                 <div>
-                                    <div class=" px-3 py-1 flex justify-start items-center">
-                                        <a href="{% url 'profile' post.creater.username %}" class="inline origin-center h-9 w-9 ">
-                                            <div class="h-full w-full bg-cover rounded-full inline-block origin-center " style="background-image: url({{post.creater.profile_pic.url}})"></div>
-                                        </a>
-                                        <div class="inline-flex flex-col pl-3" >
-                                            <a href="{% url 'profile' post.creater.username %}">
-                                                <span class=" text-sm font-bold text-neutral-900 dark:text-white  ">{{post.creater.first_name}} {{post.creater.last_name}}</span>
-                                                 <span class=" self-start text-xs text-gray-600  dark:text-gray-400 ">&middot;{{post.date_created|timesince}} ago</span>
+                                    <div class=" px-3 py-1 flex justify-between items-center">
+                                        <!-- this div is for top of post image -->
+                                        <div class="flex items-center ">
+                                            <a href="{% url 'profile' post.creater.username %}" class="inline origin-center h-9 w-9 ">
+                                                <div class="h-full w-full bg-cover rounded-full inline-block origin-center " style="background-image: url({{post.creater.profile_pic.url}})"></div>
                                             </a>
-                                            <a href="{% url 'profile' post.creater.username %}" class="inline-block">
-                                                <span class=" text-xs text-gray-600 dark:text-gray-400 transform -translate-y-1 inline-block  ">@{{post.creater.username}}</span>
-                                            </a>
+                                            <div class="inline-flex flex-col pl-3" >
+                                                <a href="{% url 'profile' post.creater.username %}">
+                                                    <span class=" text-sm font-bold text-neutral-900 dark:text-white  ">{{post.creater.first_name}} {{post.creater.last_name}}</span>
+                                                    <span class=" self-start text-xs text-gray-600  dark:text-gray-400 ">&middot;{{post.date_created|timesince}} ago</span>
+                                                </a>
+                                                <a href="{% url 'profile' post.creater.username %}" class="inline-block">
+                                                    <span class=" text-xs text-gray-600 dark:text-gray-400 transform -translate-y-1 inline-block  ">@{{post.creater.username}}</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class=" relative">
+                                            <span class="material-symbols-outlined cursor-pointer ">
+                                                more_vert
+                                            </span>
+                                            <div class=" flex-col ">
+                                                <div>
+                                                   <a href="#">Edit post</a>
+                                                </div>
+                                                {% if post.creater == request.user %}
+                                                <div>
+                                                   <a href="{% url 'deletepost' post.id %}">Delete post</a>
+                                                </div>
+                                                {% endif %}
+                                            </div>
                                         </div>
                                        
                                     </div>
                                     <div>
                                         <div class="post-user">
                                             
-                                            {% comment %} <div class="dropdown" style="height: 1em; margin-top: -3px; margin-right: -3px;">
-                                                <button class="icon-btn dropdown-toggle" type="button" id="dropdownMenuButton" onfocus="drop_down(event)" onblur="remove_drop_down(event)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <svg width="1em" height="1em" viewBox="0 -2 16 16" class="bi bi-chevron-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-                                                    </svg>
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    {% if post.creater == user %}
-                                                        <button class="dropdown-item" style="color: #e0245e;" onclick="confirm_delete({{post.id}})">
-                                                            <svg width="1.1em" height="1.1em" viewBox="0 0 16 16" class="bi bi-trash" fill="#e0245e" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                                                            </svg>
-                                                            &nbsp;Delete
-                                                        </button>
-                                                        <button class="dropdown-item" onclick="edit_post(this)">
-                                                            <svg width="1.1em" height="1.1em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                                <path fill-rule="evenodd" d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/>
-                                                                <path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
-                                                            </svg>
-                                                            &nbsp;Edit post
-                                                        </button>
-                                                    {% endif %}
-                                                </div>
-                                            </div> {% endcomment %}
+                                            
                                         </div>
                                         
                                         {% if post.content_image %}
@@ -75,7 +78,11 @@
                                             <img class="post-image w-full object-contain max-h-[50rem] " src="{{ post.content_image.url }}" ></img>
                                             </div>
                                         {% else %}
-                                            <div class="post-image" style="display: none;"></div>
+                                            {% if post.content_text is not None %}
+                                            <div class="post-content px-4 text-gray-800 text-sm dark:text-gray-300 ">
+                                                {{post.content_text | linebreaksbr}}
+                                            </div>
+                                            {% endif %}
                                         {% endif %}
                                         
                                         <div class="post-actions flex px-3 pt-4 pb-2 items-center justify-between   ">
@@ -134,7 +141,7 @@
                                             {% endif %}
     
                                         </div>
-                                        {% if post.content_text is not None %}
+                                        {% if post.content_text is not None and post.content_image %}
                                             <div class="post-content px-4 text-gray-800 text-sm dark:text-gray-300 ">
                                                 {{post.content_text | linebreaksbr}}
                                             </div>

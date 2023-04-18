@@ -5,7 +5,9 @@
 {% if page == "explore" %}
             <div class="grid grid-cols-3 gap-3">
                 {% for post in posts %}
+                  {% if post.content_image %}
                     <div id="post" class="bg-gray-400 w-full h-52 [background-image:url('{{ post.content_image.url }}')] bg-cover bg-center " data-postid="{{ post.creater }}" onclick="postpopup(this)"></div>
+                    {% endif %}
                 {% endfor %}
             </div>
             <div class="w-screen h-screen bg-[rgba(0,0,0,0.4)] backdrop-blur-sm hidden justify-center items-center fixed inset-0 z-30 " id="explorepreview">

@@ -325,7 +325,13 @@ def saved(request):
 def create_post(request):
     if request.method == "POST":
         content_text = request.POST['content_text']
-        content_image = request.FILES['content_image']
+        
+        if request.FILES.get('content_image'):
+            content_image = request.FILES.get('content_image')
+            print("manoj")
+        else:
+            content_image = None
+            print("not main")
         try:
             post = Post.objects.create(creater=request.user, content_text = content_text, content_image = content_image)
             return HttpResponseRedirect(reverse('index'))
@@ -505,18 +511,15 @@ def comment(request, post_id):
 @csrf_exempt
 def delete_post(request, post_id):
     if request.user.is_authenticated:
-        if request.method == 'PUT':
             post = Post.objects.get(id=post_id)
             if request.user == post.creater:
                 try:
                     delet = post.delete()
-                    return HttpResponse(status=201)
+                    return redirect('/')
                 except Exception as e:
                     return HttpResponse(e)
             else:
                 return HttpResponse(status=404)
-        else:
-            return HttpResponse("Method must be 'PUT'")
     else:
         return HttpResponseRedirect(reverse('login'))
 
