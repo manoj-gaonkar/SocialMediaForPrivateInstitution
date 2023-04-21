@@ -6,7 +6,7 @@
     <div class="main-div dark:bg-black bg-white">
         <div class="left-div">
                 {% if page == 'all_posts' %}
-                <nav class="head heading font-bold text-lg text-center py-5 text-neutral-900 dark:text-white sticky top-0 bg-neutral-50 dark:bg-black bg-opacity-70 backdrop-blur-md ">All Posts</nav>
+                <nav class="head heading font-bold text-lg text-center py-5 text-neutral-900 dark:text-white sticky top-0 bg-neutral-50 dark:bg-black bg-opacity-70 backdrop-blur-md ">All Posts {{ all_posts.14 }}</nav>
                 {% elif page == 'following' %}
                 <nav class="head heading font-bold text-lg text-center py-5 text-neutral-900 dark:text-white sticky top-0 bg-neutral-50 dark:bg-black bg-opacity-70 backdrop-blur-md ">Following</nav>
                 {% elif page == 'saved' %}
@@ -31,7 +31,7 @@
                     {% block profile %}
                     {% endblock %}
                     <div class="main-div-content dark:bg-black bg-gray-50">
-                        {% for post in posts %}
+                        {% for post in all_posts %}
                             <div class="post  w-full h-fit bg-white dark:bg-black my-2 rounded-md bg-opacity-5 pb-10  dark:border-gray-800 py-2 " data-post_id="{{post.id}}">
                                 <div>
                                     <div class=" px-3 py-1 flex justify-between items-center">
@@ -50,21 +50,27 @@
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class=" relative">
-                                            <span class="material-symbols-outlined cursor-pointer ">
+
+                                        <!-- this code is for menu button of post -->
+                                        <div class=" relative ">
+                                            <span class="post-menu-button material-symbols-outlined cursor-pointer select-none text-zinc-500 hover:text-black transform transition duration-150  ease-in-out active:scale-75 " id="">
                                                 more_vert
                                             </span>
-                                            <div class=" flex-col ">
-                                                <div>
-                                                   <a href="#">Edit post</a>
-                                                </div>
+                                            <!-- these are pop of menu button -->
+                                            <div class="post-menu-popup invisible flex flex-col w-fit shadow-md absolute left-0 right-0  " id="">
                                                 {% if post.creater == request.user %}
-                                                <div>
-                                                   <a href="{% url 'deletepost' post.id %}">Delete post</a>
+                                                <div class="flex justify-start items-center px-2 py-2 bg-white hover:bg-zinc-200  ">
+                                                   <span class="material-symbols-outlined pr-2 text-blue-500 scale-90 ">edit</span>
+                                                   <a href="#" class="block w-fit whitespace-nowrap">Edit post</a>
+                                                </div>
+                                                <div class="flex justify-start items-center px-2 py-2 bg-white hover:bg-zinc-200 w-fit ">
+                                                    <span class="material-symbols-outlined pr-2 text-red-500 scale-90 ">delete</span>
+                                                   <a href="{% url 'deletepost' post.id %}" class="block w-fit whitespace-nowrap ">Delete post</a>
                                                 </div>
                                                 {% endif %}
                                             </div>
                                         </div>
+                                        
                                        
                                     </div>
                                     <div>
@@ -90,7 +96,7 @@
                                             <!--this is for post like-->
                                             {% if user in post.likers.all %}
                                                 <div class="like flex justify-center items-center mr-3 cursor-pointer " onclick="unlike_post(this)" data-post_id="{{post.id}}">
-                                                    <div class="svg-span block h-fit mr-1  ">
+                                                    <div class="svg-span block h-fit mr-1 transform duration-150 ease-in-out active:scale-75 ">
                                                         <svg  width="1.1em" height="1.1em" viewBox="0 -1 16 16" class="bi bi-heart-fill block " fill="#e0245e" xmlns="http://www.w3.org/2000/svg">
                                                             <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                                                         </svg>
@@ -174,6 +180,17 @@
                                         </div>
                                     {% endif %}
                                 </div>
+                            </div>
+
+                            <div class=" fixed inset-0 w-screen h-screen bg-gray-300 z-10 flex justify-center items-center hidden ">
+                              <div class=" bg-zinc-800 rounded-md w-2/5 h-3/4 p-6 ">
+                                 <div class="w-full h-4/5 bg-cover " style="background-image:url({{posts.11.content_image.url}});">
+                                    <label for="editpostimage">
+                                       <input type="file" id="editpostimage" class="hidden">
+                                    </label>
+                                 </div>
+                                 <div class="px-5 py-6 bg-green-600">{{ posts.14 }}ff</div>
+                              </div>
                             </div>
                         {% empty %}
                             {% block emptyprofile %}
@@ -297,6 +314,15 @@
                 })
             }
             
+            // this is the code of post menu button 
+            const postMenuButton = document.querySelectorAll('.post-menu-button');
+            const postMenuPopup = document.querySelectorAll('.post-menu-popup')
+            postMenuButton.forEach((menuButton) => {
+               menuButton.addEventListener('click',()=>{
+                   menuButton.nextElementSibling.classList.toggle('invisible');
+                })
+            })
+
 
             
         </script>

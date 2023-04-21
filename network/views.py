@@ -54,6 +54,7 @@ def index(request):
     # user post creation form 
     return render(request, "network/index.html", {
         "posts": posts,
+        "all_posts":all_posts,
         "suggestions": suggestions,
         "page": "all_posts",
         'profile': False,
