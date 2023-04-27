@@ -343,6 +343,8 @@ def create_post(request):
             return HttpResponse(e)
     return redirect('index')
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 @login_required
 @csrf_exempt
 def edit_post(request, post_id):
@@ -354,8 +356,11 @@ def edit_post(request, post_id):
         post = Post.objects.get(id=post_id)
         try:
             post.content_text = text
-            if request.FILES.get('picture'):
-                post.content_image = request.FILES.get('picture')
+            if post.content_image:
+                old_image = post.content_image.url
+                print(os.path.join(BASE_DIR,old_image))
+                if request.FILES.get('picture'):
+                    post.content_image = request.FILES.get('picture')
             post.save()
             
             return HttpResponseRedirect(reverse('index'))
