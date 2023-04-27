@@ -414,7 +414,7 @@ function show_comment(element) {
         comment_div.querySelector('input').focus()
         return;
     }
-    comment_div.querySelector('#spinner').style.display = 'block';
+    // comment_div.querySelector('#spinner').style.display = 'block';
     comment_div.style.display = 'block';
     fetch('/n/post/'+parseInt(post_id)+'/comments')
     .then(response => response.json())
@@ -425,7 +425,7 @@ function show_comment(element) {
     })
     .then(() => {
         setTimeout(() => {
-            comment_div.querySelector('.spinner-div').style.display = 'none';
+            // comment_div.querySelector('.spinner-div').style.display = 'none';
             comment_div.querySelector('.comment-div-data').style.display = 'block';
             comment_div.style.overflow = 'auto';
         }, 500);

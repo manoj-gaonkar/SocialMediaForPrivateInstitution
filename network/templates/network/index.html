@@ -71,18 +71,19 @@
                                             </div>
                                         </div>
                                         <div class=" edit-post-popups invisible w-screen h-screen fixed inset-0 bg-black bg-opacity-30 z-10 flex justify-center items-center ">
-                                            <div class="w-2/5 h-fit bg-white shadow-md p-4 transition-transform transform opacity-0 scale-75 duration-200 ease-in-out ">
+                                            <div class="w-2/5 h-fit bg-white dark:bg-zinc-800 shadow-md p-4 transition-transform transform opacity-0 scale-75 duration-200 ease-in-out ">
                                                 <form action="{% url 'editpost' post.id %}" method="post" class="w-full h-full  " enctype="multipart/form-data" >
                                                     {% csrf_token %}
                                                     {% if post.content_image %}
-                                                    <div class="postpreview w-full h-80 bg-cover   " style="background-image:url({{ post.content_image.url }});̥̥̥">
-                                                    <label for="editPostImg" class=" group  bg-black bg-opacity-0 hover:bg-opacity-30 transition-all duration-150 ease-in-out w-full h-full group cursor-pointer flex justify-center items-center " >
+                                                    <div class="postpreview w-full h-80 bg-cover rounded-md overflow-hidden " style="background-image:url({{ post.content_image.url }});̥̥̥">
+                                                    <label  class=" group flex flex-col  bg-black bg-opacity-0 hover:bg-opacity-60 transition-all duration-150 ease-in-out w-full h-full group cursor-pointer flex justify-center items-center " >
                                                         <input type="file" class=" hidden " id="editPostImg" name="picture" onchange="postImagePreview(this)" accept=".jpeg,.jpg" />
                                                         <span class="material-symbols-outlined text-white opacity-0 group-hover:opacity-100 ">upload_file</span>
+                                                        <p class="text-white opacity-0 group-hover:opacity-100">Upload File</p>
                                                     </label>
                                                     </div>
                                                     {% endif %}
-                                                    <textarea  id="" cols="30" name="newtext" class="bg-zinc-100 rounded-md outline-none w-full my-1 px-2 py-2  text-black " rows="4" value="" >{{post.id}}{{ post.content_text  }}</textarea>
+                                                    <textarea  id="" cols="30" name="newtext" class="bg-zinc-100 rounded-md outline-none w-full my-1 px-2 py-2  text-black " rows="4" value="" >{{ post.content_text  }}</textarea>
                                                     <input type="submit" class=" cursor-pointer px-4 py-1 rounded-sm mt-1 bg-purple-500 ">
                                                 </form>
                                             </div>
@@ -171,7 +172,7 @@
                                         {% endif %}
                                     </div>
                                 </div>
-                                <div class="comment-div"  data-post_id="{{post.id}}">
+                                <div class="comment-div block "  data-post_id="{{post.id}}">
                                     <!-- <div class="spinner-div">
                                         <img src="{% static 'network/Images/spinner.gif' %}" id="spinner" height="65px">
                                     </div>  -->
@@ -367,7 +368,7 @@
                 var reader = new FileReader();
                 const postImage = imageelement.files[0];
                 reader.addEventListener('load',() => {
-                document.querySelector('.postpreview').style.backgroundImage = `url(${reader.result})`;
+                imageelement.parentElement.parentElement.style.backgroundImage = `url(${reader.result})`;
                 console.log("enterr")
                 })
                 console.log(postImage);

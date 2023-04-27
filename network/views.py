@@ -358,7 +358,7 @@ def edit_post(request, post_id):
             post.content_text = text
             if post.content_image:
                 old_image = post.content_image.url
-                print(os.path.join(BASE_DIR,old_image))
+                print(os.path.join(settings.MEDIA_ROOT,old_image))
                 if request.FILES.get('picture'):
                     post.content_image = request.FILES.get('picture')
             post.save()
