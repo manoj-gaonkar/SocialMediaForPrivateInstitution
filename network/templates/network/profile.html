@@ -184,12 +184,10 @@
             const previewFile = document.querySelector('.coverimage');
             const reader = new FileReader();
             const newfile = uploadCoverImage.files[0];
-            console.log(newfile);
-
+            reader.readAsDataURL(newfile);
             reader.addEventListener('load',() => {
                 previewFile.style.backgroundImage = `url(${reader.result})`;
             })
-        reader.readAsDataURL(newfile);
 
         }
 

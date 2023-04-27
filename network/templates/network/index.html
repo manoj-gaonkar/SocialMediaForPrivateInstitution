@@ -42,7 +42,7 @@
                                             </a>
                                             <div class="inline-flex flex-col pl-3" >
                                                 <a href="{% url 'profile' post.creater.username %}">
-                                                    <span class=" text-sm font-bold text-neutral-900 dark:text-white  ">{{post.creater.first_name}} {{post.creater.last_name}}</span>
+                                                    <span class=" text-sm font-bold text-neutral-900 dark:text-white  ">{{post.creater.first_name}} {{post.creater.last_name}} {{ post.id }}</span>
                                                     <span class=" self-start text-xs text-gray-600  dark:text-gray-400 ">&middot;{{post.date_created|timesince}} ago</span>
                                                 </a>
                                                 <a href="{% url 'profile' post.creater.username %}" class="inline-block">
@@ -53,21 +53,38 @@
 
                                         <!-- this code is for menu button of post -->
                                         <div class=" relative ">
-                                            <span class="post-menu-button material-symbols-outlined cursor-pointer select-none text-zinc-500 hover:text-black transform transition duration-150  ease-in-out active:scale-75 " id="">
+                                            <span class="post-menu-button material-symbols-outlined cursor-pointer select-none text-zinc-500 hover:text-black dark:hover:text-white transform transition duration-150  ease-in-out active:scale-75 " id="">
                                                 more_vert
                                             </span>
                                             <!-- these are pop of menu button -->
-                                            <div class="post-menu-popup invisible flex flex-col w-fit shadow-md absolute left-0 right-0  " id="">
+                                            <div class="post-menu-popup invisible flex flex-col w-fit shadow-md absolute left-0 right-0 divide-y-2 divide-zinc-100 dark:divide-zinc-700 z-10 " id="">
                                                 {% if post.creater == request.user %}
-                                                <div class="flex justify-start items-center px-2 py-2 bg-white hover:bg-zinc-200  ">
-                                                   <span class="material-symbols-outlined pr-2 text-blue-500 scale-90 ">edit</span>
-                                                   <a href="#" class="block w-fit whitespace-nowrap">Edit post</a>
+                                                <div class=" edit-post-buttons flex justify-start items-center px-2 py-2 bg-white dark:bg-zinc-800 hover:bg-zinc-200 cursor-pointer  ">
+                                                   <span class="material-symbols-outlined pr-2 text-blue-500 scale-90 select-none ">edit</span>
+                                                   <a href="#" class="block w-fit whitespace-nowrap text-sm select-none ">Edit post</a>
                                                 </div>
-                                                <div class="flex justify-start items-center px-2 py-2 bg-white hover:bg-zinc-200 w-fit ">
+                                                <div class="flex justify-start items-center px-2 py-2 bg-white hover:bg-zinc-200 w-fit dark:bg-zinc-800 ">
                                                     <span class="material-symbols-outlined pr-2 text-red-500 scale-90 ">delete</span>
-                                                   <a href="{% url 'deletepost' post.id %}" class="block w-fit whitespace-nowrap ">Delete post</a>
+                                                   <a href="{% url 'deletepost' post.id %}" class="block w-fit whitespace-nowrap text-sm ">Delete post</a>
                                                 </div>
                                                 {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class=" edit-post-popups invisible w-screen h-screen fixed inset-0 bg-black bg-opacity-30 z-10 flex justify-center items-center ">
+                                            <div class="w-2/5 h-fit bg-white shadow-md p-4 transition-transform transform opacity-0 scale-75 duration-200 ease-in-out ">
+                                                <form action="{% url 'editpost' post.id %}" method="post" class="w-full h-full  " enctype="multipart/form-data" >
+                                                    {% csrf_token %}
+                                                    {% if post.content_image %}
+                                                    <div class="postpreview w-full h-80 bg-cover   " style="background-image:url({{ post.content_image.url }});̥̥̥">
+                                                    <label for="editPostImg" class=" group  bg-black bg-opacity-0 hover:bg-opacity-30 transition-all duration-150 ease-in-out w-full h-full group cursor-pointer flex justify-center items-center " >
+                                                        <input type="file" class=" hidden " id="editPostImg" name="picture" onchange="postImagePreview(this)" accept=".jpeg,.jpg" />
+                                                        <span class="material-symbols-outlined text-white opacity-0 group-hover:opacity-100 ">upload_file</span>
+                                                    </label>
+                                                    </div>
+                                                    {% endif %}
+                                                    <textarea  id="" cols="30" name="newtext" class="bg-zinc-100 rounded-md outline-none w-full my-1 px-2 py-2  text-black " rows="4" value="" >{{post.id}}{{ post.content_text  }}</textarea>
+                                                    <input type="submit" class=" cursor-pointer px-4 py-1 rounded-sm mt-1 bg-purple-500 ">
+                                                </form>
                                             </div>
                                         </div>
                                         
@@ -129,8 +146,8 @@
     
     
                                             {% if user in post.savers.all %}
-                                                <div class="cursor-pointer save flex justify-center items-center place-self-end mr-2" onclick="unsave_post(this)" data-post_id="{{post.id}}">
-                                                    <div class="svg-span block">
+                                                <div class="cursor-pointer save flex justify-center items-center place-self-end mr-2  " onclick="unsave_post(this)" data-post_id="{{post.id}}">
+                                                    <div class="svg-span block transform duration-150 ease-in-out active:scale-75">
                                                         <svg width="1.1em" height="1.1em" viewBox="0.5 0 15 15" class="bi bi-bookmark-fill block" fill="#17bf63" xmlns="http://www.w3.org/2000/svg">
                                                             <path fill-rule="evenodd" d="M3 3a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v12l-5-3-5 3V3z"/>
                                                         </svg>
@@ -138,7 +155,7 @@
                                                 </div>
                                             {% else %}
                                                 <div class="save flex justify-center items-center mr-2 cursor-pointer" onclick="save_post(this)" data-post_id="{{post.id}}">
-                                                    <div class="svg-span inline-block">
+                                                    <div class="svg-span inline-block transform duration-150 ease-in-out active:scale-75">
                                                         <svg width="1.1em" height="1.1em" viewBox="0.5 0 15 15" class="bi bi-bookmark" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                             <path fill-rule="evenodd" d="M8 12l5 3V3a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12l5-3zm-4 1.234l4-2.4 4 2.4V3a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10.234z"/>
                                                         </svg>
@@ -154,10 +171,10 @@
                                         {% endif %}
                                     </div>
                                 </div>
-                                <div class="comment-div" style="display:none;" data-post_id="{{post.id}}">
-                                    <div class="spinner-div">
+                                <div class="comment-div"  data-post_id="{{post.id}}">
+                                    <!-- <div class="spinner-div">
                                         <img src="{% static 'network/Images/spinner.gif' %}" id="spinner" height="65px">
-                                    </div> 
+                                    </div>  -->
                                     {% if user.is_authenticated %}
                                         <div class="comment-div-data" style="display:none;">
                                             <div class="head-comment-input">
@@ -292,7 +309,6 @@
                 console.log(userid);
                 const postForm = document.querySelector('#createPostForm');
                 const formData = new FormData(postForm);
-                console.log(formData)
                 const content_image = document.querySelector('#id_content_image');
                 // getting csrftoken
                 const csrftoken = postForm.querySelector('[name=csrfmiddlewaretoken]').value;
@@ -318,13 +334,49 @@
             const postMenuButton = document.querySelectorAll('.post-menu-button');
             const postMenuPopup = document.querySelectorAll('.post-menu-popup')
             postMenuButton.forEach((menuButton) => {
-               menuButton.addEventListener('click',()=>{
+               menuButton.addEventListener('click',(e)=>{
                    menuButton.nextElementSibling.classList.toggle('invisible');
                 })
             })
 
+            const editPostButtons = document.querySelectorAll('.edit-post-buttons');
+            editPostButtons.forEach((editpostbutton)=>{
+                editpostbutton.addEventListener('click',()=>{
+                    editpostbutton.parentElement.parentElement.nextElementSibling.classList.toggle('invisible');
+                    editpostbutton.parentElement.parentElement.nextElementSibling.firstElementChild.classList.add('scale-100');
+                    editpostbutton.parentElement.parentElement.nextElementSibling.firstElementChild.classList.add('opacity-100');
+                    console.log(editpostbutton.parentElement.parentElement.nextElementSibling);
+                })
+            })
 
-            
+            const editPostPopups = document.querySelectorAll('.edit-post-popups');
+
+            editPostPopups.forEach((editPostPopup)=>{
+                editPostPopup.addEventListener('click',(e)=>{
+                    console.log(editPostPopup.firstElementChild);
+                    if(!editPostPopup.firstElementChild.contains(e.target)){
+                        editPostPopup.classList.toggle('invisible');
+                        editPostPopup.firstElementChild.classList.remove('scale-100');
+                        editPostPopup.firstElementChild.classList.remove('opacity-100');
+                    }
+                })
+            })
+
+            function postImagePreview(imageelement){
+                console.log("maoj")
+                var reader = new FileReader();
+                const postImage = imageelement.files[0];
+                reader.addEventListener('load',() => {
+                document.querySelector('.postpreview').style.backgroundImage = `url(${reader.result})`;
+                console.log("enterr")
+                })
+                console.log(postImage);
+                reader.readAsDataURL(postImage);
+            }
+
+            window.addEventListener('click',(e)=>{
+                console.log(e.target)
+            })
         </script>
     </div>
     
