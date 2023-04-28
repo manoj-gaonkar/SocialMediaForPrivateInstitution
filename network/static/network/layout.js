@@ -447,7 +447,7 @@ function write_comment(element) {
         })
     })
     .then(response => response.json())
-    .then(comment => {f
+    .then(comment => {
         console.log(comment);
         element.querySelector('input').value = '';
         comment_count.innerHTML++;
@@ -462,37 +462,22 @@ function display_comment(comment, container, new_comment=false) {
     let eachrow = document.createElement('div');
     eachrow.className = 'eachrow';
     eachrow.setAttribute('data-id', comment.id);
+    console.log("display comment");
     eachrow.innerHTML = `
-        <div>
-            <a href='/${comment.commenter.username}'>
-                <div class="small-profilepic" style="background-image: url(${comment.commenter.profile_pic})"></div>
-            </a>
-        </div>
-        <div style="flex: 1;">
-            <div class="comment-text-div">
-                <div class="comment-user">
-                    <a href="/${comment.commenter.username}">
-                        ${comment.commenter.first_name} ${comment.commenter.last_name}
-                    </a>
-                </div>
-                ${comment.body}
-            </div>
-        </div>
-        
-        <div class="flex justify-start items-center  w-fit px-2 py-2 rounded" >
+        <div class="flex justify-start items-center  w-fit px-2 py-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 m-2 " >
             <div class="">
                 <a href='/${comment.commenter.username}'>
-                    <div class="small-profilepic bg-cover bg-center rounded-full h-11 w-11" style="background-image: url(${comment.commenter.profile_pic})"></div>
+                    <div class="small-profilepic bg-cover bg-center rounded-full h-9 w-9" style="background-image: url(${comment.commenter.profile_pic})"></div>
                 </a>
             </div>
             <div>
                 <div class="comment-text-div px-2 flex flex-col justify-start ">
                     <div class="comment-user inline">
-                        <a href="/${comment.commenter.username}" class="inline font-bold text-white hover:opacity-90 text-sm " >
+                        <a href="/${comment.commenter.username}" class="inline font-bold  text-zinc-800 dark:text-white hover:opacity-90 text-xs " >
                             ${comment.commenter.first_name} ${comment.commenter.last_name}
                         </a>
                     </div>
-                    <div class=" text-sm  text-gray-400 ">
+                    <div class=" text-xs text-zinc-600 dark:text-zinc-400  ">
                     ${comment.body}
                     </div>
                 </div>

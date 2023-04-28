@@ -42,7 +42,7 @@
                                             </a>
                                             <div class="inline-flex flex-col pl-3" >
                                                 <a href="{% url 'profile' post.creater.username %}">
-                                                    <span class=" text-sm font-bold text-neutral-900 dark:text-white  ">{{post.creater.first_name}} {{post.creater.last_name}} {{ post.id }}</span>
+                                                    <span class=" text-sm font-bold text-neutral-900 dark:text-white  ">{{post.creater.first_name}} {{post.creater.last_name}}</span>
                                                     <span class=" self-start text-xs text-gray-600  dark:text-gray-400 ">&middot;{{post.date_created|timesince}} ago</span>
                                                 </a>
                                                 <a href="{% url 'profile' post.creater.username %}" class="inline-block">
@@ -184,17 +184,19 @@
                                                         <div class="small-profilepic" style="background-image: url(/media/{{user.profile_pic}})"></div>
                                                     </a>
                                                 </div>
-                                                <div class="w-full" style="display:none">
-                                                    <div class="comment-input-div w-full mt-4">
-                                                        <p class="text-sm font-bold text-white">Comments</p>
-                                                        <form class="comment-form w-full flex " onsubmit="return write_comment(this)">
-                                                            <input type="text" name="comment" class="comment-input px-4 w-11/12 py-2 bg-transparent hover:bg-gradient-to-r transition-all ease-in-out duration-500 hover:from-gray-900   inline-block outline-none " autocomplete='off'  placeholder="Write a comment...">
-                                                            <input type="submit" class="text-green-600 text-sm font-bold transition-all ease-in-out duration-200 inline-block text-right hover:text-green-500 w-1/12" value='comment'>
+                                                <div class="w-full" style="">
+                                                    <div class="comment-input-div w-full mt-4 px-2">
+                                                        <p class="text-xs font-bold text-zinc-800 p-2 dark:text-white "  >Comments</p>
+                                                        <form class="comment-form w-full flex bg-zinc-100 hover:bg-zinc-200 transition-all ease-in-out duration-300 dark:bg-zinc-700 px-5 rounded-full " onsubmit="return write_comment(this)">
+                                                            <input type="text" name="comment" class="comment-input  w-full bg-transparent py-2 inline-block outline-none " autocomplete='off'  placeholder="Write a comment...">
+                                                            <input type="submit" class="text-purple-600 text-sm font-bold transition-all ease-in-out duration-500 cursor-pointer inline-block text-right hover:text-purple-500 " value='comment'>
                                                         </form>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="comment-comments"></div>
+                                            <div class="comment-comments ">
+                                                
+                                            </div>
                                         </div>
                                     {% endif %}
                                 </div>
