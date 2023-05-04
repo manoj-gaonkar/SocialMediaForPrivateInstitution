@@ -118,6 +118,34 @@
                             {{username.bio|linebreaks}}
                         {% endif %}
                     </div>
+                    {% if user.username == username.username %}
+                    <div class="flex  ">
+                        <!-- this is for users branch -->
+                        <div class="flex flex-col ">
+                            <p>Branch</p>
+                            <select value=""  >
+                                <option name="cse" id="">Computer Science and Engineering</option>
+                                <option name="ise" id="">Information Science and Engineering</option>
+                                <option name="aids" id="">Artificial Intellingence & Data Science </option>
+                                <option name="ece" id="">Electronics and Communication Engineering</option>
+                                <option name="eee" id="">Electrical & Electronics Engineering</option>
+                                <option name="ce" id="">Civil Engineering</option>
+                            </select>
+                        </div>
+                        <!-- this code is for  -->
+                        <div class="flex flex-col ">
+                            <p>Branch</p>
+                            <select value="">
+                                <option name="cse" id="">Computer Science and Engineering</option>
+                                <option name="ise" id="">Information Science and Engineering</option>
+                                <option name="aids" id="">Artificial Intellingence & Data Science </option>
+                                <option name="ece" id="">Electronics and Communication Engineering</option>
+                                <option name="eee" id="">Electrical & Electronics Engineering</option>
+                                <option name="ce" id="">Civil Engineering</option>
+                            </select>
+                        </div>
+                    </div>
+                    {% endif %}
                     <div class="grey" style="padding: 8px 0px;">
                         Joined {{username.date_joined | date:"F Y"}}
                     </div>
