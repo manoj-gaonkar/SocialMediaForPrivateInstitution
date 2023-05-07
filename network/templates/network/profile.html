@@ -5,7 +5,7 @@
 {% block profile %}
 {% if request.user.is_authenticated %}
 <!-- <div class=" w-screen h-screen  justify-center items-start fixed mt-36 left-0 top-0 z-20 " > -->
-<div class="hidden  h-screen w-screen items-center justify-center fixed inset-0 z-50 bg-transparent  " id="editprofile">
+<div class="  h-screen w-screen items-center justify-center fixed inset-0 z-50 bg-transparent  " id="editprofile">
   <div class="editprofilecontainer h-fit w-2/6 rounded-md px-6 py-4 shadow-[0_50px_100px_-10px_rgb(50,50,93,0.4),0_0_30px_-20px_rgb(0,0,0,0.5)] dark:shadow-[0_-50px_100px_-10px_rgb(164,58,185,0.2),0_50px_150px_-20px_rgb(164,58,241,0.4)] bg-white dark:bg-stone-900 ">
     <p class="pb-2 text-lg font-semibold relative z-50 text-black dark:text-white ">Edit Profile</p>
     <form method="post" action="{% url 'editprofile' request.user.id %}" enctype="multipart/form-data">
@@ -27,6 +27,31 @@
         <input type="text" value="{{ username.email }}" class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-400 cursor-not-allowed" disabled/>
       </div>
       <textarea name="bio" id="" cols="30" rows="8" class="h-16 max-h-40 w-full rounded-md bg-gray-100 px-2 py-1 outline-none placeholder:text-sm  text-black text-sm placeholder:text-gray-400" placeholder="update your bio">{% if username.bio %}{{username.bio}}{% endif %}</textarea>
+      <div class="flex w-full gap-2 ">
+        <!-- this is for users branch -->
+        <fieldset class="flex flex-col w-full border rounded-md px-2 py-1 ">
+            <legend class="px-1 text-xs " >Branch</legend>
+            <select name="branch" class="w-full text-zinc-800 dark:text-white outline-none bg-transparent "  >
+                <option value="cse" class="text-black"  class="text-black" id=""  selected >Computer Science and Engineering</option>
+                <option value="ise" class="text-black"  id="">Information Science and Engineering</option>
+                <option value="aids" class="text-black"  id="">Artificial Intellingence & Data Science </option>
+                <option value="ece" class="text-black"  id="">Electronics and Communication Engineering</option>
+                <option value="eee" class="text-black"  id="">Electrical & Electronics Engineering</option>
+                <option value="ce"  class="text-black" id="">Civil Engineering</option>
+            </select>
+        </fieldset>
+        <!-- this code is for  -->
+        <fieldset class="flex flex-col w-full border rounded-md px-2 py-1 bg-transparent  ">
+            <legend class="px-1 text-xs ">Staff</legend>
+            <select name="staff" class="w-full outline-none  text-zinc-800 dark:text-white bg-transparent ">
+                <option class="text-black" value="principal" id="">Principal</option>
+                <option class="text-black" value="lecturer" id="">Lecturer</option>
+                <option class="text-black" value="pune" id="">Pune</option>
+                <option class="text-black" value="student" id="">Student</option>
+                <option class="text-black" value="others" id="" selected >Other staff</option>
+            </select>
+        </fieldset>
+    </div>
       <input type="submit" value="Update" class="mt-4 cursor-pointer rounded-md bg-purple-500 px-4 py-1 text-sm text-white" />
     </form>
   </div>
@@ -118,34 +143,6 @@
                             {{username.bio|linebreaks}}
                         {% endif %}
                     </div>
-                    {% if user.username == username.username %}
-                    <div class="flex  ">
-                        <!-- this is for users branch -->
-                        <div class="flex flex-col ">
-                            <p>Branch</p>
-                            <select value=""  >
-                                <option name="cse" id="">Computer Science and Engineering</option>
-                                <option name="ise" id="">Information Science and Engineering</option>
-                                <option name="aids" id="">Artificial Intellingence & Data Science </option>
-                                <option name="ece" id="">Electronics and Communication Engineering</option>
-                                <option name="eee" id="">Electrical & Electronics Engineering</option>
-                                <option name="ce" id="">Civil Engineering</option>
-                            </select>
-                        </div>
-                        <!-- this code is for  -->
-                        <div class="flex flex-col ">
-                            <p>Branch</p>
-                            <select value="">
-                                <option name="cse" id="">Computer Science and Engineering</option>
-                                <option name="ise" id="">Information Science and Engineering</option>
-                                <option name="aids" id="">Artificial Intellingence & Data Science </option>
-                                <option name="ece" id="">Electronics and Communication Engineering</option>
-                                <option name="eee" id="">Electrical & Electronics Engineering</option>
-                                <option name="ce" id="">Civil Engineering</option>
-                            </select>
-                        </div>
-                    </div>
-                    {% endif %}
                     <div class="grey" style="padding: 8px 0px;">
                         Joined {{username.date_joined | date:"F Y"}}
                     </div>

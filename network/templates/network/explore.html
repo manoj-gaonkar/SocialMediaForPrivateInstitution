@@ -6,7 +6,7 @@
             <div class="grid grid-cols-3 gap-3">
                 {% for post in posts %}
                   {% if post.content_image %}
-                    <div id="post" class="bg-gray-400 w-full h-52 [background-image:url('{{ post.content_image.url }}')] bg-cover bg-center " data-postid="{{ post.creater }}" onclick="postpopup(this)"></div>
+                    <div id="post" class="bg-gray-400 w-full h-52 [background-image:url('{{ post.content_image.url }}')] bg-cover bg-center " data-postid="{{ post.creater }}" onclick="postpopup({{ post }})"></div>
                     {% endif %}
                 {% endfor %}
             </div>
@@ -39,9 +39,10 @@
                 explorepost = document.querySelector("#explorepreview");
                 explorepostcontainer = document.querySelector("#explorepostcontainer")
                 function postpopup(post){
-                    console.log(post.dataset.postid);
-                    explorepost.classList.remove('hidden');
-                    explorepost.classList.add('flex');
+                    console.log(post)
+                    //console.log(post.dataset.postid);
+                    //explorepost.classList.remove('hidden');
+                    //explorepost.classList.add('flex');
                 }
 
                 explorepost.addEventListener('click',(e)=>{
