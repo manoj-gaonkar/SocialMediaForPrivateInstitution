@@ -5,7 +5,7 @@
 {% block profile %}
 {% if request.user.is_authenticated %}
 <!-- <div class=" w-screen h-screen  justify-center items-start fixed mt-36 left-0 top-0 z-20 " > -->
-<div class="  h-screen w-screen items-center justify-center fixed inset-0 z-50 bg-transparent  " id="editprofile">
+<div class="hidden  h-screen w-screen items-center justify-center fixed inset-0 z-50 bg-transparent  " id="editprofile">
   <div class="editprofilecontainer h-fit w-2/6 rounded-md px-6 py-4 shadow-[0_50px_100px_-10px_rgb(50,50,93,0.4),0_0_30px_-20px_rgb(0,0,0,0.5)] dark:shadow-[0_-50px_100px_-10px_rgb(164,58,185,0.2),0_50px_150px_-20px_rgb(164,58,241,0.4)] bg-white dark:bg-stone-900 ">
     <p class="pb-2 text-lg font-semibold relative z-50 text-black dark:text-white ">Edit Profile</p>
     <form method="post" action="{% url 'editprofile' request.user.id %}" enctype="multipart/form-data">
@@ -32,23 +32,25 @@
         <fieldset class="flex flex-col w-full border rounded-md px-2 py-1 ">
             <legend class="px-1 text-xs " >Branch</legend>
             <select name="branch" class="w-full text-zinc-800 dark:text-white outline-none bg-transparent "  >
-                <option value="cse" class="text-black"  class="text-black" id=""  selected >Computer Science and Engineering</option>
-                <option value="ise" class="text-black"  id="">Information Science and Engineering</option>
-                <option value="aids" class="text-black"  id="">Artificial Intellingence & Data Science </option>
-                <option value="ece" class="text-black"  id="">Electronics and Communication Engineering</option>
-                <option value="eee" class="text-black"  id="">Electrical & Electronics Engineering</option>
-                <option value="ce"  class="text-black" id="">Civil Engineering</option>
+                <option value="na" class="text-black"  class="text-black" id=""  {% if username.branch == "na" %} selected {% endif %}   >select an option</option>
+                <option value="cse" class="text-black"  class="text-black" id=""  {% if username.branch == "cse" %} selected {% endif %}  >Computer Science and Engineering</option>
+                <option value="ise" class="text-black"  id="" {% if username.branch == "ise" %} selected {% endif %} >Information Science and Engineering</option>
+                <option value="aids" class="text-black"  id="" {% if username.branch == "aids" %} selected {% endif %}>Artificial Intellingence & Data Science </option>
+                <option value="ece" class="text-black"  id="" {% if username.branch == "ece" %} selected {% endif %}>Electronics and Communication Engineering</option>
+                <option value="eee" class="text-black"  id="" {% if username.branch == "eee" %} selected {% endif %}>Electrical & Electronics Engineering</option>
+                <option value="ce"  class="text-black" id="" {% if username.branch == "ci" %} selected {% endif %}>Civil Engineering</option>
             </select>
         </fieldset>
         <!-- this code is for  -->
         <fieldset class="flex flex-col w-full border rounded-md px-2 py-1 bg-transparent  ">
             <legend class="px-1 text-xs ">Staff</legend>
             <select name="staff" class="w-full outline-none  text-zinc-800 dark:text-white bg-transparent ">
-                <option class="text-black" value="principal" id="">Principal</option>
-                <option class="text-black" value="lecturer" id="">Lecturer</option>
-                <option class="text-black" value="pune" id="">Pune</option>
-                <option class="text-black" value="student" id="">Student</option>
-                <option class="text-black" value="others" id="" selected >Other staff</option>
+                <option value="na" class="text-black"  class="text-black  " id=""  {% if username.staff == "na" %} selected {% endif %}  >select an option</option>
+                <option class="text-black" value="principal" id="" {% if username.staff == "principal" %} selected {% endif %}>Principal</option>
+                <option class="text-black" value="lecturer" id="" {% if username.staff == "lecturer" %} selected {% endif %}>Lecturer</option>
+                <option class="text-black" value="pune" id="" {% if username.staff == "pune" %} selected {% endif %}>Pune</option>
+                <option class="text-black" value="student" id="" {% if username.staff == "student" %} selected {% endif %}>Student</option>
+                <option class="text-black" value="others" id="" {% if username.staff == "others" %} selected {% endif %} >Other staff</option>
             </select>
         </fieldset>
     </div>
@@ -136,29 +138,57 @@
                     {% endif %}
                 </div>
                 <div class="details-data">
-                    <h5 class="text-xl font-bold">{{username.first_name}} {{username.last_name}}</h5>
-                    <div class="grey text-xs ">{{username.username}}</div>
+                    <h5 class="text-xl font-bold">{{username.first_name}} {{username.last_name}} <span class="text-xs font-normal ">({{username.username}})</span> </h5>
+                    <div class="flex flex-col gap-1">
+                        {% if username.staff !=  "na" %}
+                            <div class=" text-xs ">{{ username.staff }}</div>
+                        {% endif %}
+                        {% if username.branch == 'cse' %}
+                        <p class=" text-sm  ">Computer Science and Engineering</p>
+                        {% elif username.branch == "ise" %}
+                        <p >Information Science and Engineering</p>
+                        {% elif username.branch == "aids" %}
+                        <p >Artificial Intellingence & Data Science </p>
+                        {% elif username.branch == "ece" %}
+                        <p >Electronics and Communication Engineering</p>
+                        {% elif username.branch == "eee" %}
+                        <p >Electrical & Electronics Engineering</p>
+                        {% elif username.branch == "ci" %}
+                        <p >Civil Engineering</p>
+                        {% else %}
+
+                        {% endif %}
+                    </div>
                     <div class="bio pt-3 text-sm">
                         {% if username.bio is not None %}
                             {{username.bio|linebreaks}}
                         {% endif %}
                     </div>
-                    <div class="grey" style="padding: 8px 0px;">
-                        Joined {{username.date_joined | date:"F Y"}}
-                    </div>
-                    <div>
-                        <strong>
-                            {{posts_count}}
-                        </strong>
-                        &nbsp;<span class="grey">Posts</span>
-                        &ensp;
-                        <button onclick="showFollowing()">
-                            <strong id="following__count">{{following_count | default:0}}</strong>&nbsp;<span class="grey1">Following</span>
-                        </button>
-                        &ensp;
-                        <button onclick="showFollowers()">
-                            <strong id="follower__count">{{follower_count | default:0}}</strong>&nbsp;<span class="grey">Followers</span>
-                        </button>
+                    {% if username.username == request.user.username %}
+                        {% if username.staff == "na" or username.branch == "na" %}
+                        <div onclick="showEditProfile();" class=" text-blue-500 text-xs cursor-pointer ">add more details </div>
+                        {% endif %}
+                    {% endif %}
+                    
+                    
+                    <div class="flex justify-between pt-3 items-end ">
+                        <div>
+                            <strong>
+                                {{posts_count}}
+                            </strong>
+                            &nbsp;<span class="grey">Posts</span>
+                            &ensp;
+                            <button onclick="showFollowing()">
+                                <strong id="following__count">{{following_count | default:0}}</strong>&nbsp;<span class="grey1">Following</span>
+                            </button>
+                            &ensp;
+                            <button onclick="showFollowers()">
+                                <strong id="follower__count">{{follower_count | default:0}}</strong>&nbsp;<span class="grey">Followers</span>
+                            </button>
+                        </div>
+                        <div class="  text-xs text-zinc-400 " s>
+                            Joined {{username.date_joined | date:"F Y"}}
+                        </div>    
                     </div>
                 </div>
             </div>

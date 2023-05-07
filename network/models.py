@@ -4,7 +4,7 @@ from django.utils import timezone
 
 
 class User(AbstractUser):
-    BRANCHES = [
+    BRANCHES_CHOICES = [
         ("na","na"),
         ('cse',"Compter Science and Engineering"),
         ("ise","Information Science and Engineering"),
@@ -13,7 +13,8 @@ class User(AbstractUser):
         ("eee","Electrical & Electronics Engineering"),
         ("ce","Civil Engineering"),
     ]
-    STAFF = [
+    STAFF_CHOICES = [
+        ("na","na"),
         ("principal","Principal"),
         ("lecturer","Lecturer"),
         ("pune","Pune"),
@@ -23,7 +24,8 @@ class User(AbstractUser):
     profile_pic = models.ImageField(upload_to='profile_pic/',blank=True,default='profile_pic/default_profile_image.png')
     bio = models.TextField(max_length=160, blank=True, null=True)
     cover = models.ImageField(upload_to='covers/',default='covers/default_cover_image.png',blank=True)
-    branch = models.CharField(max_length=20,choices=BRANCHES,default='na',blank=True)
+    branch = models.CharField(max_length=20,choices=BRANCHES_CHOICES,default='na',blank=True)
+    staff = models.CharField(max_length=20,choices=STAFF_CHOICES,default='na',blank=True)
 
     def __str__(self):
         return self.username

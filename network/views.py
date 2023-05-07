@@ -603,6 +603,9 @@ def editProfile(request,pk):
         cover_image = request.FILES.get('coverimage')
         profile_image = request.FILES.get('profileimage')
         bio = request.POST.get('bio')
+        branch = request.POST.get('branch')
+        staff = request.POST.get('staff')
+        print(branch,staff)
         fs = FileSystemStorage()
         if cover_image:
             old_cover = user.cover
@@ -622,6 +625,10 @@ def editProfile(request,pk):
             user.profile_pic = profile_image
         if bio:
             user.bio = bio
+        if branch:
+            user.branch = branch
+        if staff:
+            user.staff = staff
         user.save()
         return redirect('profile',username=user.username)
 
