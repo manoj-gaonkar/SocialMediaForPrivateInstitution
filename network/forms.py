@@ -15,6 +15,6 @@ class Postform(ModelForm):
             }),
             'content_image':forms.FileInput(attrs={
                 'class': "hidden  ",
-                'accept':".jpg,.jpeg"
+                'accept':".jpg,.jpeg,.png"
             })
         }

@@ -605,7 +605,6 @@ def editProfile(request,pk):
         bio = request.POST.get('bio')
         branch = request.POST.get('branch')
         staff = request.POST.get('staff')
-        print(branch,staff)
         fs = FileSystemStorage()
         if cover_image:
             old_cover = user.cover
@@ -618,7 +617,8 @@ def editProfile(request,pk):
             filename = fs.save(profile_image.name,profile_image)
             user.profile_pic = fs.url(filename)
             if hasattr(old_profile,'path'):
-                os.remove(os.path.join(settings.MEDIA_ROOT,old_profile.path))
+                if old_profile.url != "/media/profile_pic/default_profile_image.png":
+                    os.remove(os.path.join(settings.MEDIA_ROOT,old_profile.path))
         if cover_image:
             user.cover = cover_image
         if profile_image:
