@@ -546,6 +546,7 @@ def adminlogin(request):
             })
     return render(request,'network/adminlogin.html')
 
+import io
 
 @login_required(login_url='/n/admin/login')
 def adminpage(request):
@@ -569,16 +570,35 @@ def adminpage(request):
             return redirect('adminpage')
         if request.FILES.get('csv_file'):
             csv_file = request.FILES.get('csv_file')
-            print(csv_file)
+            print(type(csv_file))
             if not csv_file.name.endswith('.csv'):
                 return HttpResponse('File is not a CSV')
 
             # Assuming the CSV file has headers 'email' and 'valid'
-            reader = csv.DictReader(csv_file)
+            # csv_data = io.TextIOWrapper(csv_file, encoding='utf-8')
+            csv_data = io.TextIOWrapper(csv_file, encoding='utf-8')
+            reader = csv.reader(csv_data)
             for row in reader:
-                email = row['email']
-                valid = row['valid']
-                print(email,valid)
+                print(row)
+
+                for i in reader:
+                    y = re.search("[A-Za-z]*@sdmit.in",i[0])
+                    if i[1] == 'TRUE':
+                        validuser=True
+                    else:
+                        validuser = False
+                    if y is not None:
+                        if i[0] in authusers.objects.values_list('email',flat=True):
+                            messages.error(request,"email already exists in database")
+                            pass
+                        else:
+                            authusers.objects.create(email=str(i[0]),valid=validuser)
+                    print(i[0])
+
+            # for row in reader:
+            #     email = row['email']
+            #     valid = row['valid']
+            #     print(email,valid)
                 # Adminmodel.objects.create(email=email, valid=valid)
     realusers = User.objects.values_list('username',flat=True) 
     return render(request,'network/admin.html',{
