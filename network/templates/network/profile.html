@@ -12,11 +12,11 @@
         {% csrf_token %}
       <div  class=" coverimage ring-1 ring-white relative h-36 w-full  overflow-hidden rounded-md bg-cover bg-center [background-image:url({{ username.cover.url }})]">
         <label for="dropzone-file" class="flex items-center justify-center w-full h-full bg-black opacity-0 transition-all duration-200 ease-in-out hover:opacity-60">
-          <input name="coverimage"  type="file" id="dropzone-file" class="hidden" accept=".jpeg,.jpg" onchange="coverupdate(this)" />
+          <input name="coverimage"  type="file" id="dropzone-file" class="hidden" accept=".jpeg,.jpg,.png" onchange="coverupdate(this)" />
           <span class="material-symbols-outlined scale-110 text-white">upload</span>
         </label>
         <label for="dropzone-file-profile" class="profileimage absolute left-4 top-2/4 h-28 w-28 -translate-y-2/4 overflow-hidden rounded-full bg-cover bg-center ring-1 ring-white [background-image:url({{ username.profile_pic.url }})]">
-          <input name="profileimage" onchange="profileupdate(this)" type="file" id="dropzone-file-profile" class="hidden" accept=".jpeg,.jpg" />
+          <input name="profileimage" onchange="profileupdate(this)" type="file" id="dropzone-file-profile" class="hidden" accept=".jpeg,.jpg,.png" />
           <div class="flex h-full w-full items-center justify-center bg-black opacity-0 transition-all duration-200 ease-in-out hover:opacity-60">
             <span class="material-symbols-outlined scale-110 text-white">upload</span>
           </div>

@@ -15,6 +15,8 @@ from .models import *
 from .forms import Postform
 # below import for using many conditions in filter
 from django.db.models import Q
+import re #re used in create post to detect hashtags and replace it with tehe <a> tag
+import csv #this is for the csv import of the users list in admin page
 
 def index(request):
     if request.user.is_anonymous:
@@ -279,6 +281,19 @@ def explore(request):
         })
     else:
         return HttpResponseRedirect(reverse('login'))
+    
+@csrf_exempt
+def postdetails(request,post_id):
+    post = Post.objects.get(id=post_id)
+    data = {
+        'username' : post.creater.username,
+        'full_name' : str(post.creater.first_name)+" "+str(post.creater.last_name),
+        'branch' : post.creater.branch,
+        'profile_pic' : post.creater.profile_pic.url,
+        'content_image' : post.content_image.url,
+        'content_text' : post.content_text
+    }
+    return JsonResponse(data)
 
 def saved(request):
     if request.user.is_anonymous:
@@ -329,6 +344,7 @@ def saved(request):
 def create_post(request):
     if request.method == "POST":
         content_text = request.POST['content_text']
+        caption = re.sub(r'#(\w+)', r'<a href="/hashtags/\1/" class="text-blue-500" >#\1</a>', content_text)
         
         if request.FILES.get('content_image'):
             content_image = request.FILES.get('content_image')
@@ -337,7 +353,7 @@ def create_post(request):
             content_image = None
             print("not main")
         try:
-            post = Post.objects.create(creater=request.user, content_text = content_text, content_image = content_image)
+            post = Post.objects.create(creater=request.user, content_text = caption, content_image = content_image)
             return HttpResponseRedirect(reverse('index'))
         except Exception as e:
             return HttpResponse(e)
@@ -350,9 +366,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def edit_post(request, post_id):
     if request.method == 'POST':
         text = request.POST.get('newtext')
-        print(text)
-        # pic = request.FILES.get('picture')
-        # post_id = request.POST.get('id')
         post = Post.objects.get(id=post_id)
         try:
             post.content_text = text
@@ -537,22 +550,36 @@ def adminlogin(request):
 @login_required(login_url='/n/admin/login')
 def adminpage(request):
     if request.method=="POST":
-        email = request.POST['email']
-        valid = request.POST.getlist('check[]')
-        print(valid)
-        val = True if valid else False
-        if email in authusers.objects.values_list('email',flat=True):
-            messages.error(request,"email already exists in database")
+        if request.POST['email'] and request.POST.getlist('check[]'):
+            email = request.POST['email']
+            valid = request.POST.getlist('check[]')
+            print(valid)
+            val = True if valid else False
+            if email in authusers.objects.values_list('email',flat=True):
+                messages.error(request,"email already exists in database")
+                return redirect('adminpage')
+                # return render(request,'network/admin.html',{
+                #     'message':'email already exists in the database',
+                #     'users':authusers.objects.values().order_by('-date_created')
+                # })
+            if email is not None:
+                # email = User.objects.filter(username='4SU19CS052').values('email')[0]['email']
+                b = authusers(email=email,valid=val)
+                b.save()
             return redirect('adminpage')
-            # return render(request,'network/admin.html',{
-            #     'message':'email already exists in the database',
-            #     'users':authusers.objects.values().order_by('-date_created')
-            # })
-        if email is not None:
-            # email = User.objects.filter(username='4SU19CS052').values('email')[0]['email']
-            b = authusers(email=email,valid=val)
-            b.save()
-        return redirect('adminpage')
+        if request.FILES.get('csv_file'):
+            csv_file = request.FILES.get('csv_file')
+            print(csv_file)
+            if not csv_file.name.endswith('.csv'):
+                return HttpResponse('File is not a CSV')
+
+            # Assuming the CSV file has headers 'email' and 'valid'
+            reader = csv.DictReader(csv_file)
+            for row in reader:
+                email = row['email']
+                valid = row['valid']
+                print(email,valid)
+                # Adminmodel.objects.create(email=email, valid=valid)
     realusers = User.objects.values_list('username',flat=True) 
     return render(request,'network/admin.html',{
         'users':authusers.objects.filter(user__isnull=False).values().exclude(user='adminsuper').order_by('-date_created')

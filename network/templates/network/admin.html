@@ -19,12 +19,13 @@
         </div>
         <div class='w-full'>
             <p class=" text-gray-200 mx-5 text-lg ">Add a user</p>
-            <form action="" method='post' >
+            <form action="" method='post' enctype="multipart/form-data" >
             {% csrf_token %}
             <div class="px-5 flex justify-start pt-3 items-center w-screen">
                 <input type="text" name='email'  autocomplete='off' class=' mr-3 py-1 px-3' placeholder="Enter the email"  id='usn'>
                 <p class='text-white text-lg inline-block mx-2'>Valid? :</p>
                 <input type="checkbox" name='check[]' class='p-4 h-7 w-7 inline bg-red-400 mr-2'>
+                <input type="file" accept='.csv' name="csv_file" >
                 <button type="submit" class=" px-3 py-1   bg-[#C395FD] hover:bg-[#d399ff] rounded-sm mx-4 flex justify-betweeen items-center" id='add' >
                     <span class="material-symbols-outlined  ">add</span>
                     <p class="text-sm text-black font-bold tracking-wide ml-2">ADD</p>
@@ -110,7 +111,7 @@
     const regex = /^[a-zA-Z0-9._%+-]+@sdmit\.in$/;
     const addButton = document.querySelector('#add');
     const errormsg = document.querySelector('#errorMsg');
-    usn.addEventListener('keyup',()=>{
+    {% comment %} usn.addEventListener('keyup',()=>{
         if(regex.test(usn.value)){
             addButton.disabled = false
             addButton.classList.remove('cursor-not-allowed')
@@ -128,6 +129,6 @@
         if (usn.value==""){
             addButton.disabled = true;
         }
-    })
+    }) {% endcomment %}
 </script>
 </html>

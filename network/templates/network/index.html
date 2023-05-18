@@ -167,7 +167,7 @@
                                         </div>
                                         {% if post.content_text is not None and post.content_image %}
                                             <div class="post-content px-4 text-gray-800 text-sm dark:text-gray-300 ">
-                                                {{post.content_text | linebreaksbr}}
+                                                {{post.content_text|safe|linebreaksbr }}
                                             </div>
                                         {% endif %}
                                     </div>

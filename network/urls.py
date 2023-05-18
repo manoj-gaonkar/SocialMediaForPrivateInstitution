@@ -35,6 +35,7 @@ urlpatterns = [
     path('update_dark_mode/', views.update_dark_mode, name='update_dark_mode'),
     path('editprofile/<int:pk>/',views.editProfile,name='editprofile'),
     path('n/searchuser/',views.searchuser,name='searchuser'),
+    path('n/postdetails/<int:post_id>',views.postdetails,name='postdetails')
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
