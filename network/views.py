@@ -252,7 +252,7 @@ def explore(request):
             return redirect('login')
     if request.user.is_authenticated:
         following_user = Follower.objects.filter(followers=request.user).values('user')
-        all_posts = Post.objects.all().order_by('?')
+        all_posts = Post.objects.all().exclude(creater=request.user).exclude(creater__in=following_user).order_by('?')
         paginator = Paginator(all_posts, 10)
         page_number = request.GET.get('page')
         if page_number == None:

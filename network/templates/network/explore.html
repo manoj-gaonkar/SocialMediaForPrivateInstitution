@@ -9,6 +9,9 @@
                     <div id="post" class=" cursor-pointer bg-gray-400 w-full h-52 [background-image:url('{{ post.content_image.url }}')] bg-cover bg-center " data-postid="{{ post.creater }}" onclick="postpopup({{ post.id }})"></div>
                     {% endif %}
                 {% endfor %}
+                {% if posts.count == 0 %}
+                <div></div>
+                {% endif %}
             </div>
             <div class=" hidden w-screen h-screen bg-[rgba(0,0,0,0.4)] backdrop-blur-sm  justify-center items-center fixed inset-0 z-30 " id="explorepreview">
                 <!-- here the post preview is inner HTML ed form js -->
@@ -30,9 +33,6 @@
                           <div class=" absolute right-6 top-6 z-50 cursor-pointer ">
                             <span class="material-symbols-outlined text-white scale-125">close</span>
                           </div>
-
-                          {% for post in posts  %}
-                            {% if post.id == 30  %}
                             <div class=" bg-white dark:bg-zinc-900 w-4/6 min-w-4/5 h-3/4 flex justify-start  " id="explorepostcontainer">
                               <div class=" w-full h-full overflow-hidden ">
                                 <img src="${response.content_image}" alt="" class=" w-full h-full object-cover " >
@@ -50,8 +50,6 @@
                               </div>
                             
                             </div>
-                            {% endif %}
-                          {% endfor %}
                           `;
                           explorepost.innerHTML = postexplore;
                           explorepost.classList.remove('hidden');
