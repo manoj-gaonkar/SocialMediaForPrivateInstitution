@@ -3,7 +3,7 @@
 
 {% block explore %}
 {% if page == "explore" %}
-            <div class="grid grid-cols-3 gap-2">
+            <div class="grid grid-cols-3 gap-2 h-full">
                 {% for post in posts %}
                   {% if post.content_image %}
                     <div id="post" class=" cursor-pointer bg-gray-400 w-full h-52 [background-image:url('{{ post.content_image.url }}')] bg-cover bg-center " data-postid="{{ post.creater }}" onclick="postpopup({{ post.id }})"></div>
