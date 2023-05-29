@@ -20,7 +20,7 @@
             <div class=" w-full bg-zinc-100 shadow-md dark:bg-zinc-800 rounded-md p-4 ">
                 <form method="post" action="n/createpost">
                     {% csrf_token %}
-                    <input type="text" class=" w-full p-2 px-3 rounded-md outline-none text-black" name="content_text" placeholder="What's happening?">
+                    <input type="text" class=" w-full p-2 px-3 rounded-md outline-none text-black" autocomplete="off" name="content_text" placeholder="What's happening?">
                     <input type="submit" value="POST" class=" px-3 py-1 rounded-md font-semibold text-sm mt-3 bg-purple-500 text-white dark:text-black ">
                 </form>
             </div>
@@ -265,7 +265,7 @@
 
         <!-- this is code for the post pop up -->
         {% if user.is_authenticated %}
-        <div class="w-screen h-screen fixed inset-0  justify-center items-center hidden " id="createpost">
+        <div class="w-screen h-screen fixed inset-0  justify-center items-center hidden bg-black bg-opacity-80 z-10 " id="createpost">
             <div class='flex flex-col px-6 py-3 bg-white dark:bg-zinc-900 w-2/6 shadow-2xl createpostcontainer shadow-black '>
                 <p class=" text-lg font-semibold  text-zinc-900 dark:text-white ">Create post</p>
                 <form method="post" class="flex flex-col" id="createPostForm" onsubmit="submit_create_post(event,`{{ request.user.id }}`)">

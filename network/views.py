@@ -589,7 +589,8 @@ def adminpage(request):
                         validuser = False
                     if y is not None:
                         if i[0] in authusers.objects.values_list('email',flat=True):
-                            messages.error(request,"email already exists in database")
+                            existmail = str(i[0])+" - email already exists in database "
+                            messages.error(request,str(existmail))
                             pass
                         else:
                             authusers.objects.create(email=str(i[0]),valid=validuser)
@@ -658,7 +659,8 @@ def editProfile(request,pk):
             filename = fs.save(cover_image.name,cover_image)
             user.cover = fs.url(filename)
             if hasattr(old_cover,'path'):
-                os.remove(os.path.join(settings.MEDIA_ROOT,old_cover.path))
+                if old_cover.url != "/media/covers/default_cover_image.jpg":
+                    os.remove(os.path.join(settings.MEDIA_ROOT,old_cover.path))
         if profile_image:
             old_profile = user.profile_pic
             filename = fs.save(profile_image.name,profile_image)

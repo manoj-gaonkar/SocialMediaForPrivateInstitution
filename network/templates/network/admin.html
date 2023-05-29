@@ -26,21 +26,24 @@
                 <p class='text-white text-lg inline-block mx-2'>Valid? :</p>
                 <input type="checkbox" name='check[]' class='p-4 h-7 w-7 inline bg-red-400 mr-2'>
                 <p class="font-bold text-white mx-2 " >OR</p>
-                <label for="csv_file" class='bg-green-400 text-sm font-bold px-2 py-1 mx-2 rounded-md '>
+                <label for="csv_file" class='bg-green-400 text-sm font-bold px-2 py-1 mx-2 rounded-md cursor-pointer '>
                     Select CSV file
-                    <input type="file" accept='.csv' name="csv_file" class='hidden' >
+                    <input type="file" accept='.csv' name="csv_file" id="csv_file" class='hidden ' >
                 </label>
                 <button type="submit" class=" px-3 py-1   bg-[#C395FD] hover:bg-[#d399ff] rounded-sm mx-4 flex justify-betweeen items-center" id='add' >
                     <span class="material-symbols-outlined  ">add</span>
                     <p class="text-sm text-black font-bold tracking-wide ml-2">ADD</p>
                 </button>
             </div>
-            <p class="text-red-500 mx-4 hidden " id="errorMsg">Enter a valid username</p>
-            {% if messages %}
-                {% for message in messages  %}
-                    <span class="text-red-500 mx-4">{{ message }}</span>
-                {% endfor %}
-            {% endif %}
+            <p class="text-red-500 mx-4 hidden  " id="errorMsg">Enter a valid username</p>
+            <div class="flex flex-col">
+                {% if messages %}
+                    {% for message in messages  %}
+                        <span class="text-red-500 mx-4">{{ message }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
             </form>
         </div>
 
@@ -100,7 +103,7 @@
                                     {% endif %}
                                 </td>
                                 <td class="px-6 py-2 border-r "><a href="{% url 'changevalid' user.email %}"><span class="bg-gray-500 material-symbols-outlined text-white p-1 ">done</span></a></td>
-                                <td class="px-6 py-2  "><button><a href="{% url 'removeuser' user.email %}" class="bg-red-500 px-3 py-1 rounded-sm text-white ">Delete</a></button></td>
+                                <td class="px-6 py-2  "><button><a href="{% url 'removeuser' user.email %}" class="bg-red-500 px-3 py-1 rounded-sm text-white {% if not user.user %}cursor-not-allowed hidden {% endif %} ">Delete</a></button></td>
                             </tr>
                         {% endif %}
                     {% endfor %}

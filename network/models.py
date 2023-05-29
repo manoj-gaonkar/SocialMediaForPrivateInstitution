@@ -23,7 +23,7 @@ class User(AbstractUser):
     ]
     profile_pic = models.ImageField(upload_to='profile_pic/',blank=True,default='profile_pic/default_profile_image.png')
     bio = models.TextField(max_length=160, blank=True, null=True)
-    cover = models.ImageField(upload_to='covers/',default='covers/default_cover_image.png',blank=True)
+    cover = models.ImageField(upload_to='covers/',default='covers/default_cover_image.jpg',blank=True)
     branch = models.CharField(max_length=20,choices=BRANCHES_CHOICES,default='na',blank=True)
     staff = models.CharField(max_length=20,choices=STAFF_CHOICES,default='na',blank=True)
 

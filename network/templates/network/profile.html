@@ -5,7 +5,7 @@
 {% block profile %}
 {% if request.user.is_authenticated %}
 <!-- <div class=" w-screen h-screen  justify-center items-start fixed mt-36 left-0 top-0 z-20 " > -->
-<div class="hidden  h-screen w-screen items-center justify-center fixed inset-0 z-50 bg-transparent  " id="editprofile">
+<div class="hidden  h-screen w-screen items-center justify-center fixed inset-0 z-50 bg-black bg-opacity-80  " id="editprofile">
   <div class="editprofilecontainer h-fit w-2/6 rounded-md px-6 py-4 shadow-[0_50px_100px_-10px_rgb(50,50,93,0.4),0_0_30px_-20px_rgb(0,0,0,0.5)] dark:shadow-[0_-50px_100px_-10px_rgb(164,58,185,0.2),0_50px_150px_-20px_rgb(164,58,241,0.4)] bg-white dark:bg-stone-900 ">
     <p class="pb-2 text-lg font-semibold relative z-50 text-black dark:text-white ">Edit Profile</p>
     <form method="post" action="{% url 'editprofile' request.user.id %}" enctype="multipart/form-data">
